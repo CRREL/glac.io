@@ -1,1 +1,33 @@
 extends base
+
+block append styles
+  link(rel="stylesheet", href="cover.css")
+
+block content
+  .site-wrapper
+    .site-wrapper-inner
+      .cover-container
+        .masthead.clearfix
+          .inner
+            h3.masthead-brand
+              =title
+            ul.nav.masthead-nav
+              li.active
+                a(href="/") Home
+              li
+                a(href="/hubbard.html") Data
+              li
+                a(href="/contact.html") Contact
+
+        .inner.cover
+          h1.cover-heading Monitoring Glacier Change
+
+          p.lead
+            = page.metadata.lead
+
+          p.lead
+            a.btn.btn-lg.btn-default(href="about.html")
+              | Learn more
+
+        .mastfoot
+          .inner

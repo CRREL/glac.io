@@ -3,13 +3,15 @@ html(lang='en')
   head
     meta(charset='utf-8')
     block styles
+      link(rel="stylesheet", href="bower_components/bootstrap/dist/css/bootstrap.min.css")
+
     block title
       title= locals.title
 
   body
-    block body
+    block content
       block page
         h1= page.title
         != page.html
 
-      block scripts
+    block scripts
