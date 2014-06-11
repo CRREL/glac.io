@@ -1,0 +1,41 @@
+extends base
+
+block append styles
+  link(rel="stylesheet", href="dashboard.css")
+  if (page.metadata.stylesheet)
+    link(rel="stylesheet", href=page.metadata.stylesheet)
+
+block content
+  .navbar.navbar-fixed-top.navbar-inverse(role="navigation")
+    .container-fluid
+      .navbar-header
+        a.navbar-brand(href="/") glac.io
+      .navbar-collapse.collapse
+        ul.nav.navbar-nav.navbar-right
+          li.active
+            a(href="/hubbard.html") Data
+          li
+            a(href="/about.html") About
+          li
+            a(href="/contact.html") Contact
+
+  .container-fluid
+    .row
+      .col-sm-3.col-md-2.sidebar
+        ul.nav.nav-sidebar
+          li.active
+            a(href="/hubbard.html") Hubbard
+          li
+            a(href="#") Columbia
+          li
+            a(href="#") Helheim
+
+      .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+        h1.page-header
+          = page.metadata.title
+        #chart
+
+block append scripts
+  script(src="bower_components/d3/d3.min.js")
+  if (page.metadata.script)
+    script(src=page.metadata.script)
