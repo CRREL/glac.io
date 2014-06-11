@@ -1,0 +1,9 @@
+{
+    "locals": {
+        "title": "glac.io"
+    },
+    "plugins": [
+        "wintersmith-data-json"
+        ],
+    "port": 8888
+}

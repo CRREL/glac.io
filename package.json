@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "wintersmith": "~2.0.10",
+    "wintersmith-data-json": "0.0.5"
+  }
+}
