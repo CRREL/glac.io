@@ -127,6 +127,10 @@ body {
   color: rgba(255,255,255,.5);
 }
 
+.mastfoot img {
+  margin: 0 1em;
+}
+
 
 /*
  * Affix and center
