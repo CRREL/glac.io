@@ -1,12 +1,8 @@
-doctype html
-html(lang='en')
-  head
-    meta(charset='utf-8')
-    link(rel="stylesheet", href="hubbard.css")
-    title= locals.title
-  body
-    h1= page.title
-    != page.html
-    #chart
-    script(src="bower_components/d3/d3.min.js")
-    script(src="hubbard.js")
+extends chart
+
+block append styles
+  link(rel="stylesheet", href="hubbard.css")
+
+block append scripts
+  script(src="bower_components/d3/d3.min.js")
+  script(src="hubbard.js")

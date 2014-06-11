@@ -1,0 +1,15 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    block styles
+    block title
+      title= locals.title
+
+  body
+    block body
+      block page
+        h1= page.title
+        != page.html
+
+      block scripts
