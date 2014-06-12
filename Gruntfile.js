@@ -15,12 +15,14 @@ module.exports = function(grunt) {
                 base: "build"
             },
             src: ["**"]
-        }
+        },
 
     });
         
 
     grunt.loadNpmTasks("grunt-wintersmith");
     grunt.loadNpmTasks('grunt-gh-pages');
+
+    grunt.registerTask("deploy", ["wintersmith:gh-pages", "gh-pages"]);
 
 }
