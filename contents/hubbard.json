@@ -1,6 +1,6 @@
 {
     "template": "dashboard.jade",
     "title": "Distance from Hubbard Glacier to Gilbert Point",
-    "stylesheet": "hubbard.css",
-    "script": "hubbard.js"
+    "stylesheet": "css/hubbard.css",
+    "script": "js/hubbard.js"
 }
