@@ -1,0 +1,10 @@
+
+{
+    "locals": {
+        "title": "glac.io"
+    },
+    "plugins": [
+        "wintersmith-data-json"
+        ],
+    "baseUrl": "/glac.io/"
+}

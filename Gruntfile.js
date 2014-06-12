@@ -3,7 +3,11 @@ module.exports = function(grunt) {
     grunt.initConfig({
 
         wintersmith: {
-            build: {}
+            "gh-pages": {
+                options: {
+                    config: "./config-gh-pages.json"
+                }
+            }
         },
 
         "gh-pages": {
