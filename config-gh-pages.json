@@ -6,5 +6,6 @@
     "plugins": [
         "wintersmith-data-json"
         ],
-    "baseUrl": "/glac.io/"
+    "baseUrl": "/glac.io/",
+    "ignore": [".*"]
 }
