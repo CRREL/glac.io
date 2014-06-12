@@ -1,24 +1,11 @@
-extends base
+extends navbar
 
 block append styles
   link(rel="stylesheet", href=contents.css["dashboard.css"].url)
   if (page.metadata.stylesheet)
     link(rel="stylesheet", href=contents.css[page.metadata.stylesheet].url)
 
-block content
-  .navbar.navbar-fixed-top.navbar-inverse(role="navigation")
-    .container-fluid
-      .navbar-header
-        a.navbar-brand(href=contents.index.url) glac.io
-      .navbar-collapse.collapse
-        ul.nav.navbar-nav.navbar-right
-          li.active
-            a(href=contents["hubbard.json"].url) Data
-          li
-            // a(href=contents["about.md"].url) About
-          li
-            // a(href=contents["contact.md"].url) Contact
-
+block append content
   .container-fluid
     .row
       .col-sm-3.col-md-2.sidebar
