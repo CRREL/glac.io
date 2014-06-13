@@ -7,28 +7,28 @@ var margin = {top: 10, right: 10, bottom: 100, left: 40},
 
 var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse;
 
-var x = d3.time.scale().range([0, width]),
-    x2 = d3.time.scale().range([0, width]),
-    y = d3.scale.linear().range([height, 0]),
-    y2 = d3.scale.linear().range([height2, 0]);
+var xscale = d3.time.scale().range([0, width]),
+    x2scale = d3.time.scale().range([0, width]),
+    yscale = d3.scale.linear().range([height, 0]),
+    y2scale = d3.scale.linear().range([height2, 0]);
 
-var xAxis = d3.svg.axis().scale(x).orient("bottom"),
-    xAxis2 = d3.svg.axis().scale(x2).orient("bottom"),
-    yAxis = d3.svg.axis().scale(y).orient("left");
+var xAxis = d3.svg.axis().scale(xscale).orient("bottom"),
+    xAxis2 = d3.svg.axis().scale(x2scale).orient("bottom"),
+    yAxis = d3.svg.axis().scale(yscale).orient("left");
 
 var brush = d3.svg.brush()
-    .x(x2)
+    .x(x2scale)
     .on("brush", brushed);
 
 var line = d3.svg.line()
     .defined(function(d) { return d.value; })
-    .x(function(d) { return x(d.date_time); })
-    .y(function(d) { return y(d.value); });
+    .x(function(d) { return xscale(d.date_time); })
+    .y(function(d) { return yscale(d.value); });
 
 var line2 = d3.svg.line()
     .defined(function(d) { return d.value; })
-    .x(function(d) { return x2(d.date_time); })
-    .y(function(d) { return y2(d.value); });
+    .x(function(d) { return x2scale(d.date_time); })
+    .y(function(d) { return y2scale(d.value); });
 
 var svg = d3.select("#chart").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -55,13 +55,13 @@ d3.json("data/hubbard-avgrange-daily.json", function(error, data) {
             "value": d.value
         }
     });
-    x.domain(d3.extent(data.map(function(d) { return d.date_time; })));
-    y.domain([320, d3.max(data.map(function(d) { return d.value; }))]);
-    x2.domain(x.domain());
-    y2.domain(y.domain());
+    xscale.domain(d3.extent(data.map(function(d) { return d.date_time; })));
+    yscale.domain([320, d3.max(data.map(function(d) { return d.value; }))]);
+    x2scale.domain(xscale.domain());
+    y2scale.domain(yscale.domain());
     defaultExtent = d3.extent([new Date() - 60 * days, new Date()]);
 
-    data = x.ticks(d3.time.day, 1).reduce(function(previous, current) {
+    data = xscale.ticks(d3.time.day, 1).reduce(function(previous, current) {
         d = {date_time: current};
         if (data[0].date_time <= current)
             d.value = data.shift().value;
@@ -108,7 +108,7 @@ d3.json("data/hubbard-avgrange-daily.json", function(error, data) {
 });
 
 function brushed() {
-    x.domain(brush.empty() ? x2.domain() : brush.extent());
+    xscale.domain(brush.empty() ? x2scale.domain() : brush.extent());
     focus.select(".line")
         .attr("d", line);
     focus.select(".x.axis")
