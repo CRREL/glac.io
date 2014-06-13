@@ -5,7 +5,6 @@ svg {
 .line {
     stroke: steelblue;
     fill: none;
-    opacity: 0.75;
     clip-path: url(#clip);
 }
 
@@ -20,4 +19,8 @@ svg {
     stroke: #fff;
     fill-opacity: .125;
     shape-rendering: crispEdges;
+}
+
+circle.datapoint {
+    fill: steelblue;
 }

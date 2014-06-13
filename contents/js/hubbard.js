@@ -48,8 +48,10 @@ var context = svg.append("g")
     .attr("class", "context")
     .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-d3.json("data/hubbard-avgrange-daily.json", function(error, data) {
-    data = data.map(function(d) {
+var data = null;
+
+d3.json("data/hubbard-avgrange-daily.json", function(error, d) {
+    data = d.map(function(d) {
         return {
             "date_time": parseDate(d.date_time),
             "value": d.value
@@ -74,6 +76,13 @@ d3.json("data/hubbard-avgrange-daily.json", function(error, data) {
         .datum(data)
         .attr("class", "line")
         .attr("d", line);
+
+    focus.selectAll("circle.datapoint").data(data, date_time)
+        .enter()
+            .append("circle")
+            .attr("class", "datapoint")
+            .attr("r", "2px");
+    update_points(data);
 
     focus.append("g")
         .attr("class", "x axis")
@@ -109,4 +118,26 @@ function brushed() {
         .attr("d", line);
     focus.select(".x.axis")
         .call(xAxis);
+    update_points(data.filter(function(d) {
+        return xscale(d.date_time) > 0;
+    }));
+}
+
+
+function update_points(p) {
+    var points = focus.selectAll("circle.datapoint").data(p, date_time);
+    points.enter()
+        .append("circle")
+        .attr("class", "datapoint")
+        .attr("r", "2px");
+
+    points.attr("cx", function(d) { return xscale(d.date_time); })
+        .attr("cy", function(d) { return yscale(d.value); });
+
+    points.exit().remove();
+}
+
+
+function date_time(d) {
+    return d.date_time.toString();
 }
