@@ -101,10 +101,6 @@ d3.json("data/hubbard-avgrange-daily.json", function(error, data) {
         .attr("y", -6)
         .attr("height", height2 + 7);
 
-    context.transition()
-        .duration(500)
-        .call(brush.extent(defaultExtent))
-        .call(brush.event);
 });
 
 function brushed() {
