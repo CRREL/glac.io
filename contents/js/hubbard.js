@@ -49,7 +49,7 @@ var context = svg.append("g")
     .attr("class", "context")
     .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-d3.json("data/hubbard-avgrange-hourly.json", function(error, data) {
+d3.json("data/hubbard-avgrange-daily.json", function(error, data) {
     data = data.map(function(d) {
         return {
             "date_time": parseDate(d.date_time),
@@ -61,7 +61,7 @@ d3.json("data/hubbard-avgrange-hourly.json", function(error, data) {
     x2.domain(x.domain());
     y2.domain(y.domain());
 
-    data = x.ticks(d3.time.hour, 1).reduce(function(previous, current) {
+    data = x.ticks(d3.time.day, 1).reduce(function(previous, current) {
         d = {date_time: current};
         if (data[0].date_time <= current)
             d.value = data.shift().value;
