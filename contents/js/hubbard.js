@@ -19,17 +19,15 @@ var brush = d3.svg.brush()
     .x(x2)
     .on("brush", brushed);
 
-var area = d3.svg.area()
+var line = d3.svg.line()
     .defined(function(d) { return d.value; })
     .x(function(d) { return x(d.date_time); })
-    .y0(height)
-    .y1(function(d) { return y(d.value); });
+    .y(function(d) { return y(d.value); });
 
-var area2 = d3.svg.area()
+var line2 = d3.svg.line()
     .defined(function(d) { return d.value; })
     .x(function(d) { return x2(d.date_time); })
-    .y0(height2)
-    .y1(function(d) { return y2(d.value); });
+    .y(function(d) { return y2(d.value); });
 
 var svg = d3.select("#chart").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -72,8 +70,8 @@ d3.json("data/hubbard-avgrange-daily.json", function(error, data) {
 
     focus.append("path")
         .datum(data)
-        .attr("class", "area")
-        .attr("d", area);
+        .attr("class", "line")
+        .attr("d", line);
 
     focus.append("g")
         .attr("class", "x axis")
@@ -86,8 +84,8 @@ d3.json("data/hubbard-avgrange-daily.json", function(error, data) {
 
     context.append("path")
         .datum(data)
-        .attr("class", "area")
-        .attr("d", area2);
+        .attr("class", "line")
+        .attr("d", line2);
 
     context.append("g")
         .attr("class", "x axis")
@@ -105,6 +103,6 @@ d3.json("data/hubbard-avgrange-daily.json", function(error, data) {
 
 function brushed() {
     x.domain(brush.empty() ? x2.domain() : brush.extent());
-    focus.select(".area").attr("d", area);
+    focus.select(".line").attr("d", line);
     focus.select(".x.axis").call(xAxis);
 }
