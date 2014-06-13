@@ -2,7 +2,8 @@ var margin = {top: 10, right: 10, bottom: 100, left: 40},
     margin2 = {top: 430, right: 10, bottom: 20, left: 40},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom,
-    height2 = 500 - margin2.top - margin2.bottom;
+    height2 = 500 - margin2.top - margin2.bottom,
+    days = 24 * 60 * 60 * 1000;
 
 var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse;
 
@@ -58,6 +59,7 @@ d3.json("data/hubbard-avgrange-daily.json", function(error, data) {
     y.domain([320, d3.max(data.map(function(d) { return d.value; }))]);
     x2.domain(x.domain());
     y2.domain(y.domain());
+    defaultExtent = d3.extent([new Date() - 60 * days, new Date()]);
 
     data = x.ticks(d3.time.day, 1).reduce(function(previous, current) {
         d = {date_time: current};
@@ -99,6 +101,10 @@ d3.json("data/hubbard-avgrange-daily.json", function(error, data) {
         .attr("y", -6)
         .attr("height", height2 + 7);
 
+    context.transition()
+        .duration(500)
+        .call(brush.extent(defaultExtent))
+        .call(brush.event);
 });
 
 function brushed() {
