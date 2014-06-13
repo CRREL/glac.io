@@ -109,6 +109,8 @@ d3.json("data/hubbard-avgrange-daily.json", function(error, data) {
 
 function brushed() {
     x.domain(brush.empty() ? x2.domain() : brush.extent());
-    focus.select(".line").attr("d", line);
-    focus.select(".x.axis").call(xAxis);
+    focus.select(".line")
+        .attr("d", line);
+    focus.select(".x.axis")
+        .call(xAxis);
 }
