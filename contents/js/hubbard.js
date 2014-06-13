@@ -61,7 +61,6 @@ d3.json("data/hubbard-avgrange-daily.json", function(error, d) {
     yscale.domain([320, d3.max(data.map(function(d) { return d.value; }))]);
     x2scale.domain(xscale.domain());
     y2scale.domain(yscale.domain());
-    defaultExtent = d3.extent([new Date() - 60 * days, new Date()]);
 
     data = xscale.ticks(d3.time.day, 1).reduce(function(previous, current) {
         d = {date_time: current};
@@ -109,7 +108,6 @@ d3.json("data/hubbard-avgrange-daily.json", function(error, d) {
         .selectAll("rect")
         .attr("y", -6)
         .attr("height", height2 + 7);
-
 });
 
 function brushed() {
