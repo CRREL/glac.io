@@ -37,11 +37,9 @@ function ready(error, world, locations) {
             .duration(3000)
             .tween("rotate", function() {
                 var p = locations[i].latlon,
-                    r = d3.interpolate(projection.rotate(), [-p[1], -p[0]]),
-                    s = d3.interpolate(projection.scale(), 500);
+                    r = d3.interpolate(projection.rotate(), [-p[1], -p[0]]);
                 return function(t) {
                     projection.rotate(r(t));
-                    projection.scale(s(t));
                     svg.selectAll("path.land").attr("d", path);
                 };
             });
