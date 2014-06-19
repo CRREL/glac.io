@@ -24,6 +24,15 @@ queue()
 
 
 function ready(error, world, locations) {
+    d3.select("#locations").selectAll("li")
+            .data(locations)
+        .enter().append("li").append("a")
+            .text(function(l) { return l.name; })
+            .attr("href", function(l) { return l.slug + "/" })
+            .on("mouseover", function(l) {
+                focusGlobe(l);
+            });
+
     var land = topojson.feature(world, world.objects.land);
 
     svg.insert("path", ".graticule")
@@ -31,17 +40,19 @@ function ready(error, world, locations) {
         .attr("class", "land")
         .attr("d", path);
 
-    var i = 0;
-    (function transition() {
-        d3.transition()
-            .duration(3000)
-            .tween("rotate", function() {
-                var p = locations[i].latlon,
-                    r = d3.interpolate(projection.rotate(), [-p[1], -p[0]]);
-                return function(t) {
-                    projection.rotate(r(t));
-                    svg.selectAll("path.land").attr("d", path);
-                };
-            });
-    })();
+    focusGlobe(locations[0]);
+};
+
+
+function focusGlobe(location_) {
+    d3.transition()
+        .duration(1000)
+        .tween("rotate", function() {
+            var p = location_.latlon,
+                r = d3.interpolate(projection.rotate(), [-p[1], -p[0]]);
+            return function(t) {
+                projection.rotate(r(t));
+                svg.selectAll("path.land").attr("d", path);
+            };
+        });
 };

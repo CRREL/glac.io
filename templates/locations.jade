@@ -9,15 +9,11 @@ block content
 
   .row
     .col-md-3
-      ul.nav.nav-pills.nav-stacked
-        for location in page.metadata.locations
-          li
-            a(href=location.url)
-              = location.name
+      ul#locations.nav.nav-pills.nav-stacked
     .col-md-9
       #globe
 
 
 block append scripts
   include js/topojson
-  script(src=contents.js["globe.js"].url)
+  script(src=contents.js["locations.js"].url)

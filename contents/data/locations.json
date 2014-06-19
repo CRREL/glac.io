@@ -1,6 +1,12 @@
 [
-    {
-        "name": "hubbard",
-        "latlon": [61, -140.15]
-    }
+{
+    "slug": "hubbard",
+    "name": "Hubbard Glacier",
+    "latlon": [61, -140.15]
+},
+{
+    "slug": "helheim",
+    "name": "Helheim Glacier",
+    "latlon": [66.4, -38]
+}
 ]
