@@ -4,7 +4,8 @@
         "title": "glac.io"
     },
     "plugins": [
-        "wintersmith-data-json"
+        "wintersmith-data-json",
+        "wintersmith-less"
         ],
     "baseUrl": "/glac.io/",
     "ignore": [".*"]

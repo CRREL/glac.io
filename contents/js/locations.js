@@ -18,10 +18,9 @@ var svg = d3.select("#globe").append("svg")
 
 var location_points;
 
-// TODO make it relative somehow
 queue()
-    .defer(d3.json, "/data/world-110m.json")
-    .defer(d3.json, "/data/locations.json")
+    .defer(d3.json, "../data/world-110m.json")
+    .defer(d3.json, "../data/locations.json")
     .await(ready);
 
 
