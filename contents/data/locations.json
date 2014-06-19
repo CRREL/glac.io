@@ -1,12 +1,27 @@
-[
 {
-    "slug": "hubbard",
-    "name": "Hubbard Glacier",
-    "latlon": [61, -140.15]
-},
-{
-    "slug": "helheim",
-    "name": "Helheim Glacier",
-    "latlon": [66.4, -38]
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-140.15, 61]
+            },
+            "properties": {
+                "slug": "hubbard",
+                "name": "Hubbard Glacier"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-38, 66.4]
+            },
+            "properties": {
+                "slug": "helheim",
+                "name": "Helheim Glacier"
+            }
+        }
+    ]
 }
-]

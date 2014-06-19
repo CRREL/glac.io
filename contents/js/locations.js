@@ -25,10 +25,10 @@ queue()
 
 function ready(error, world, locations) {
     d3.select("#locations").selectAll("li")
-            .data(locations)
+            .data(locations.features)
         .enter().append("li").append("a")
-            .text(function(l) { return l.name; })
-            .attr("href", function(l) { return l.slug + "/" })
+            .text(function(l) { return l.properties.name; })
+            .attr("href", function(l) { return l.properties.slug + "/" })
             .on("mouseover", function(l) {
                 focusGlobe(l);
             });
@@ -40,7 +40,13 @@ function ready(error, world, locations) {
         .attr("class", "land")
         .attr("d", path);
 
-    focusGlobe(locations[0]);
+    svg.selectAll(".location")
+            .data(locations.features)
+        .enter().append("path")
+            .attr("class", "location")
+            .attr("d", path);
+
+    focusGlobe(locations.features[0]);
 };
 
 
@@ -48,11 +54,12 @@ function focusGlobe(location_) {
     d3.transition()
         .duration(1000)
         .tween("rotate", function() {
-            var p = location_.latlon,
-                r = d3.interpolate(projection.rotate(), [-p[1], -p[0]]);
+            var p = location_.geometry.coordinates,
+                r = d3.interpolate(projection.rotate(), [-p[0], -p[1]]);
             return function(t) {
                 projection.rotate(r(t));
                 svg.selectAll("path.land").attr("d", path);
+                svg.selectAll("path.location").attr("d", path);
             };
         });
 };
