@@ -16,6 +16,8 @@ var svg = d3.select("#globe").append("svg")
     .attr("width", width)
     .attr("height", height);
 
+var location_points;
+
 // TODO make it relative somehow
 queue()
     .defer(d3.json, "/data/world-110m.json")
@@ -29,9 +31,8 @@ function ready(error, world, locations) {
         .enter().append("li").append("a")
             .text(function(l) { return l.properties.name; })
             .attr("href", function(l) { return l.properties.slug + "/" })
-            .on("mouseover", function(l) {
-                focusGlobe(l);
-            });
+            .on("mouseover", mouseoverLocation)
+            .on("mouseout", mouseoutLocation);
 
     var land = topojson.feature(world, world.objects.land);
 
@@ -40,14 +41,32 @@ function ready(error, world, locations) {
         .attr("class", "land")
         .attr("d", path);
 
-    svg.selectAll(".location")
+    location_points = svg.selectAll(".location")
             .data(locations.features)
         .enter().append("path")
-            .attr("class", "location")
-            .attr("d", path);
+            .attr("class", "location");
+
+    location_points
+        .attr("d", locationPointPath);
 
     focusGlobe(locations.features[0]);
 };
+
+
+function mouseoverLocation() {
+    var location_ = d3.select(this).datum();
+    focusGlobe(location_);
+    location_points
+        .filter(function(d) { return d.properties.slug === location_.properties.slug; })
+        .classed("focused", true);
+}
+
+
+function mouseoutLocation() {
+    location_points
+        .filter(function(d) { return d.properties.slug === d3.select(this).datum().properties.slug; })
+        .classed("focused", false);
+}
 
 
 function focusGlobe(location_) {
@@ -59,7 +78,25 @@ function focusGlobe(location_) {
             return function(t) {
                 projection.rotate(r(t));
                 svg.selectAll("path.land").attr("d", path);
-                svg.selectAll("path.location").attr("d", path);
+                svg.selectAll("path.location").attr("d", locationPointPath);
             };
         });
 };
+
+
+function locationPointPath(location_) {
+    var focused = location_points
+        .filter(function(d) { return d.properties.slug === location_.properties.slug; })
+        .classed("focused");
+    var radius;
+    if (focused)
+    {
+        radius = 10;
+    }
+    else
+    {
+        radius = 5;
+    }
+    return path.pointRadius(radius)
+        (location_);
+}
