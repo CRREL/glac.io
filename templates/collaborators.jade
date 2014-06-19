@@ -10,9 +10,9 @@ block content
 
   - for (var i = 0; i < collaborators.length;)
     - var initial = i
-    .row(style="margin-top: 40px;")
+    .row
       - for (; i < Math.min(collaborators.length, initial + 4); i++)
-        .col-md-3(style="display: inline-block; vertical-align: middle; float: none; text-align: center;")
-          a(href=collaborators[i].url, style="display: inline-block;")
+        .col-md-3.collaborator
+          a(href=collaborators[i].url)
             img.img-responsive(src=contents.img.collaborators[collaborators[i].filename].url,
               style="max-height: 96px")
