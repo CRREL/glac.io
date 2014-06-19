@@ -1,6 +1,6 @@
 ---
 title: Contact
-template: text.jade
+template: main.jade
 ---
 
 Feel free to contact us to provide feedback or give suggestions for new ideas.

@@ -1,0 +1,13 @@
+extends main.jade
+
+
+block content
+
+  .row
+    .col-md-3
+      ul.nav.nav-pills.nav-stacked
+        for location in page.metadata.locations
+          li
+            a(href=location.url)
+              = location.name
+    .col-md-9

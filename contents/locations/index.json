@@ -1,0 +1,14 @@
+{
+    "template": "locations.jade",
+    "title": "Locations",
+    "locations": [
+    {
+        "name": "Hubbard Glacier",
+        "url": "hubbard/"
+    },
+    {
+        "name": "Columbia Glacier",
+        "url": "columbia/"
+    }
+    ]
+}

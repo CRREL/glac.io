@@ -1,9 +1,0 @@
-extends navbar
-
-block append styles
-  link(rel="stylesheet", href=contents.css["text.css"].url)
-
-block append content
-  .container
-    h1= page.title
-    != page.html

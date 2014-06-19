@@ -1,0 +1,28 @@
+extends main.jade
+
+
+block content
+  - var images = page.metadata.images;
+
+  h1= page.title
+
+  .row
+    .col-md-6.col-md-offset-3
+      #image-carousel.carousel.slide(data-ride="carousel")
+        ol.carousel-indicators
+          - for (var i = 0; i < images.length; i++)
+            - var klass = (i === 0 ? 'active' : '')
+            li(class=klass, data-target="#image-carousel", data-slide-to=i.toString())
+
+        .carousel-inner
+          - for (var i = 0; i < images.length; i++)
+            - var klass = (i === 0 ? 'active item' : 'item')
+            div(class=klass)
+              img(src=images[i].src)
+              .carousel-caption
+                = images[i].caption
+
+        a.left.carousel-control(href="#image-carousel", data-slide="prev")
+          span.glyphicon.glyphicon-chevron-left
+        a.right.carousel-control(href="#image-carousel", data-slide="next")
+          span.glyphicon.glyphicon-chevron-right

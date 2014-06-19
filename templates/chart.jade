@@ -1,4 +1,15 @@
-extends dashboard
+extends main
 
-block append page
+
+block append styles
+  link(rel="stylesheet", href="/css/hubbard.css")
+
+
+block content
   #chart
+
+
+block append scripts
+  script(src="/js/d3.min.js")
+  - for script in page.metadata.scripts
+    script(src=script)

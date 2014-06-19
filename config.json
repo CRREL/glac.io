@@ -3,7 +3,8 @@
         "title": "glac.io"
     },
     "plugins": [
-        "wintersmith-data-json"
+        "wintersmith-data-json",
+        "wintersmith-less"
         ],
     "port": 8888,
     "ignore": [".*"]

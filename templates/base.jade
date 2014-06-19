@@ -3,15 +3,14 @@ html(lang='en')
   head
     meta(charset='utf-8')
     block styles
-      link(rel="stylesheet", href=contents.css["bootstrap.min.css"].url)
+      link(rel="stylesheet", href=contents.css["main.less"].url)
 
     block title
       title= locals.title
 
   body
-    block content
-      block page
-        h1= page.title
-        != page.html
+    block page
+      h1= page.title
+      != page.html
 
     block scripts

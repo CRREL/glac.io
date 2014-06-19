@@ -1,0 +1,26 @@
+{
+    "template": "collaborators.jade",
+    "title": "Collaborators",
+    "collaborators": [
+        {
+            "img": "img/poweredbyrsgis.png",
+            "url": "http://www.crrel.usace.army.mil/facilitieslabstestsites/center-rsgis.html"
+        },
+        {
+            "img": "img/usgs.png",
+            "url": "http://www.usgs.gov"
+        },
+        {
+            "img": "img/umaine.png",
+            "url": "http://climatechange.umaine.edu/glaciology/index.html"
+        },
+        {
+            "img": "img/ku.png",
+            "url": "http://stearns.dept.ku.edu"
+        },
+        {
+            "img": "img/usfs.png",
+            "url": "http://www.fs.fed.us"
+        }
+    ]
+}

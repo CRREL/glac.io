@@ -1,0 +1,19 @@
+{
+    "template": "images.jade",
+    "title": "Images of the Hubbard Glacier",
+    "images":
+        [
+        {
+            "src": "/img/hubbard/chart.png",
+            "caption": "A fake chart image"
+        },
+        {
+            "src": "/img/hubbard/historical.png",
+            "caption": "An old picture of Hubbard Glacier"
+        },
+        {
+            "src": "/img/hubbard/images.jpg",
+            "caption": "Ain't it cool?"
+        }
+    ]
+}

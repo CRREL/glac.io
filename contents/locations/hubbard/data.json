@@ -1,0 +1,6 @@
+{
+    "template": "chart.jade",
+    "scripts": [
+        "/js/hubbard.js"
+    ]
+}

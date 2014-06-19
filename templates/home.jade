@@ -3,7 +3,7 @@ extends base
 block append styles
   link(rel="stylesheet", href=contents.css["cover.css"].url)
 
-block content
+block page
   .site-wrapper
     .site-wrapper-inner
       .cover-container
@@ -15,9 +15,9 @@ block content
               li.active
                 a(href=contents.index.url) Home
               li
-                a(href=contents["hubbard.json"].url) Data
+                a(href=contents.locations["index.json"].url) Locations
               li
-                a(href=contents["contact.md"].url) Contact
+                a(href=contents["collaborators.json"].url) Collaborators
 
         .inner.cover
           h1.cover-heading Monitoring Glacier Change
@@ -32,8 +32,6 @@ block content
         .mastfoot
           .inner
             p
-              a(href="https://github.com/gadomski/glac.io")
-                img(src=contents.img["github64px.png"].url, style="opacity: 0.8")
-              a(href="http://github.com/CRREL")
-                img(src=contents.img["rsgis64px.png"].url, style="opacity: 0.4")
-
+              a(href=contents["about.md"].url) about 
+              | | 
+              a(href=contents["contact.md"].url) contact

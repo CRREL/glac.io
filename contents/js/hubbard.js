@@ -50,7 +50,7 @@ var context = svg.append("g")
 
 var data = null;
 
-d3.json("data/hubbard-avgrange-daily.json", function(error, d) {
+d3.json("/data/hubbard-avgrange-daily.json", function(error, d) {
     data = d.map(function(d) {
         return {
             "date_time": parseDate(d.date_time),
