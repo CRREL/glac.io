@@ -1,4 +1,8 @@
-extends main.jade
+extends main
+
+
+block append styles
+  link(rel="stylesheet", href=contents.css["globe.less"].url)
 
 
 block content
@@ -11,3 +15,9 @@ block content
             a(href=location.url)
               = location.name
     .col-md-9
+      #globe
+
+
+block append scripts
+  include js/topojson
+  script(src=contents.js["globe.js"].url)

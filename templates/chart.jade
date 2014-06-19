@@ -10,6 +10,6 @@ block content
 
 
 block append scripts
-  script(src="/js/d3.min.js")
+  include js/d3
   - for script in page.metadata.scripts
     script(src=script)
