@@ -1,11 +1,11 @@
-var width = 720,
-    height = 720;
+var width = 400,
+    height = 400,
+    defaultScale = width / 2 - 10;
 
 var projection = d3.geo.orthographic()
-    .scale(width / 2 - 10)
+    .scale(defaultScale)
     .translate([width / 2, height / 2])
-    .clipAngle(90)
-    .precision(1.0);
+    .clipAngle(90);
 
 var path = d3.geo.path()
     .projection(projection);
@@ -24,44 +24,24 @@ queue()
 
 
 function ready(error, world, locations) {
-    var globe = {type: "Sphere"},
-        land = topojson.feature(world, world.objects.land);
-
-    svg.append("defs").append("path")
-        .datum(globe)
-        .attr("id", "sphere")
-        .attr("d", path);
-
-    svg.append("use")
-        .attr("class", "stroke")
-        .attr("xlink:href", "#sphere");
-
-    svg.append("use")
-        .attr("class", "fill")
-        .attr("xlink:href", "#sphere");
-
-    svg.append("path")
-        .datum(graticule)
-        .attr("class", "graticule")
-        .attr("d", path);
+    var land = topojson.feature(world, world.objects.land);
 
     svg.insert("path", ".graticule")
         .datum(land)
         .attr("class", "land")
         .attr("d", path);
 
-    var i = -1;
+    var i = 0;
     (function transition() {
         d3.transition()
-            .duration(1250)
-            .each("start", function() {
-                i = (i + 1) % locations.length;
-            })
+            .duration(3000)
             .tween("rotate", function() {
                 var p = locations[i].latlon,
-                    r = d3.interpolate(projection.rotate(), [-p[1], -p[0]]);
+                    r = d3.interpolate(projection.rotate(), [-p[1], -p[0]]),
+                    s = d3.interpolate(projection.scale(), 500);
                 return function(t) {
                     projection.rotate(r(t));
+                    projection.scale(s(t));
                     svg.selectAll("path.land").attr("d", path);
                 };
             });
