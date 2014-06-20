@@ -2,7 +2,7 @@ extends main
 
 
 block append styles
-  link(rel="stylesheet", href="/css/hubbard.css")
+  link(rel="stylesheet", href=contents.css["hubbard.css"].url)
 
 
 block content
@@ -12,4 +12,4 @@ block content
 block append scripts
   include js/d3
   - for script in page.metadata.scripts
-    script(src=script)
+    script(src=contents.js[script].url)
