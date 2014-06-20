@@ -54,6 +54,13 @@ function mouseoverLocation() {
     var location_ = d3.select(this).datum();
     focusGlobe(location_);
     selectPointBySlug(location_).classed("focused", true);
+
+    d3.select("#detail")
+        .html("<h3>"
+                + location_.properties.name
+                + "</h3><dl><dt>Coordinates</dt><dd>"
+                + prettyLatLong(location_.geometry.coordinates)
+                + "</dd></dl>");
 }
 
 
@@ -94,4 +101,9 @@ function locationPointPath(location_) {
 
 function selectPointBySlug(location_) {
     return svg.select(".location[data-slug=" + location_.properties.slug + "]");
+}
+
+
+function prettyLatLong(coordinates) {
+    return coordinates[1] + "&deg;, " + coordinates[0] + "&deg;";
 }
