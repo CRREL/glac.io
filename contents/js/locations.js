@@ -25,10 +25,11 @@ queue()
 
 
 function ready(error, world, locations) {
-    d3.select("#locations").selectAll("li")
+    d3.select("#locations").selectAll("a")
             .data(locations.features)
-        .enter().append("li").append("a")
+        .enter().append("a")
             .text(function(l) { return l.properties.name; })
+            .attr("class", "list-group-item")
             .attr("href", function(l) { return l.properties.slug + "/" })
             .on("mouseover", mouseoverLocation)
             .on("mouseout", mouseoutLocation);
