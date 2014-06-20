@@ -16,8 +16,6 @@ var svg = d3.select("#globe").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-var location_points;
-
 queue()
     .defer(d3.json, "../data/world-110m.json")
     .defer(d3.json, "../data/locations.json")
@@ -41,13 +39,12 @@ function ready(error, world, locations) {
         .attr("class", "land")
         .attr("d", path);
 
-    location_points = svg.selectAll(".location")
+    svg.selectAll(".location")
             .data(locations.features)
         .enter().append("path")
-            .attr("class", "location");
-
-    location_points
-        .attr("d", locationPointPath);
+            .attr("class", "location")
+            .attr("data-slug", function(l) { return l.properties.slug; })
+            .attr("d", locationPointPath);
 
     focusGlobe(locations.features[0]);
 };
@@ -56,16 +53,12 @@ function ready(error, world, locations) {
 function mouseoverLocation() {
     var location_ = d3.select(this).datum();
     focusGlobe(location_);
-    location_points
-        .filter(function(d) { return d.properties.slug === location_.properties.slug; })
-        .classed("focused", true);
+    selectPointBySlug(location_).classed("focused", true);
 }
 
 
 function mouseoutLocation() {
-    location_points
-        .filter(function(d) { return d.properties.slug === d3.select(this).datum().properties.slug; })
-        .classed("focused", false);
+    selectPointBySlug(d3.select(this).datum()).classed("focused", false);
 }
 
 
@@ -85,11 +78,8 @@ function focusGlobe(location_) {
 
 
 function locationPointPath(location_) {
-    var focused = location_points
-        .filter(function(d) { return d.properties.slug === location_.properties.slug; })
-        .classed("focused");
     var radius;
-    if (focused)
+    if (selectPointBySlug(location_).classed("focused"))
     {
         radius = 10;
     }
@@ -99,4 +89,9 @@ function locationPointPath(location_) {
     }
     return path.pointRadius(radius)
         (location_);
+}
+
+
+function selectPointBySlug(location_) {
+    return svg.select(".location[data-slug=" + location_.properties.slug + "]");
 }
