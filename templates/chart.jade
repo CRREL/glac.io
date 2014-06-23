@@ -6,10 +6,13 @@ block append styles
 
 
 block content
-  #chart
+  .row
+    #sidebar.col-md-2
+    #chart.col-md-10
 
 
 block append scripts
   include js/d3
+  script(src=contents.js["jsonp.js"].url)
   - for script in page.metadata.scripts
     script(src=contents.js[script].url)
