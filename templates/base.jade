@@ -9,8 +9,29 @@ html(lang='en')
       title= locals.title
 
   body
+    #navigation.navbar.navbar-static-top.navbar-default(role="navigation")
+      .container
+        .navbar-header
+          a.navbar-brand(href=contents.index.url) glac.io
+        .navbar-collapse.collapse
+          ul.nav.navbar-nav.navbar-right
+            li.dropdown
+              a.dropdown-toggle(href="#", data-toggle="dropdown")
+                | Locations
+                b.caret
+              ul.dropdown-menu
+                li
+                  a(href=contents.locations["index.json"].url) All locations
+                li.divider
+                li
+                  a(href=contents.locations.hubbard["index.json"].url) Hubbard
+            li
+              a(href=contents["collaborators.json"].url) Collaborators
+
     block page
       h1= page.title
       != page.html
 
     block scripts
+      script(src=contents.js["jquery.min.js"].url)
+      script(src=contents.js["bootstrap.min.js"].url)
