@@ -1,3 +1,4 @@
 {
-    "template": "locations.jade"
+    "template": "locations.jade",
+    "hide-locations-dropdown": true
 }

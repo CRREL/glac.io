@@ -15,16 +15,20 @@ html(lang='en')
           a.navbar-brand(href=contents.index.url) glac.io
         .navbar-collapse.collapse
           ul.nav.navbar-nav.navbar-right
-            li.dropdown
-              a.dropdown-toggle(href="#", data-toggle="dropdown")
-                | Locations
-                b.caret
-              ul.dropdown-menu
-                li
-                  a(href=contents.locations["index.json"].url) All locations
-                li.divider
-                li
-                  a(href=contents.locations.hubbard["index.json"].url) Hubbard
+            if page.metadata["hide-locations-dropdown"]
+              li
+                a(href=contents.locations["index.json"].url) Locations
+            else
+              li.dropdown
+                a.dropdown-toggle(href="#", data-toggle="dropdown")
+                  | Locations
+                  b.caret
+                ul.dropdown-menu
+                  li
+                    a(href=contents.locations["index.json"].url) All locations
+                  li.divider
+                  li
+                    a(href=contents.locations.hubbard["index.json"].url) Hubbard
             li
               a(href=contents["collaborators.json"].url) Collaborators
 
