@@ -105,5 +105,20 @@ function selectPointBySlug(location_) {
 
 
 function prettyLatLong(coordinates) {
-    return coordinates[1] + "&deg;, " + coordinates[0] + "&deg;";
+    return ddToDms(coordinates[1], "lat") + ", " + ddToDms(coordinates[0], "lon");
+}
+
+
+function ddToDms(dd, latOrLon) {
+    var format = d3.format(".3f");
+    var dd_positive = Math.abs(dd);
+    var d = Math.floor(dd_positive);
+    var m = Math.floor((dd_positive % 1) * 60);
+    var s = (((dd_positive % 1) * 60) % 1) * 60;
+    var suffix;
+    if (latOrLon === "lat") 
+        suffix = dd_positive === dd ? "N" : "S";
+    else
+        suffix = dd_positive === dd ? "E" : "W";
+    return d + "&deg;" +  m + "'" + format(s) + "\"" + suffix;
 }
