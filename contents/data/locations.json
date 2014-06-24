@@ -1,27 +1,167 @@
 {
     "type": "FeatureCollection",
     "features": [
-        {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [-140.15, 61]
-            },
-            "properties": {
-                "slug": "hubbard",
-                "name": "Hubbard Glacier"
-            }
+    {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [-140.15, 61]
         },
-        {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [-38, 66.4]
-            },
-            "properties": {
-                "slug": "helheim",
-                "name": "Helheim Glacier"
-            }
+        "properties": {
+            "slug": "hubbard",
+            "name": "Hubbard Glacier"
         }
+    },
+    {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [-38, 66.4]
+        },
+        "properties": {
+            "slug": "helheim",
+            "name": "Helheim Glacier"
+        }
+    },
+    {
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -146.833975,
+                61.22250277777778
+                ]
+        },
+        "type": "Feature",
+        "properties": {
+            "slug": "columbia",
+            "name": "Columbia Glacier"
+        }
+    },
+    {
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -145.2713638888889,
+                60.66708055555555
+                ]
+        },
+        "type": "Feature",
+        "properties": {
+            "slug": "scott",
+            "name": "Scott Glacier"
+        }
+    },
+    {
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -146.1716972222222,
+                61.17735277777778
+                ]
+        },
+        "type": "Feature",
+        "properties": {
+            "slug": "valdez",
+            "name": "Valdez Glacier"
+        }
+    },
+    {
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -145.41485555555556,
+                63.27641666666666
+                ]
+        },
+        "type": "Feature",
+        "properties": {
+            "slug": "gulkana",
+            "name": "Gulkana Glacier"
+        }
+    },
+    {
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -148.90606111111111,
+                60.40937777777778
+                ]
+        },
+        "type": "Feature",
+        "properties": {
+            "slug": "wolverine",
+            "name": "Wolverine Glacier"
+        }
+    },
+    {
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -155.28070555555556,
+                19.405033333333332
+                ]
+        },
+        "type": "Feature",
+        "properties": {
+            "slug": "k\u012blauea",
+            "name": "K\u012blauea Volcano"
+        }
+    },
+    {
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -50.47773055555556,
+                67.17911388888889
+                ]
+        },
+        "type": "Feature",
+        "properties": {
+            "slug": "isortoq",
+            "name": "Isortoq River Basin"
+        }
+    },
+    {
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -110.80672777777778,
+                44.41835555555555
+                ]
+        },
+        "type": "Feature",
+        "properties": {
+            "slug": "lone",
+            "name": "Lone Star Geyser"
+        }
+    },
+    {
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -105.87200277777777,
+                39.64257222222222
+                ]
+        },
+        "type": "Feature",
+        "properties": {
+            "slug": "arapahoe",
+            "name": "Arapahoe Basin"
+        }
+    },
+    {
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -119.0291388888889,
+                37.643097222222224
+                ]
+        },
+        "type": "Feature",
+        "properties": {
+            "slug": "mammoth",
+            "name": "Mammoth Mountain CUES Snow Study Site"
+        }
+    }
     ]
 }
