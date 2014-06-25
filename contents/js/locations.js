@@ -99,7 +99,7 @@ function focusGlobe(location_) {
         .duration(1000)
         .tween("rotate", function() {
             var p = location_.geometry.coordinates,
-                r = d3.interpolate(projection.rotate(), [-p[0], -p[1]]);
+                r = d3.interpolate(projection.rotate(), [-p[0], 0]);
             return function(t) {
                 projection.rotate(r(t));
                 svg.selectAll("path.land").attr("d", path);
