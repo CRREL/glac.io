@@ -12,8 +12,11 @@ mixin smart_active_li(url)
 block page
   #content.container
     block content
-      h1= page.title
-      != page.html
+      .row
+        .col-md-8.col-md-offset-2
+            block content-narrow
+              h1= page.title
+              != page.html
 
     footer
       .row

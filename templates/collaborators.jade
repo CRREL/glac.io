@@ -1,6 +1,6 @@
 extends main.jade
 
-block content
+block content-narrow
   - var collaborators = page.metadata.collaborators
 
   h1= page.title
@@ -8,7 +8,15 @@ block content
     | Many individuals and organizations have contributed to this work.
     | Thank you.
 
-  - for (var i = 0; i < collaborators.length;)
+  .row(style="margin-top: 40px")
+    .col-md-8.col-md-offset-2.text-center
+      // CRREL
+      a(href=collaborators[0].url)
+        img(src=contents.img.collaborators[collaborators[0].filename].url)
+
+  hr
+
+  - for (var i = 1; i < collaborators.length;)
     - var initial = i
     .row
       - for (; i < Math.min(collaborators.length, initial + 4); i++)
