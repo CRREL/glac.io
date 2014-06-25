@@ -26,9 +26,9 @@ function ready(error, world, locations) {
     d3.select("#locations").selectAll("a")
             .data(locations.features)
         .enter().append("a")
-            .text(function(l) { return l.properties.name; })
+            .text(function(l) { return l.properties.name + (l.properties.disabled ? " (disabled)" : ""); })
             .attr("class", "list-group-item")
-            .attr("href", function(l) { return l.properties.slug + "/" })
+            .attr("href", function(l) { return l.properties.disabled ? "#" : l.properties.slug + "/" })
             .on("mouseover", mouseoverLocation)
             .on("mouseout", mouseoutLocation);
 
