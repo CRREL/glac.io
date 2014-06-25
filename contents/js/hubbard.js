@@ -126,15 +126,22 @@ function updateFocusAndContext(data) {
         .attr("d", function(d) { return d.line(d.data); });
     lines.exit().remove();
 
-    var dps = focus.selectAll(".datapoints").data(data, function(ts) { return ts.name; });
+    var dps = focus.selectAll(".datapoints").data(data);
     dps.enter()
         .append("g")
         .attr("class", "datapoints")
 
-    var dp = dps.selectAll(".datapoint").data(function(ts) { return ts.data; });
+    var dp = dps.selectAll(".datapoint").data(function(ts) {
+        return ts.data.map(function(d) {
+            d.yscale = ts.yscale;
+            d.color = ts.color;
+            return d;
+        });
+    });
     dp.enter()
         .append("circle")
         .attr("class", "datapoint")
+        .style("fill", function(d) { return d.color; })
     dp.call(updateDatapoints);
     dps.exit().remove();
 
@@ -225,11 +232,10 @@ function brushed() {
 
 
 function updateDatapoints(selection) {
-    var myYscale = selection[0].parentNode.__data__.yscale;
     selection
         .attr("r", function(d) { return d.value ? "2px": "0px"; })
         .attr("cx", function(d) { return xscale(d.date_time); })
-        .attr("cy", function(d) { return myYscale(d.value); });
+        .attr("cy", function(d) { return d.yscale(d.value); });
 }
 
 
