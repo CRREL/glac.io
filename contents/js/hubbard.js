@@ -141,18 +141,14 @@ function updateFocusAndContext(data) {
         .append("g")
         .attr("class", "datapoints")
 
-    var dp = dps.selectAll(".datapoint").data(function(ts) {
-        return ts.data.map(function(d) {
-            d.yscale = ts.yscale;
-            d.color = ts.color;
-            return d;
-        });
-    });
+    var dp = dps.selectAll(".datapoint").data(function(ts) { return ts.data.map(function(d) { d.slug = slugify(ts.name); return d; }); },
+            function(d) { return d.slug + "-" + d.date_time.getTime(); });
     dp.enter()
         .append("circle")
         .attr("class", "datapoint")
-        .style("fill", function(d) { return d.color; })
+        .style("fill", function(d) { return this.parentNode.__data__.color; })
     dp.call(updateDatapoints);
+    dp.exit().remove();
     dps.exit().remove();
 
     focus.select(".x.axis").call(xAxis);
@@ -245,7 +241,7 @@ function updateDatapoints(selection) {
     selection
         .attr("r", function(d) { return d.value ? "2px": "0px"; })
         .attr("cx", function(d) { return xscale(d.date_time); })
-        .attr("cy", function(d) { return d.yscale(d.value); });
+        .attr("cy", function(d) { return this.parentNode.__data__.yscale(d.value); });
 }
 
 
@@ -261,4 +257,10 @@ function dataValue(d) {
 
 function dataDateTime(d) {
     return d.date_time;
+}
+
+
+// TODO make utility library
+function slugify(s) {
+    return s.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, "");
 }
