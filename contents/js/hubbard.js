@@ -83,6 +83,11 @@ tsControl.enter()
     .attr("class", "list-group-item ts-control")
     .classed("visible", function(d) { return d.visible; })
     .text(function(d) { return d.name; })
+    .on("click", function(d) { 
+        d.visible = !d.visible;
+        d3.select(this).classed("visible", d.visible);
+        draw();
+    })
     .append("span")
     .attr("class", "label")
     .style("background-color", function(d) { return d.color; });
@@ -95,10 +100,12 @@ function draw() {
     updateXscales(data);
     updateYaxis(data);
 
-    var lines = focus.selectAll("path").data(data);
+    var lines = focus.selectAll("path").data(data, function(ts) { return ts.name; });
     lines.enter()
         .append("path")
         .attr("class", "line")
+        .style("stroke", function(d) { return d.color; });
+    lines
         .attr("d", function(d) { return d.line(d.data); });
     lines.exit().remove();
 

@@ -25,6 +25,9 @@ circle.datapoint {
     fill: steelblue;
 }
 
+.ts-control {
+  cursor: pointer;
+}
 .ts-control.visible {
   color: #fff;
   background-color: #428bca;
