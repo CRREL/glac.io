@@ -18,6 +18,7 @@ var timeseries = [
 }
 ];
 
+var defaultExtent = [d3.time.month.offset(new Date(), -2), new Date()];
 
 var margin = {top: 10, right: 10, bottom: 100, left: 40},
     margin2 = {top: 430, right: 10, bottom: 20, left: 40},
@@ -94,7 +95,6 @@ tsControl.enter()
 
 
 function draw() {
-    var defaultExtent = [d3.time.month.offset(new Date(), -2), new Date()];
     var data = visibleData();
 
     updateXscales(data);
@@ -121,7 +121,7 @@ function draw() {
         .call(updateDatapoints);
     dps.exit().remove();
 
-    focus.select(".x.axis").call(xAxis);
+    focus.select(".x.axis").transition().call(xAxis);
     focus.select(".y.axis").call(yAxis);
 
     context.selectAll("path")
