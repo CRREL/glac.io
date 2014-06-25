@@ -100,15 +100,23 @@ function draw() {
     var data = visibleData();
     updateYaxis(data);
 
-    var oldXDomain = xscale.domain();
+    var oldXDomain = x2scale.domain();
     var newXDomain = d3.extent(d3.merge(data.map(function(a) { return d3.extent(a.data, dataDateTime); })))
 
     d3.transition()
         .tween("scale x domain", function() {
             var xDomainInterp = d3.interpolate(oldXDomain, newXDomain);
+            var oldBrushExtent = brush.extent();
             return function(t) {
                 if (brush.empty())
                     xscale.domain(xDomainInterp(t));
+                else
+                {
+                    brush.extent(oldBrushExtent);
+                    context.select(".brush")
+                        .call(brush)
+                        .call(brush.event);
+                }
                 x2scale.domain(xDomainInterp(t));
                 updateFocusAndContext(data);
             };
