@@ -111,6 +111,7 @@ body {
 
 .cover {
   padding: 0 20px;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 .cover .btn-lg {
   padding: 10px 20px;
