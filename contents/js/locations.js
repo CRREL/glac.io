@@ -28,11 +28,14 @@ var projection = d3.geo.orthographic()
 var path = d3.geo.path()
     .projection(projection);
 
-var graticule = d3.geo.graticule();
-
 var svg = d3.select("#globe").append("svg")
     .attr("width", width)
     .attr("height", height);
+
+svg.append("path")
+    .datum({type: "Sphere"})
+    .attr("id", "sphere")
+    .attr("d", path);
 
 queue()
     .defer(d3.json, "../data/world-110m.json")
