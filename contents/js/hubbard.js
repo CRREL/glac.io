@@ -109,45 +109,49 @@ function draw() {
             return function(t) {
                 xscale.domain(xDomainInterp(t));
                 x2scale.domain(xscale.domain());
-
-                var lines = focus.selectAll("path").data(data, function(ts) { return ts.name; });
-                lines.enter()
-                    .append("path")
-                    .attr("class", "line")
-                    .style("stroke", function(d) { return d.color; });
-                lines
-                    .attr("d", function(d) { return d.line(d.data); });
-                lines.exit().remove();
-
-                var dps = focus.selectAll(".datapoints").data(data, function(ts) { return ts.name; });
-                dps.enter()
-                    .append("g")
-                    .attr("class", "datapoints")
-                
-                var dp = dps.selectAll(".datapoint").data(function(ts) { return ts.data; });
-                dp.enter()
-                    .append("circle")
-                    .attr("class", "datapoint")
-                    .call(updateDatapoints);
-                dps.exit().remove();
-
-                focus.select(".x.axis").call(xAxis);
-                focus.select(".y.axis").call(yAxis);
-
-                var contextLines = context.selectAll("path").data(data, function(ts) { return ts.name; });
-                contextLines.enter()
-                    .append("path")
-                    .attr("class", "line")
-                    .style("stroke", function(d) { return d.color; });
-                contextLines
-                    .attr("d", function(d) { return d.line2(d.data); });
-                contextLines.exit().remove();
-
-                context.select(".x.axis").call(xAxis2);
+                updateFocusAndContext(data);
             };
         });
 
 };
+
+
+function updateFocusAndContext(data) {
+    var lines = focus.selectAll("path").data(data, function(ts) { return ts.name; });
+    lines.enter()
+        .append("path")
+        .attr("class", "line")
+        .style("stroke", function(d) { return d.color; });
+    lines
+        .attr("d", function(d) { return d.line(d.data); });
+    lines.exit().remove();
+
+    var dps = focus.selectAll(".datapoints").data(data, function(ts) { return ts.name; });
+    dps.enter()
+        .append("g")
+        .attr("class", "datapoints")
+
+    var dp = dps.selectAll(".datapoint").data(function(ts) { return ts.data; });
+    dp.enter()
+        .append("circle")
+        .attr("class", "datapoint")
+    dp.call(updateDatapoints);
+    dps.exit().remove();
+
+    focus.select(".x.axis").call(xAxis);
+    focus.select(".y.axis").call(yAxis);
+
+    var contextLines = context.selectAll("path").data(data, function(ts) { return ts.name; });
+    contextLines.enter()
+        .append("path")
+        .attr("class", "line")
+        .style("stroke", function(d) { return d.color; });
+    contextLines
+        .attr("d", function(d) { return d.line2(d.data); });
+    contextLines.exit().remove();
+
+    context.select(".x.axis").call(xAxis2);
+}
 
 
 timeseries.forEach(function(ts) {
