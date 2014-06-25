@@ -121,8 +121,7 @@ function locationPointPath(location_) {
     {
         radius = 5;
     }
-    return path.pointRadius(radius)
-        (location_);
+    return path.pointRadius(radius)(location_);
 }
 
 
