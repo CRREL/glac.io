@@ -82,7 +82,7 @@ function mouseoverLocation() {
                     + "<dt>Coordinates</dt>"
                     + "<dd>" + prettyLatLong(location_.geometry.coordinates) + "</dd>";
     if (location_.properties.sensors)
-        detail += "<dt>Sensors</dt><dd>" + sensorList(location_.properties.sensors) + "</dd>"
+        detail += "<br><dt>Sensors</dt><dd>" + sensorList(location_.properties.sensors) + "</dd>"
 
     detail += "</dl>";
     d3.select("#detail")
