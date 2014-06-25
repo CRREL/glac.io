@@ -80,13 +80,15 @@ context.append("g")
 var tsControl = d3.select("#ts-control-list")
     .selectAll(".ts-control").data(timeseries);
 tsControl.enter()
-    .append("li")
+    .append("a")
     .attr("class", "list-group-item ts-control")
-    .classed("visible", function(d) { return d.visible; })
+    .attr("href", "#")
+    .classed("active", function(d) { return d.visible; })
     .text(function(d) { return d.name; })
     .on("click", function(d) { 
+        if (visibleData().length <= 1 && d.visible) return;
         d.visible = !d.visible;
-        d3.select(this).classed("visible", d.visible);
+        d3.select(this).classed("active", d.visible);
         draw();
     })
     .append("span")
