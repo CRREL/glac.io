@@ -190,9 +190,15 @@ timeseries.forEach(function(ts) {
 
 function updateYaxis(data) {
     if (data.length === 1)
+    {
         yAxis.scale(data[0].yscale);
+        yAxis.tickValues(null);
+    }
     else
+    {
         yAxis.scale(yscale);
+        yAxis.tickValues([]);
+    }
 }
 
 
