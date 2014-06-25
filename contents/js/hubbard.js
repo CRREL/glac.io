@@ -84,12 +84,24 @@ function draw() {
     updateXscales(data);
     updateYaxis(data);
 
-    focus.selectAll("path")
-            .data(data)
-        .enter()
-            .append("path")
-            .attr("class", "line")
-            .attr("d", function(d) { return d.line(d.data); });
+    var lines = focus.selectAll("path").data(data);
+    lines.enter()
+        .append("path")
+        .attr("class", "line")
+        .attr("d", function(d) { return d.line(d.data); });
+    lines.exit().remove();
+
+    var dps = focus.selectAll(".datapoints").data(data, function(ts) { return ts.name; });
+    dps.enter()
+        .append("g")
+        .attr("class", "datapoints")
+    
+    var dp = dps.selectAll(".datapoint").data(function(ts) { return ts.data; });
+    dp.enter()
+        .append("circle")
+        .attr("class", "datapoint")
+        .call(updateDatapoints);
+    dps.exit().remove();
 
     focus.select(".x.axis").call(xAxis);
     focus.select(".y.axis").call(yAxis);
@@ -163,20 +175,24 @@ function brushed() {
     xscale.domain(brush.empty() ? x2scale.domain() : brush.extent());
     focus.selectAll(".line").attr("d", function(d) { return d.line(d.data); });
     focus.select(".x.axis").call(xAxis);
+    var dp = focus.selectAll(".datapoints").data(visibleData())
+        .selectAll(".datapoint").data(function(d) {
+            return d.data.filter(function(p) { return xscale(p.date_time) > 0; })
+        });
+    dp.enter()
+        .append("circle")
+        .attr("class", "datapoint");
+    dp.call(updateDatapoints);
+    dp.exit().remove();
 }
 
 
-function updatePoints(points) {
-    points.enter()
-        .append("circle")
-        .attr("class", "datapoint")
-        .attr("r", "2px")
-        .attr("r", function(d) { return d.value ? "2px": "0px"; });
-
-    points.attr("cx", function(d) { return xscale(d.date_time); })
-        .attr("cy", function(d) { return yscale(d.value); });
-
-    points.exit().remove();
+function updateDatapoints(selection) {
+    var myYscale = selection[0].parentNode.__data__.yscale;
+    selection
+        .attr("r", function(d) { return d.value ? "2px": "0px"; })
+        .attr("cx", function(d) { return xscale(d.date_time); })
+        .attr("cy", function(d) { return myYscale(d.value); });
 }
 
 
