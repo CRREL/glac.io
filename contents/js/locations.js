@@ -30,7 +30,8 @@ var path = d3.geo.path()
 
 var svg = d3.select("#globe").append("svg")
     .attr("width", width)
-    .attr("height", height);
+    .attr("height", height)
+    .attr("class", "center-block");
 
 svg.append("path")
     .datum({type: "Sphere"})
