@@ -5,16 +5,19 @@ var timeseries = [
 {
     "name": "Terminus range",
 //    "url": urlbase + "ts_codes=18844021,18845021,18846021,18847021,18848021,18849021,18850021,18851021,18852021,18853021,18854021,18855021,18856021,18857021,18858021,18859021,18860021,18861021,18862021,18863021,18864021,18865021,18866021,18867021,18868021,18869021,18870021,18871021,18872021,18873021&summary_interval=daily&floor=320&jsonp={callback}"
-    "url": "../../data/hubbard-avgrange-daily.js?callback=d3.jsonp.ntsfvAwWtPjZJKz"
+    "url": "../../data/hubbard-avgrange-daily.js?callback=d3.jsonp.ntsfvAwWtPjZJKz",
+    "visible": true,
+    "color": "steelblue"
 },
 {
     "name": "Air temperature",
     // "url": urlbase + "ts_codes=13260021&jsonp={callback}"
-    "url": "../../data/hubbard-avgtemp-daily.js?callback=d3.jsonp.temperature"
+    "url": "../../data/hubbard-avgtemp-daily.js?callback=d3.jsonp.temperature",
+    "visible": false,
+    "color": "red"
 }
 ];
 
-var loadedData = [];
 
 var margin = {top: 10, right: 10, bottom: 100, left: 40},
     margin2 = {top: 430, right: 10, bottom: 20, left: 40},
@@ -55,27 +58,32 @@ var context = svg.append("g")
 
 function draw() {
     var defaultExtent = [d3.time.month.offset(new Date(), -2), new Date()];
+
+    var data = visibleData();
     
-    updateXscale();
-    yAxis.scale(visibleData()[0].yscale);
+    updateXscales(data);
+    yAxis.scale(data[0].yscale);
 
     focus.selectAll("path")
-            .data(visibleData())
+            .data(data)
         .enter()
             .append("path")
             .attr("class", "line")
             .attr("d", function(d) { return d.line(d.data); });
 
-    focus.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
+    context.selectAll("path")
+            .data(data)
+        .enter()
+            .append("path")
+            .attr("class", "line")
+            .attr("d", function(d) { return d.line2(d.data); });
 
-    focus.append("g")
-        .attr("class", "y axis")
-        .call(yAxis);
-
-    
+    context.append("g")
+        .attr("class", "x brush")
+        .call(brush)
+        .selectAll("rect")
+        .attr("y", -6)
+        .attr("height", height2 + 7);
 };
 
 
@@ -85,7 +93,7 @@ timeseries.forEach(function(ts) {
             .range([0, height])
             .domain(d3.extent(data.map(dataValue)).reverse())
             .nice();
-        var yscale2 = d3.scale.linear()
+        var y2scale = d3.scale.linear()
             .range([0, height2])
             .domain(d3.extent(data.map(dataValue)).reverse())
             .nice();
@@ -95,8 +103,8 @@ timeseries.forEach(function(ts) {
             .y(function(d) { return yscale(d.value); });
         var line2 = d3.svg.line()
             .defined(function(d) { return d.value; })
-            .x(function(d) { return xscale2(d.date_time); })
-            .y(function(d) { return yscale2(d.value); });
+            .x(function(d) { return x2scale(d.date_time); })
+            .y(function(d) { return y2scale(d.value); });
         var localXscale = d3.time.scale()
             .domain(d3.extent(data.map(function(d) {
                 return parseDate(d.date_time);
@@ -109,25 +117,18 @@ timeseries.forEach(function(ts) {
                 d.value = null;
             return previous.concat(d);
         }, []);
-        loadedData.push({
-            "name": ts.name,
-            "slug": ts.slug,
-            "data": data,
-            "color": ts.color,  // TODO allow color generation
-            "yscale": yscale,
-            "line": line,
-            "line2": line2,
-            "visible": true     // TODO allow per-ts customization
-        });
-        // TODO sort loaded data by something?
-        if (loadedData.length == timeseries.length)
+        ts["data"] = data;
+        ts["yscale"] = yscale;
+        ts["line"] = line;
+        ts["line2"] = line2;
+        if (timeseries.every(function(ts) { return ts.data !== undefined; }))
             draw();
     });
 });
 
 
-function updateXscale() {
-    xscale.domain(d3.extent(d3.merge(visibleData().map(function(a) { return d3.extent(a.data, dataDateTime); }))));
+function updateXscales(data) {
+    xscale.domain(d3.extent(d3.merge(data.map(function(a) { return d3.extent(a.data, dataDateTime); }))));
     x2scale.domain(xscale.domain());
 }
 
@@ -147,7 +148,7 @@ function updatePoints(points) {
 
 
 function visibleData() {
-    return loadedData.filter(function(d) { return d.visible; });
+    return timeseries.filter(function(d) { return d.visible; });
 }
 
 
