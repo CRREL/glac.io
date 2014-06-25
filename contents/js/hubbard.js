@@ -37,7 +37,8 @@ var xAxis = d3.svg.axis().scale(xscale).orient("bottom"),
     yAxis = d3.svg.axis().scale(yscale).orient("left");
 
 var brush = d3.svg.brush()
-    .x(x2scale);
+    .x(x2scale)
+    .on("brush", brushed);
 
 var svg = d3.select("#chart").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -54,12 +55,10 @@ var focus = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 focus.append("g")
-    .attr("id", "xAxis")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")");
 
 focus.append("g")
-    .attr("id", "yAxis")
     .attr("class", "y axis");
 
 var context = svg.append("g")
@@ -67,12 +66,10 @@ var context = svg.append("g")
     .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
 context.append("g")
-    .attr("id", "xAxis2")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height2 + ")");
 
 context.append("g")
-    .attr("id", "brush")
     .attr("class", "x brush")
     .call(brush)
     .selectAll("rect")
@@ -94,8 +91,8 @@ function draw() {
             .attr("class", "line")
             .attr("d", function(d) { return d.line(d.data); });
 
-    focus.select("#xAxis").call(xAxis);
-    focus.select("#yAxis").call(yAxis);
+    focus.select(".x.axis").call(xAxis);
+    focus.select(".y.axis").call(yAxis);
 
     context.selectAll("path")
             .data(data)
@@ -104,7 +101,7 @@ function draw() {
             .attr("class", "line")
             .attr("d", function(d) { return d.line2(d.data); });
 
-    context.select("#xAxis2").call(xAxis2);
+    context.select(".x.axis").call(xAxis2);
 };
 
 
@@ -159,6 +156,13 @@ function updateYaxis(data) {
         yAxis.scale(data[0].yscale);
     else
         yAxis.scale(yscale);
+}
+
+
+function brushed() {
+    xscale.domain(brush.empty() ? x2scale.domain() : brush.extent());
+    focus.selectAll(".line").attr("d", function(d) { return d.line(d.data); });
+    focus.select(".x.axis").call(xAxis);
 }
 
 
