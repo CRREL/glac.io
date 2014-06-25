@@ -2,6 +2,24 @@ var width = 400,
     height = 400,
     defaultScale = width / 2 - 10;
 
+var availableSensors = [
+{
+    "name": "climate",
+    "src": "../img/climate32px.png",
+    "description": "Climate station"
+},
+{
+    "name": "timelapse",
+    "src": "../img/timelapse32px.png",
+    "description": "Satellite linked timelapse camera"
+},
+{
+    "name": "lidar",
+    "src": "../img/lidar32px.png",
+    "description": "LiDAR data"
+}
+]
+
 var projection = d3.geo.orthographic()
     .scale(defaultScale)
     .translate([width / 2, height / 2])
@@ -55,12 +73,16 @@ function mouseoverLocation() {
     focusGlobe(location_);
     selectPointBySlug(location_).classed("focused", true);
 
+    var detail = "<h3>" + location_.properties.name + "</h3>"
+                + "<dl>"
+                    + "<dt>Coordinates</dt>"
+                    + "<dd>" + prettyLatLong(location_.geometry.coordinates) + "</dd>";
+    if (location_.properties.sensors)
+        detail += "<dt>Sensors</dt><dd>" + sensorList(location_.properties.sensors) + "</dd>"
+
+    detail += "</dl>";
     d3.select("#detail")
-        .html("<h3>"
-                + location_.properties.name
-                + "</h3><dl><dt>Coordinates</dt><dd>"
-                + prettyLatLong(location_.geometry.coordinates)
-                + "</dd></dl>");
+        .html(detail);
 }
 
 
@@ -106,6 +128,17 @@ function selectPointBySlug(location_) {
 
 function prettyLatLong(coordinates) {
     return ddToDms(coordinates[1], "lat") + ", " + ddToDms(coordinates[0], "lon");
+}
+
+
+function sensorList(sensors) {
+    var items = availableSensors.map(function(s) {
+        if (sensors.indexOf(s.name) > -1)
+            return "<li><img src=\"" + s.src + "\"> " + s.description + "</li>";
+        else
+            return "";
+    });
+    return "<ul class=\"list-unstyled\">" + items.join('') + "</ul>";
 }
 
 

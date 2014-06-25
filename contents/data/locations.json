@@ -9,7 +9,8 @@
         },
         "properties": {
             "slug": "hubbard",
-            "name": "Hubbard Glacier"
+            "name": "Hubbard Glacier",
+            "sensors": ["climate", "lidar", "timelapse"]
         }
     },
     {
