@@ -24,3 +24,15 @@ svg {
 circle.datapoint {
     fill: steelblue;
 }
+
+.ts-control.visible {
+  color: #fff;
+  background-color: #428bca;
+}
+.ts-control .label {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  margin-left: 10px;
+  border: 1px solid #333;
+}

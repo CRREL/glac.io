@@ -76,6 +76,17 @@ context.append("g")
         .attr("y", -6)
         .attr("height", height2 + 7);
 
+var tsControl = d3.select("#ts-control-list")
+    .selectAll(".ts-control").data(timeseries);
+tsControl.enter()
+    .append("li")
+    .attr("class", "list-group-item ts-control")
+    .classed("visible", function(d) { return d.visible; })
+    .text(function(d) { return d.name; })
+    .append("span")
+    .attr("class", "label")
+    .style("background-color", function(d) { return d.color; });
+
 
 function draw() {
     var defaultExtent = [d3.time.month.offset(new Date(), -2), new Date()];
