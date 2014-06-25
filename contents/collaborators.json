@@ -2,29 +2,53 @@
     "template": "collaborators.jade",
     "title": "Collaborators",
     "collaborators": [
-        {
-            "filename": "poweredbyrsgis.png",
-            "url": "http://www.crrel.usace.army.mil/facilitieslabstestsites/center-rsgis.html"
-        },
-        {
-            "filename": "nsidc.jpg",
-            "url": "http://nsidc.org"
-        },
-        {
-            "filename": "usgs.png",
-            "url": "http://www.usgs.gov"
-        },
-        {
-            "filename": "umaine.png",
-            "url": "http://climatechange.umaine.edu/glaciology/index.html"
-        },
-        {
-            "filename": "ku.png",
-            "url": "http://stearns.dept.ku.edu"
-        },
-        {
-            "filename": "usfs.png",
-            "url": "http://www.fs.fed.us"
-        }
+    {
+        "filename": "poweredbyrsgis.png",
+        "url": "http://www.crrel.usace.army.mil/facilitieslabstestsites/center-rsgis.html"
+    },
+    {
+        "filename": "nsidc.jpg",
+        "url": "http://nsidc.org"
+    },
+    {
+        "filename": "usgs.png",
+        "url": "http://www.usgs.gov"
+    },
+    {
+        "filename": "umaine.png",
+        "url": "http://climatechange.umaine.edu/glaciology/index.html"
+    },
+    {
+        "filename": "ku.png",
+        "url": "http://stearns.dept.ku.edu"
+    },
+    {
+        "filename": "usfs.png",
+        "url": "http://www.fs.fed.us"
+    },
+    {
+        "filename": "abasin.jpg",
+        "url": "http://www.arapahoebasin.com"
+    },
+    {
+        "filename": "mammoth.png",
+        "url": "http://www.mammothmountain.com"
+    },
+    {
+        "filename": "ucsb.png",
+        "url": "http://www.bren.ucsb.edu/people/Faculty/jeff_dozier.htm"
+    },
+    {
+        "filename": "hvo.png",
+        "url": "http://hvo.wr.usgs.gov"
+    },
+    {
+        "filename": "unc.jpg",
+        "url": "http://esci.unco.edu"
+    },
+    {
+        "filename": "psi.png",
+        "url": "http://www.psi.edu"
+    }
     ]
 }
