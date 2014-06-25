@@ -28,11 +28,13 @@ var margin = {top: 10, right: 10, bottom: 100, left: 40},
 var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse;
 
 var xscale = d3.time.scale().range([0, width]),
-    x2scale = d3.time.scale().range([0, width]);
+    x2scale = d3.time.scale().range([0, width]),
+    yscale = d3.scale.linear().range([height, 0]),
+    yscale2 = d3.scale.linear().range([height2, 0]);
 
 var xAxis = d3.svg.axis().scale(xscale).orient("bottom"),
     xAxis2 = d3.svg.axis().scale(x2scale).orient("bottom"),
-    yAxis = d3.svg.axis().orient("left");
+    yAxis = d3.svg.axis().scale(yscale).orient("left");
 
 var brush = d3.svg.brush()
     .x(x2scale);
@@ -51,18 +53,39 @@ var focus = svg.append("g")
     .attr("class", "focus")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+focus.append("g")
+    .attr("id", "xAxis")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")");
+
+focus.append("g")
+    .attr("id", "yAxis")
+    .attr("class", "y axis");
+
 var context = svg.append("g")
     .attr("class", "context")
     .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
+context.append("g")
+    .attr("id", "xAxis2")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height2 + ")");
+
+context.append("g")
+    .attr("id", "brush")
+    .attr("class", "x brush")
+    .call(brush)
+    .selectAll("rect")
+        .attr("y", -6)
+        .attr("height", height2 + 7);
+
 
 function draw() {
     var defaultExtent = [d3.time.month.offset(new Date(), -2), new Date()];
-
     var data = visibleData();
-    
+
     updateXscales(data);
-    yAxis.scale(data[0].yscale);
+    updateYaxis(data);
 
     focus.selectAll("path")
             .data(data)
@@ -71,6 +94,9 @@ function draw() {
             .attr("class", "line")
             .attr("d", function(d) { return d.line(d.data); });
 
+    focus.select("#xAxis").call(xAxis);
+    focus.select("#yAxis").call(yAxis);
+
     context.selectAll("path")
             .data(data)
         .enter()
@@ -78,12 +104,7 @@ function draw() {
             .attr("class", "line")
             .attr("d", function(d) { return d.line2(d.data); });
 
-    context.append("g")
-        .attr("class", "x brush")
-        .call(brush)
-        .selectAll("rect")
-        .attr("y", -6)
-        .attr("height", height2 + 7);
+    context.select("#xAxis2").call(xAxis2);
 };
 
 
@@ -130,6 +151,14 @@ timeseries.forEach(function(ts) {
 function updateXscales(data) {
     xscale.domain(d3.extent(d3.merge(data.map(function(a) { return d3.extent(a.data, dataDateTime); }))));
     x2scale.domain(xscale.domain());
+}
+
+
+function updateYaxis(data) {
+    if (data.length === 1)
+        yAxis.scale(data[0].yscale);
+    else
+        yAxis.scale(yscale);
 }
 
 
