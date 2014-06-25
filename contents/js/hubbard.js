@@ -99,26 +99,20 @@ tsControl.enter()
 function draw() {
     var data = visibleData();
     updateYaxis(data);
+
+    var oldXDomain = xscale.domain();
     var newXDomain = d3.extent(d3.merge(data.map(function(a) { return d3.extent(a.data, dataDateTime); })))
 
-    if (brush.empty()) {
-        var oldXDomain = xscale.domain();
-
-        d3.transition()
-            .tween("scale x domain", function() {
-                var xDomainInterp = d3.interpolate(oldXDomain, newXDomain);
-                return function(t) {
+    d3.transition()
+        .tween("scale x domain", function() {
+            var xDomainInterp = d3.interpolate(oldXDomain, newXDomain);
+            return function(t) {
+                if (brush.empty())
                     xscale.domain(xDomainInterp(t));
-                    x2scale.domain(xscale.domain());
-                    updateFocusAndContext(data);
-                };
-            });
-    }
-    else
-    {
-        x2scale.domain(newXDomain);
-        updateFocusAndContext(data);
-    }
+                x2scale.domain(xDomainInterp(t));
+                updateFocusAndContext(data);
+            };
+        });
     
 
 };
