@@ -1,4 +1,4 @@
 {
-    "template": "home.jade",
+    "template": "index.jade",
     "lead": "Real time environmental data from around the world. A collaborative, multidisciplinary project using state-of-the-art monitoring technologies."
 }

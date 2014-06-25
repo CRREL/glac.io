@@ -1,4 +1,4 @@
-extends main
+extends ../page
 
 
 block append styles
@@ -18,5 +18,5 @@ block content
 
 
 block append scripts
-  include js/topojson
+  include ../js/topojson
   script(src=contents.js["locations.js"].url)

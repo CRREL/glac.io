@@ -1,5 +1,5 @@
 {
-    "template": "chart.jade",
+    "template": "locations/chart.jade",
     "scripts": [
         "hubbard.js"
     ]
