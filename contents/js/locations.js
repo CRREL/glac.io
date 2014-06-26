@@ -2,23 +2,23 @@ var width = 400,
     height = 400,
     defaultScale = width / 2 - 10;
 
-var availableSensors = [
-{
-    "name": "climate",
-    "src": "../img/climate32px.png",
-    "description": "Climate station"
-},
-{
-    "name": "timelapse",
-    "src": "../img/timelapse32px.png",
-    "description": "Satellite linked timelapse camera"
-},
-{
-    "name": "lidar",
-    "src": "../img/lidar32px.png",
-    "description": "LiDAR data"
+var availableSensors = {
+    "climate": {
+        "src": "../img/climate64px.png",
+        "name": "Climate station",
+        "description": "Permanent climate station with real time data transmitted via satellite link."
+    },
+    "timelapse": {
+        "src": "../img/camera64px.png",
+        "name": "Satellite linked time lapse camera",
+        "description": "Permanement time lapse camera with real time transmission of images via satellite link."
+    },
+    "lidar": {
+        "src": "../img/lidar64px.png",
+        "name": "LiDAR data",
+        "description": "High resolution point cloud data."
+    }
 }
-]
 
 var projection = d3.geo.orthographic()
     .scale(defaultScale)
@@ -32,6 +32,8 @@ var svg = d3.select("#globe").append("svg")
     .attr("width", width)
     .attr("height", height)
     .attr("class", "center-block");
+
+var detail = d3.select("#detail");
 
 svg.append("path")
     .datum({type: "Sphere"})
@@ -68,6 +70,36 @@ function ready(error, world, locations) {
             .attr("data-slug", function(l) { return l.properties.slug; })
             .attr("d", locationPointPath);
 
+    var locationDetail = detail.selectAll(".location-detail")
+            .data(locations.features)
+        .enter().append("div")
+            .attr("class", "location-detail")
+            .style("display", "none")
+            .attr("data-slug", function(d) { return d.properties.slug; });
+
+    locationDetail.append("h3").text(function(d) { return d.properties.name; });
+    locationDetail.append("h4").text("Coordinates");
+    locationDetail.append("div").html(function(d) { return prettyLatLong(d.geometry.coordinates); });
+    locationDetail.append("h4").text("Sensors");
+    var media = locationDetail.append("ul")
+        .attr("class", "media-list")
+        .selectAll(".media")
+                .data(function(d) { return d.properties.sensors || []; })
+            .enter().append("li")
+            .attr("class", "media");
+    media.append("a")
+        .attr("href", "#")
+        .attr("class", "pull-left")
+        .append("img")
+        .attr("class", "media-object")
+        .attr("src", function(d) { return availableSensors[d].src; });
+    var mediaBody = media.append("div")
+        .attr("class", "media-body");
+    mediaBody.append("h4")
+        .text(function(d) { return availableSensors[d].name; });
+    mediaBody.append("p")
+        .text(function(d) { return availableSensors[d].description; });
+
     focusGlobe(locations.features[0]);
 };
 
@@ -76,22 +108,15 @@ function mouseoverLocation() {
     var location_ = d3.select(this).datum();
     focusGlobe(location_);
     selectPointBySlug(location_).classed("focused", true);
-
-    var detail = "<h3>" + location_.properties.name + "</h3>"
-                + "<dl>"
-                    + "<dt>Coordinates</dt>"
-                    + "<dd>" + prettyLatLong(location_.geometry.coordinates) + "</dd>";
-    if (location_.properties.sensors)
-        detail += "<br><dt>Sensors</dt><dd>" + sensorList(location_.properties.sensors) + "</dd>"
-
-    detail += "</dl>";
-    d3.select("#detail")
-        .html(detail);
+    selectDetailBySlug(location_)
+        .style("display", "block");
 }
 
 
 function mouseoutLocation() {
     selectPointBySlug(d3.select(this).datum()).classed("focused", false);
+    selectDetailBySlug(d3.select(this).datum())
+        .style("display", "none");
 }
 
 
@@ -129,22 +154,13 @@ function selectPointBySlug(location_) {
     return svg.select(".location[data-slug=" + location_.properties.slug + "]");
 }
 
+function selectDetailBySlug(location_) {
+    return detail.select("[data-slug=" + location_.properties.slug + "]");
+}
 
 function prettyLatLong(coordinates) {
     return ddToDms(coordinates[1], "lat") + ", " + ddToDms(coordinates[0], "lon");
 }
-
-
-function sensorList(sensors) {
-    var items = availableSensors.map(function(s) {
-        if (sensors.indexOf(s.name) > -1)
-            return "<li><img src=\"" + s.src + "\"> " + s.description + "</li>";
-        else
-            return "";
-    });
-    return "<ul class=\"list-unstyled\">" + items.join('') + "</ul>";
-}
-
 
 function ddToDms(dd, latOrLon) {
     var format = d3.format(".3f");
