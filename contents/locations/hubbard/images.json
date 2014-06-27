@@ -4,15 +4,15 @@
     "images":
         [
         {
-            "src": "/img/hubbard/chart.png",
+            "filename": "chart.png",
             "caption": "A fake chart image"
         },
         {
-            "src": "/img/hubbard/historical.png",
+            "filename": "/img/hubbard/historical.png",
             "caption": "An old picture of Hubbard Glacier"
         },
         {
-            "src": "/img/hubbard/images.jpg",
+            "filename": "/img/hubbard/images.jpg",
             "caption": "Ain't it cool?"
         }
     ]
