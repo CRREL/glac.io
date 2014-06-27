@@ -4,48 +4,36 @@
     "images":
         [
         {
-            "filename": "Hubbard_images_1.jpg",
+            "filename": "Hubbard_Images_1.jpg",
             "caption": "Setup of a scanner Radar system for tracking glacial movement, May 2013."
         },    
          {
-            "filename": "Hubbard_images_2.jpg",
+            "filename": "Hubbard_Images_2.jpg",
             "caption": "Long range LiDAR system setup at Hubbard Glacier, scanning the glacier every 5-minutes, May 2013."
         },
          {
-            "filename": "Hubbard_images_3.jpg",
+            "filename": "Hubbard_Images_3.jpg",
             "caption": "Adam LeWinter configuring the LiDAR system at Hubbard Glacier, May 2013."
         },
          {
-            "filename": "Hubbard_images_4.jpg",
+            "filename": "Hubbard_Images_4.jpg",
             "caption": "Small calving event while the Radar and LiDAR units scan the Hubbard Glacier, May 2013."
         },
          {
-            "filename": "Hubbard_images_5.jpg",
+            "filename": "Hubbard_Images_5.jpg",
             "caption": "View looking West through the gap between Hubbard Glacier and Gilbert Point, May 2013."
         },
          {
-            "filename": "Hubbard_images_6.jpg",
+            "filename": "Hubbard_Images_6.jpg",
             "caption": "Hubbard Glacier calving front with Gilbert Point in the background, May 2013."
         },
          {
-            "filename": "Hubbard_images_7.jpg",
+            "filename": "Hubbard_Images_7.jpg",
             "caption": "View looking East through the gap between Hubbard Glacier and Gilbert Point, May 2013."
         },
          {
-            "filename": "Hubbard_images_8.jpg",
+            "filename": "Hubbard_Images_8.jpg",
             "caption": "Hubbard Glacier, May 2013."
-        },
-        {
-            "filename": "chart.png",
-            "caption": "A fake chart image"
-        },
-        {
-            "filename": "/img/hubbard/historical.png",
-            "caption": "An old picture of Hubbard Glacier"
-        },
-        {
-            "filename": "/img/hubbard/images.jpg",
-            "caption": "Ain't it cool?"
-        }
+         }
     ]
 }

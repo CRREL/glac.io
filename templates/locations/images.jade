@@ -1,5 +1,17 @@
 extends ../page
 
+block append styles
+  style.
+    .carousel-caption {
+      background-color: rgba(0, 0, 0, 0.4);
+      padding-bottom: 40px;
+      padding-left: 10px;
+      padding-right: 10px;
+      margin-bottom: 0;
+    }
+    .carousel-control.left, .carousel-control.right {
+      background-image: none;
+    }
 
 block content
   - var images = page.metadata.images;
@@ -7,8 +19,8 @@ block content
   h1= page.title
 
   .row
-    .col-md-6.col-md-offset-3
-      #image-carousel.carousel.slide(data-ride="carousel")
+    .col-md-8.col-md-offset-2
+      #image-carousel.carousel.slide
         ol.carousel-indicators
           - for (var i = 0; i < images.length; i++)
             - var klass = (i === 0 ? 'active' : '')
@@ -18,8 +30,8 @@ block content
           - for (var i = 0; i < images.length; i++)
             - var klass = (i === 0 ? 'active item' : 'item')
             div(class=klass)
-              img(src=images[i].src)
-              .carousel-caption
+              img(src=contents.img.hubbard[images[i].filename].url)
+              .carousel-caption.panel
                 = images[i].caption
 
         a.left.carousel-control(href="#image-carousel", data-slide="prev")
