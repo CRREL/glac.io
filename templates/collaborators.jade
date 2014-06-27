@@ -19,8 +19,8 @@ block content-narrow
   - for (var i = 1; i < collaborators.length;)
     - var initial = i
     .row(style="margin-top: 40px")
-      - for (; i < Math.min(collaborators.length, initial + 4); i++)
-        .col-md-3.collaborator
+      - for (; i < Math.min(collaborators.length, initial + 3); i++)
+        .col-md-4.collaborator
           a(href=collaborators[i].url)
             img.img-responsive(src=contents.img.collaborators[collaborators[i].filename].url,
               style="max-height: 96px")
