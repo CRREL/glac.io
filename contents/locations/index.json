@@ -1,4 +1,3 @@
 {
-    "template": "locations/index.jade",
-    "hide-locations-dropdown": true
+    "template": "locations/index.jade"
 }
