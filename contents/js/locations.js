@@ -4,17 +4,17 @@ var width = 400,
 
 var availableSensors = {
     "climate": {
-        "src": "../img/climate64px.png",
+        "src": "../img/sensor-icons/climate64px.png",
         "name": "Climate station",
         "description": "Permanent climate station with real time data transmitted via satellite link."
     },
     "timelapse": {
-        "src": "../img/camera64px.png",
+        "src": "../img/sensor-icons/camera64px.png",
         "name": "Satellite linked time lapse camera",
         "description": "Permanement time lapse camera with real time transmission of images via satellite link."
     },
     "lidar": {
-        "src": "../img/lidar64px.png",
+        "src": "../img/sensor-icons/lidar64px.png",
         "name": "LiDAR data",
         "description": "High resolution point cloud data."
     }
