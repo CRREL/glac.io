@@ -11,7 +11,33 @@
             "slug": "hubbard",
             "name": "Hubbard Glacier",
             "sensors": ["climate", "lidar", "timelapse"],
-            "scale": 800
+            "scale": 800,
+            "timeseries": [
+            {
+                "name": "Terminus range",
+                "url": "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=18844021,18845021,18846021,18847021,18848021,18849021,18850021,18851021,18852021,18853021,18854021,18855021,18856021,18857021,18858021,18859021,18860021,18861021,18862021,18863021,18864021,18865021,18866021,18867021,18868021,18869021,18870021,18871021,18872021,18873021&summary_interval=daily&floor=320&jsonp={callback}",
+                "developmentUrl": "../../data/hubbard-avgrange-daily.js?callback=d3.jsonp.ntsfvAwWtPjZJKz",
+                "visible": true,
+                "color": "steelblue",
+                "units": "Meters from Gilbert Point. 320 meters is closure."
+            },
+            {
+                "name": "Air temperature",
+                "url": "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=13260021&summary_interval=daily&jsonp={callback}",
+                "developmentUrl": "../../data/hubbard-avgtemp-daily.js?callback=d3.jsonp.temperature",
+                "visible": false,
+                "color": "red",
+                "units": "°C"
+            },
+            {
+                "name": "Battery voltage",
+                "url": "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=18683021&summary_interval=daily&jsonp={callback}",
+                "developmentUrl": "../../data/hubbard-voltage.js?callback=d3.jsonp.volts",
+                "visible": false,
+                "color": "#feb24c",
+                "units": "Volts"
+            }
+            ]
         }
     },
     {

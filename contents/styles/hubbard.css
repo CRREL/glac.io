@@ -25,10 +25,7 @@ circle.datapoint {
     fill: steelblue;
 }
 
-.ts-control .label {
-  width: 10px;
-  height: 10px;
-  display: inline-block;
-  margin-left: 10px;
-  border: 1px solid #333;
+.chart-title {
+    font-size: 14px;
+    font-weight: bold;
 }
