@@ -7,17 +7,17 @@ var projection = d3.geo.orthographic()
     .translate([width / 2, height / 2])
     .clipAngle(90);
 
-var path = d3.geo.path()
-    .projection(projection);
+var path = d3.geo.path().projection(projection);
 
 var svg = d3.select("#globe").append("svg")
     .attr("width", width)
     .attr("height", height)
     .attr("class", "center-block");
 
-var detail = d3.select("#detail");
+var detail = d3.select("#detail"),
+    locationList = d3.select("#locations");
 
-svg.append("path")
+var sphere = svg.append("path")
     .datum({type: "Sphere"})
     .attr("id", "sphere")
     .attr("d", path);
@@ -29,9 +29,19 @@ queue()
     .await(ready);
 
 
+function dataSlug(d) {
+    return d.properties.slug;
+}
+
+function locationPointPath(l) {
+    return path.pointRadius(selectPointBySlug(l).classed("focused") ? 10 : 5)(l);
+}
+
+
 function ready(error, sensors, world, locations) {
-    d3.select("#locations").selectAll("a")
-            .data(locations.features)
+    var land = topojson.feature(world, world.objects.land);
+
+    locationList.selectAll("a").data(locations.features)
         .enter().append("a")
             .text(function(l) { return l.properties.name + (l.properties.disabled ? " (disabled)" : ""); })
             .attr("class", "list-group-item")
@@ -39,18 +49,15 @@ function ready(error, sensors, world, locations) {
             .on("mouseover", mouseoverLocation)
             .on("mouseout", mouseoutLocation);
 
-    var land = topojson.feature(world, world.objects.land);
-
-    svg.insert("path", ".graticule")
+    svg.insert("path")
         .datum(land)
         .attr("class", "land")
         .attr("d", path);
 
-    svg.selectAll(".location")
-            .data(locations.features)
+    svg.selectAll(".location").data(locations.features)
         .enter().append("path")
             .attr("class", "location")
-            .attr("data-slug", function(l) { return l.properties.slug; })
+            .attr("data-slug", dataSlug)
             .attr("d", locationPointPath);
 
     var locationDetail = detail.selectAll(".location-detail")
@@ -83,7 +90,9 @@ function ready(error, sensors, world, locations) {
     mediaBody.append("p")
         .text(function(d) { return sensors[d].description; });
 
-    focusGlobe(locations.features[0]);
+    projection.rotate([120, 0]);
+    svg.selectAll("path.land").attr("d", path);
+    svg.selectAll("path.location").attr("d", path);
 };
 
 
@@ -117,20 +126,6 @@ function focusGlobe(location_) {
             };
         });
 };
-
-
-function locationPointPath(location_) {
-    var radius;
-    if (selectPointBySlug(location_).classed("focused"))
-    {
-        radius = 10;
-    }
-    else
-    {
-        radius = 5;
-    }
-    return path.pointRadius(radius)(location_);
-}
 
 
 function selectPointBySlug(location_) {
