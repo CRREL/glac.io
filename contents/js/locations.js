@@ -2,24 +2,6 @@ var width = 400,
     height = 400,
     defaultScale = width / 2 - 10;
 
-var availableSensors = {
-    "climate": {
-        "src": "../img/sensor-icons/climate64px.png",
-        "name": "Climate station",
-        "description": "Permanent climate station with real time data transmitted via satellite link."
-    },
-    "timelapse": {
-        "src": "../img/sensor-icons/camera64px.png",
-        "name": "Satellite linked time lapse camera",
-        "description": "Permanement time lapse camera with real time transmission of images via satellite link."
-    },
-    "lidar": {
-        "src": "../img/sensor-icons/lidar64px.png",
-        "name": "LiDAR data",
-        "description": "High resolution point cloud data."
-    }
-}
-
 var projection = d3.geo.orthographic()
     .scale(defaultScale)
     .translate([width / 2, height / 2])
@@ -41,12 +23,13 @@ svg.append("path")
     .attr("d", path);
 
 queue()
+    .defer(d3.json, "../data/sensors.json")
     .defer(d3.json, "../data/world-110m.json")
     .defer(d3.json, "../data/locations.json")
     .await(ready);
 
 
-function ready(error, world, locations) {
+function ready(error, sensors, world, locations) {
     d3.select("#locations").selectAll("a")
             .data(locations.features)
         .enter().append("a")
@@ -92,13 +75,13 @@ function ready(error, world, locations) {
         .attr("class", "pull-left")
         .append("img")
         .attr("class", "media-object")
-        .attr("src", function(d) { return availableSensors[d].src; });
+        .attr("src", function(d) { return "../img/sensor-icons/" + sensors[d].filename; });
     var mediaBody = media.append("div")
         .attr("class", "media-body");
     mediaBody.append("h4")
-        .text(function(d) { return availableSensors[d].name; });
+        .text(function(d) { return sensors[d].name; });
     mediaBody.append("p")
-        .text(function(d) { return availableSensors[d].description; });
+        .text(function(d) { return sensors[d].description; });
 
     focusGlobe(locations.features[0]);
 };
