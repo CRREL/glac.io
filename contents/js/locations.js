@@ -37,6 +37,45 @@ function locationPointPath(l) {
     return path.pointRadius(selectPointBySlug(l).classed("focused") ? 10 : 5)(l);
 }
 
+function selectPointBySlug(location_) {
+    return svg.select(".location[data-slug=" + location_.properties.slug + "]");
+}
+
+function selectDetailBySlug(location_) {
+    return detail.select("[data-slug=" + location_.properties.slug + "]");
+}
+
+function prettyLatLong(coordinates) {
+    return ddToDms(coordinates[1], "lat") + ", " + ddToDms(coordinates[0], "lon");
+}
+
+function mouseoverLocation() {
+    var l = d3.select(this).datum();
+    focusGlobe(l);
+    selectPointBySlug(l).classed("focused", true);
+    selectDetailBySlug(l).style("display", "block");
+}
+
+function mouseoutLocation() {
+    selectPointBySlug(d3.select(this).datum()).classed("focused", false);
+    selectDetailBySlug(d3.select(this).datum()).style("display", "none");
+}
+
+function focusGlobe(location_) {
+    d3.transition()
+        .duration(1000)
+        .tween("rotate", function() {
+            var scale = d3.scale.linear().domain([-90, 90]).range([30, -30]);
+            var p = location_.geometry.coordinates,
+                r = d3.interpolate(projection.rotate(), [-p[0], scale(p[1])]);
+            return function(t) {
+                projection.rotate(r(t));
+                svg.selectAll("path.land").attr("d", path);
+                svg.selectAll("path.location").attr("d", locationPointPath);
+            };
+        });
+};
+
 
 function ready(error, sensors, world, locations) {
     var land = topojson.feature(world, world.objects.land);
@@ -96,50 +135,6 @@ function ready(error, sensors, world, locations) {
 };
 
 
-function mouseoverLocation() {
-    var location_ = d3.select(this).datum();
-    focusGlobe(location_);
-    selectPointBySlug(location_).classed("focused", true);
-    selectDetailBySlug(location_)
-        .style("display", "block");
-}
-
-
-function mouseoutLocation() {
-    selectPointBySlug(d3.select(this).datum()).classed("focused", false);
-    selectDetailBySlug(d3.select(this).datum())
-        .style("display", "none");
-}
-
-
-function focusGlobe(location_) {
-    d3.transition()
-        .duration(1000)
-        .tween("rotate", function() {
-            var scale = d3.scale.linear().domain([-90, 90]).range([30, -30]);
-            var p = location_.geometry.coordinates,
-                r = d3.interpolate(projection.rotate(), [-p[0], scale(p[1])]);
-            return function(t) {
-                projection.rotate(r(t));
-                svg.selectAll("path.land").attr("d", path);
-                svg.selectAll("path.location").attr("d", locationPointPath);
-            };
-        });
-};
-
-
-function selectPointBySlug(location_) {
-    return svg.select(".location[data-slug=" + location_.properties.slug + "]");
-}
-
-function selectDetailBySlug(location_) {
-    return detail.select("[data-slug=" + location_.properties.slug + "]");
-}
-
-function prettyLatLong(coordinates) {
-    return ddToDms(coordinates[1], "lat") + ", " + ddToDms(coordinates[0], "lon");
-}
-
 function ddToDms(dd, latOrLon) {
     var format = d3.format(".3f");
     var dd_positive = Math.abs(dd);
@@ -153,3 +148,5 @@ function ddToDms(dd, latOrLon) {
         suffix = dd_positive === dd ? "E" : "W";
     return d + "&deg;" +  m + "'" + format(s) + "\"" + suffix;
 }
+
+
