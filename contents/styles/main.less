@@ -1,13 +1,17 @@
 @import "../../bower_components/bootstrap/less/bootstrap.less";
 @import "variables.less";
 
+html {
+    height: 100%;
+}
+
 //
 // body
 //
 body {
-  background-image: url("../img/cover.jpg");
-  background-size: cover;
-  height: 100%;
+    background-image: url("../img/cover.jpg");
+    background-size: cover;
+    height: 100%;
 }
 
 
@@ -15,7 +19,7 @@ body {
 // navigation
 //
 #navigation {
-  .box-shadow(@shadow: 0 1px 3px rgba(0, 0, 0, 0.25));
+    .box-shadow(@shadow: 0 1px 3px rgba(0, 0, 0, 0.25));
 }
 
 
@@ -23,11 +27,11 @@ body {
 // content
 //
 #content {
-  padding-top: @line-height-computed;
-  background-color: @body-bg;
-  background-image: none;
-  .border-bottom-radius(10px);
-  .box-shadow(@shadow: 1px 1px 3px rgba(0, 0, 0, 0.25));
+    padding-top: @line-height-computed;
+    background-color: @body-bg;
+    background-image: none;
+    .border-bottom-radius(10px);
+    .box-shadow(@shadow: 1px 1px 3px rgba(0, 0, 0, 0.25));
 }
 
 
@@ -35,14 +39,14 @@ body {
 // tiles
 //
 .tile {
-  text-align: center;
-  a, a:hover, a:active {
-    color: #333;
-  }
-  img {
-    height: 100%;
-    width: 100%;
-  }
+    text-align: center;
+    a, a:hover, a:active {
+        color: #333;
+    }
+    img {
+        height: 100%;
+        width: 100%;
+    }
 }
 
 
@@ -50,14 +54,14 @@ body {
 // collaborators
 //
 .collaborator {
-  img {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    display: block;
-    max-width: 100%;
-  }
+    img {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        display: block;
+        max-width: 100%;
+    }
 }
 
 
@@ -65,12 +69,12 @@ body {
 // footer
 //
 footer {
-  margin-top: 50px;
-  padding-top: @navbar-padding-vertical;
-  padding-bottom: @navbar-padding-vertical;
-  border-top: 1px solid @gray-light;
-  color: rgba(100, 100, 100, 0.5);
-  a {
-    color: @gray;
-  }
+    margin-top: 50px;
+    padding-top: @navbar-padding-vertical;
+    padding-bottom: @navbar-padding-vertical;
+    border-top: 1px solid @gray-light;
+    color: rgba(100, 100, 100, 0.5);
+    a {
+        color: @gray;
+    }
 }
