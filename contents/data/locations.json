@@ -5,12 +5,13 @@
         "type": "Feature",
         "geometry": {
             "type": "Point",
-            "coordinates": [-140.15, 61]
+            "coordinates": [-140.377778, 60.583333]
         },
         "properties": {
             "slug": "hubbard",
             "name": "Hubbard Glacier",
-            "sensors": ["climate", "lidar", "timelapse"]
+            "sensors": ["climate", "lidar", "timelapse"],
+            "scale": 800
         }
     },
     {
@@ -22,6 +23,7 @@
         "properties": {
             "slug": "helheim",
             "name": "Helheim Glacier",
+            "scale": 400,
             "disabled": true
         }
     },
@@ -37,6 +39,7 @@
         "properties": {
             "slug": "columbia",
             "name": "Columbia Glacier",
+            "scale": 800,
             "disabled": true
         }
     },
@@ -52,6 +55,7 @@
         "properties": {
             "slug": "scott",
             "name": "Scott Glacier",
+            "scale": 800,
             "disabled": true
         }
     },
@@ -67,6 +71,7 @@
         "properties": {
             "slug": "valdez",
             "name": "Valdez Glacier",
+            "scale": 800,
             "disabled": true
         }
     },
@@ -82,6 +87,7 @@
         "properties": {
             "slug": "gulkana",
             "name": "Gulkana Glacier",
+            "scale": 800,
             "disabled": true
         }
     },
@@ -97,6 +103,7 @@
         "properties": {
             "slug": "wolverine",
             "name": "Wolverine Glacier",
+            "scale": 800,
             "disabled": true
         }
     },
@@ -112,6 +119,7 @@
         "properties": {
             "slug": "kilauea",
             "name": "K\u012blauea Volcano",
+            "scale": 300,
             "disabled": true
         }
     },
@@ -127,6 +135,7 @@
         "properties": {
             "slug": "isortoq",
             "name": "Isortoq River Basin",
+            "scale": 500,
             "disabled": true
         }
     },
@@ -142,6 +151,7 @@
         "properties": {
             "slug": "lonestar",
             "name": "Lone Star Geyser",
+            "scale": 400,
             "disabled": true
         }
     },
@@ -157,6 +167,7 @@
         "properties": {
             "slug": "abasin",
             "name": "Arapahoe Basin",
+            "scale": 400,
             "disabled": true
         }
     },
@@ -172,6 +183,7 @@
         "properties": {
             "slug": "mammoth",
             "name": "Mammoth Mountain CUES Snow Study Site",
+            "scale": 400,
             "disabled": true
         }
     }

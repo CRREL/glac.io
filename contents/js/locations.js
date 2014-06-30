@@ -14,10 +14,12 @@ var svg = d3.select("#globe").append("svg")
     .attr("height", height)
     .attr("class", "center-block");
 
+var features = svg.append("g");
+
 var detail = d3.select("#detail"),
     locationList = d3.select("#locations");
 
-var sphere = svg.append("path")
+var sphere = features.append("path")
     .datum({type: "Sphere"})
     .attr("id", "sphere")
     .attr("d", path);
@@ -38,7 +40,7 @@ function locationPointPath(l) {
 }
 
 function selectPointBySlug(location_) {
-    return svg.select(".location[data-slug=" + location_.properties.slug + "]");
+    return features.select(".location[data-slug=" + location_.properties.slug + "]");
 }
 
 function selectDetailBySlug(location_) {
@@ -61,17 +63,20 @@ function mouseoutLocation() {
     selectDetailBySlug(d3.select(this).datum()).style("display", "none");
 }
 
-function focusGlobe(location_) {
+function focusGlobe(l) {
     d3.transition()
-        .duration(1000)
+        .duration(1500)
         .tween("rotate", function() {
-            var scale = d3.scale.linear().domain([-90, 90]).range([30, -30]);
-            var p = location_.geometry.coordinates,
-                r = d3.interpolate(projection.rotate(), [-p[0], scale(p[1])]);
+            var p = l.geometry.coordinates,
+                r = d3.interpolate(projection.rotate(), [-p[0], -p[1]]),
+                z0 = projection.scale(),
+                z1 = l.properties.scale;
             return function(t) {
                 projection.rotate(r(t));
-                svg.selectAll("path.land").attr("d", path);
-                svg.selectAll("path.location").attr("d", locationPointPath);
+                projection.scale((1 - t) * z0 + t * z1);
+                features.selectAll("path.land").attr("d", path);
+                features.selectAll("path.location").attr("d", locationPointPath);
+                sphere.attr("d", path);
             };
         });
 };
@@ -88,12 +93,12 @@ function ready(error, sensors, world, locations) {
             .on("mouseover", mouseoverLocation)
             .on("mouseout", mouseoutLocation);
 
-    svg.insert("path")
+    features.insert("path")
         .datum(land)
         .attr("class", "land")
         .attr("d", path);
 
-    svg.selectAll(".location").data(locations.features)
+    features.selectAll(".location").data(locations.features)
         .enter().append("path")
             .attr("class", "location")
             .attr("data-slug", dataSlug)
@@ -130,8 +135,8 @@ function ready(error, sensors, world, locations) {
         .text(function(d) { return sensors[d].description; });
 
     projection.rotate([120, 0]);
-    svg.selectAll("path.land").attr("d", path);
-    svg.selectAll("path.location").attr("d", path);
+    features.selectAll("path.land").attr("d", path);
+    features.selectAll("path.location").attr("d", path);
 };
 
 
