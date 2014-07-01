@@ -57,6 +57,26 @@
     {
         "filename": "DGGS_logo.png",
         "url": "http://www.dggs.alaska.gov/"
+    },
+    {
+        "filename": "cires.jpg",
+        "url": "http://cires.colorado.edu/index.html"
+    },
+    {
+        "filename": "csas.jpg",
+        "url": "http://www.snowstudies.org/"
+    },
+    {
+        "filename": "cu.jpg",
+        "url": "http://www.colorado.edu/"
+    },
+    {
+        "filename": "jpl.jpg",
+        "url": "http://www.jpl.nasa.gov/"
+    },
+    {
+        "filename": "nasa.jpg",
+        "url": "http://www.nasa.gov/"
     }
 ]
 }
