@@ -1,6 +1,6 @@
 {
     "locals": {
-        "title": "glac.io"
+        "title": "glacierresearch.org"
     },
     "plugins": [
         "wintersmith-data-json",
