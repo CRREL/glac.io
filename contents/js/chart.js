@@ -227,14 +227,13 @@ function draw() {
         .append("text", ".line")
         .attr("class", "chart-title")
         .attr("x", width / 2)
-        .attr("y", -4)
+        .attr("y", 0)
         .attr("dy", 0.75)
         .style("text-anchor", "middle")
         .text(tsName);
     ts
-        .attr("transform", function(d, i) { return "translate(0," + (dHeight * i + padding.top) + ")"; })
+        .attr("transform", function(d, i) { return "translate(0," + (dHeight * i) + ")"; })
         .each(function(d) {
-            // TODO this can be cached on load
             d.yscale = d3.scale.linear()
                 .domain([d3.min(d.data, dataValue), d3.max(d.data, dataValue)])
                 .range([dHeight - padding.bottom - padding.top, 0])
