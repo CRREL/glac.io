@@ -5,8 +5,8 @@ var loc;
 
 var defaultExtent = [d3.time.month.offset(new Date(), -2), new Date()];
 
-var margin = {top: 10, right: 10, bottom: 100, left: 40},
-    margin2 = {top: 500, right: 10, bottom: 20, left: 40},
+var margin = {top: 10, right: 10, bottom: 100, left: 100},
+    margin2 = {top: 500, right: 10, bottom: 20, left: 100},
     padding = {top: 10, right: 0, bottom: 60, left: 0},
     width = 945 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom,
