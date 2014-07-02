@@ -135,7 +135,17 @@ var context = svg.append("g")
 
 var brush = d3.svg.brush()
     .x(x2scale)
-    .on("brush", draw);
+    .on("brush", function() {
+        if (brush.empty())
+        {
+            brush.extent(x2scale.domain());
+            context.select(".brush")
+                .call(brush)
+                .call(brush.event);
+        }
+        else
+            draw();
+    });
 
 context.append("g")
     .attr("class", "x axis")
