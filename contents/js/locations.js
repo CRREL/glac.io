@@ -17,7 +17,8 @@ var svg = d3.select("#globe").append("svg")
 var features = svg.append("g");
 
 var detail = d3.select("#detail"),
-    locationList = d3.select("#locations");
+    locationList = d3.select("#locations"),
+    sensorInfo = detail.append("div").attr("id", "#sensorInfo");
 
 var sphere = features.append("path")
     .datum({type: "Sphere"})
@@ -56,11 +57,13 @@ function mouseoverLocation() {
     focusGlobe(l);
     selectPointBySlug(l).classed("focused", true);
     selectDetailBySlug(l).style("display", "block");
+    sensorInfo.style("display", "none");
 }
 
 function mouseoutLocation() {
     selectPointBySlug(d3.select(this).datum()).classed("focused", false);
     selectDetailBySlug(d3.select(this).datum()).style("display", "none");
+    sensorInfo.style("display", "block");
 }
 
 function focusGlobe(l) {
@@ -81,6 +84,22 @@ function focusGlobe(l) {
         });
 };
 
+function appendSensorList(selection, sensors) {
+    selection.enter().append("li")
+            .attr("class", "media");
+    selection.append("a")
+        .attr("href", "#")
+        .attr("class", "pull-left")
+        .append("img")
+        .attr("class", "media-object")
+        .attr("src", function(d) { return "../img/sensor-icons/" + sensors[d].filename; });
+    var mediaBody = selection.append("div")
+        .attr("class", "media-body");
+    mediaBody.append("h4")
+        .text(function(d) { return sensors[d].name; });
+    mediaBody.append("p")
+        .text(function(d) { return sensors[d].description; });
+}
 
 function ready(error, sensors, world, locations) {
     var land = topojson.feature(world, world.objects.land);
@@ -115,24 +134,17 @@ function ready(error, sensors, world, locations) {
     locationDetail.append("h4").text("Coordinates");
     locationDetail.append("div").html(function(d) { return prettyLatLong(d.geometry.coordinates); });
     locationDetail.append("h4").text("Sensors");
-    var media = locationDetail.append("ul")
+    locationDetail.append("ul")
         .attr("class", "media-list")
         .selectAll(".media")
                 .data(function(d) { return d.properties.sensors || []; })
-            .enter().append("li")
-            .attr("class", "media");
-    media.append("a")
-        .attr("href", "#")
-        .attr("class", "pull-left")
-        .append("img")
-        .attr("class", "media-object")
-        .attr("src", function(d) { return "../img/sensor-icons/" + sensors[d].filename; });
-    var mediaBody = media.append("div")
-        .attr("class", "media-body");
-    mediaBody.append("h4")
-        .text(function(d) { return sensors[d].name; });
-    mediaBody.append("p")
-        .text(function(d) { return sensors[d].description; });
+            .call(appendSensorList, sensors);
+
+    sensorInfo.append("h3").text("Sensor types");
+    sensorInfo.append("ul")
+        .attr("class", "media-list")
+        .selectAll(".media").data(Object.keys(sensors))
+        .call(appendSensorList, sensors);
 
     projection.rotate([120, 0]);
     features.selectAll("path.land").attr("d", path);
