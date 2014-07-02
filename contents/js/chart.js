@@ -26,7 +26,7 @@ function locationsReady(error, locations, slug) {
         return l.properties.slug === slug ? (loc = l, true) : false;
     });
     // TODO parameterize
-    var q = queue(1);
+    var q = queue(3);
     loc.properties.timeseries.forEach(function(ts) {
         // TODO swich
         q.defer(function(callback) {
