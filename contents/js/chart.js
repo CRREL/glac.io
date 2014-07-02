@@ -148,8 +148,37 @@ var brush = d3.svg.brush()
     });
 
 context.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height2 + ")");
+    .attr("class", "x axis bottom");
+
+context.append("g")
+    .attr("class", "x axis top")
+    .attr("transform", "translate(0,-5)")
+    .call(d3.svg.axis()
+            .scale(x2scale)
+            .orient("top")
+            .tickValues([])
+            .outerTickSize(0)
+            );
+
+context.append("g")
+    .attr("class", "y axis left")
+    .attr("transform", "translate(0,-4)")
+    .call(d3.svg.axis()
+            .scale(d3.scale.linear().range([height2 + 4, 0]))
+            .orient("left")
+            .tickValues([])
+            .outerTickSize(0)
+            );
+
+context.append("g")
+    .attr("class", "y axis right")
+    .attr("transform", "translate(" + width + ",-4)")
+    .call(d3.svg.axis()
+            .scale(d3.scale.linear().range([height2 + 4, 0]))
+            .orient("right")
+            .tickValues([])
+            .outerTickSize(0)
+            );
 
 context.append("g")
     .attr("class", "x brush")
@@ -267,8 +296,7 @@ function draw() {
         .style("stroke", function(d) { return d.color; });
     ts2.exit().remove();
 
-    var x2Axis = context.select(".x.axis");
-    x2Axis
+    context.select(".x.axis.bottom")
         .attr("transform", "translate(0," + height2 + ")")
         .call(d3.svg.axis().scale(x2scale).orient("bottom"));
 };
