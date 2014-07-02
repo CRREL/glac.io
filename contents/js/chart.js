@@ -272,7 +272,11 @@ function draw() {
     yAxis.attr("transform", function(d, i) { return "translate(0," + (dHeight * i) + ")"; })
         .each(function(d) {
             // TODO global yAxis, just update the scale?
-            d3.svg.axis().scale(d.yscale).orient("left")(d3.select(this));
+            d3.svg.axis()
+                .scale(d.yscale)
+                .orient("left")
+                .ticks(10 / visibleTimeseries.length)
+                (d3.select(this));
         });
     yAxis.exit().remove();
 
