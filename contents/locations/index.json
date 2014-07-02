@@ -1,3 +1,4 @@
 {
-    "template": "locations/index.jade"
+    "template": "locations/index.jade",
+    "title": "Locations"
 }

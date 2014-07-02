@@ -1,4 +1,5 @@
 {
     "template": "locations/chart.jade",
-    "slug": "hubbard"
+    "slug": "hubbard",
+    "title": "Hubbard Data"
 }
