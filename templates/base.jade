@@ -8,7 +8,7 @@ html(lang='en')
       link(rel="stylesheet", href=contents.styles["main.less"].url)
 
     block title
-      title= locals.title
+      title= page.title ? page.title + " | " + locals.title : locals.title
 
   body
     #navigation.navbar.navbar-static-top.navbar-default(role="navigation")
