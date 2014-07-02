@@ -5,7 +5,7 @@
         "description": "Permanent climate station with real time data transmitted via satellite link."
     },
     "timelapse": {
-        "filename": "camera64px.png",
+        "filename": "satellitecamera64px.png",
         "name": "Satellite linked time lapse camera",
         "description": "Permanement time lapse camera with real time transmission of images via satellite link."
     },
