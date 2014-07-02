@@ -63,6 +63,7 @@ function locationsReady(error, locations, slug) {
             .attr("class", "glyphicon")
         control
             .append("span")
+            .style("font-size", "16px")
             .text(function(d) { return " " + d.name; });
         control.exit().remove();
 
