@@ -13,5 +13,10 @@
         "filename": "lidar64px.png",
         "name": "LiDAR data",
         "description": "High resolution point cloud data."
+    },
+    "thermal": {
+        "filename": "thermal64px.png",
+        "name": "Thermal camera",
+        "description": "Thermal camera data."
     }
 }
