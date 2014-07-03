@@ -88,7 +88,6 @@ function appendSensorList(selection, sensors) {
     selection.enter().append("li")
             .attr("class", "media");
     selection.append("a")
-        .attr("href", "#")
         .attr("class", "pull-left")
         .append("img")
         .attr("class", "media-object")
