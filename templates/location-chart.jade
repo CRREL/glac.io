@@ -1,4 +1,4 @@
-extends ../page
+extends page
 
 
 block append styles
@@ -13,7 +13,7 @@ block content
 
 
 block append scripts
-  include ../js/d3
+  include js/d3
   script(src=contents.js["jsonp.js"].url)
   script(src=contents.js["chart.js"].url)
   script(type="text/javascript") ready("!{page.metadata.slug}"); var development = !{locals.development}

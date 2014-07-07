@@ -1,5 +1,5 @@
 {
-    "template": "locations/images.jade",
+    "template": "location-images.jade",
     "title": "Images of the Hubbard Glacier",
     "images":
         [

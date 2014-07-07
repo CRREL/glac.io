@@ -1,7 +1,7 @@
 {
     "locals": {
         "title": "glacierresearch.org",
-        "development": false
+        "development": true
     },
     "plugins": [
         "wintersmith-data-json",
