@@ -1,3 +1,7 @@
+var d3 = require("d3");
+var queue = require("queue-async");
+var topojson = require("topojson");
+
 var width = 400,
     height = 400,
     defaultScale = width / 2 - 10;

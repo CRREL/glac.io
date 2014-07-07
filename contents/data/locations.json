@@ -15,56 +15,56 @@
             "timeseries": [
             {
                 "name": "Terminus range",
-                "url": "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=18844021,18845021,18846021,18847021,18848021,18849021,18850021,18851021,18852021,18853021,18854021,18855021,18856021,18857021,18858021,18859021,18860021,18861021,18862021,18863021,18864021,18865021,18866021,18867021,18868021,18869021,18870021,18871021,18872021,18873021&summary_interval=daily&floor=320&jsonp={callback}",
-                "developmentUrl": "../../data/development/hubbard-avgrange-daily.js?callback=d3.jsonp.ntsfvAwWtPjZJKz",
+                "url": "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=18844021,18845021,18846021,18847021,18848021,18849021,18850021,18851021,18852021,18853021,18854021,18855021,18856021,18857021,18858021,18859021,18860021,18861021,18862021,18863021,18864021,18865021,18866021,18867021,18868021,18869021,18870021,18871021,18872021,18873021&summary_interval=daily&floor=320",
+                "developmentUrl": "../../data/development/hubbard-avgrange-daily.js?jsonp=ntsfvAwWtPjZJKz",
                 "visible": true,
                 "color": "steelblue",
                 "units": "Meters from Gilbert Point. 320 meters is closure."
             },
             {
                 "name": "Air temperature",
-                "url": "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=13260021&summary_interval=daily&jsonp={callback}",
-                "developmentUrl": "../../data/development/hubbard-avgtemp-daily.js?callback=d3.jsonp.temperature",
+                "url": "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=13260021&summary_interval=daily",
+                "developmentUrl": "../../data/development/hubbard-avgtemp-daily.js?jsonp=temperature",
                 "visible": false,
                 "color": "red",
                 "units": "°C"
             },
             {
                 "name": "Precipitation",
-                "url": "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=8568021&summary_interval=daily&jsonp={callback}",
-                "developmentUrl": "../../data/development/hubbard-precip.js?callback=d3.jsonp.precip",
+                "url": "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=8568021&summary_interval=daily",
+                "developmentUrl": "../../data/development/hubbard-precip.js?jsonp=precip",
                 "visible": false,
                 "color": "steelblue",
                 "units": "mm"
             },
             {
                 "name": "Pressure",
-                "url": "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=8572021&summary_interval=daily&jsonp={callback}",
-                "developmentUrl": "../../data/development/hubbard-pressure.js?callback=d3.jsonp.pressure",
+                "url": "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=8572021&summary_interval=daily",
+                "developmentUrl": "../../data/development/hubbard-pressure.js?jsonp=pressure",
                 "visible": false,
                 "color": "orange",
                 "units": "kPa"
             },
             {
                 "name": "Solar Radiation",
-                "url": "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=8575021&summary_interval=daily&jsonp={callback}",
-                "developmentUrl": "../../data/development/hubbard-solar.js?callback=d3.jsonp.solar",
+                "url": "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=8575021&summary_interval=daily",
+                "developmentUrl": "../../data/development/hubbard-solar.js?jsonp=solar",
                 "visible": false,
                 "color": "orange",
                 "units": "J/m2"
             },
             {
                 "name": "Wind Speed",
-                "url": "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=12048021&summary_interval=daily&jsonp={callback}",
-                "developmentUrl": "../../data/development/hubbard-windspeed.js?callback=d3.jsonp.windspeed",
+                "url": "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=12048021&summary_interval=daily",
+                "developmentUrl": "../../data/development/hubbard-windspeed.js?jsonp=windspeed",
                 "visible": false,
                 "color": "blue",
                 "units": "Kilometers per hour"
             },
             {
                 "name": "Relative Humidity",
-                "url": "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=18678021&summary_interval=daily&jsonp={callback}",
-                "developmentUrl": "../../data/development/hubbard-relhum.js?callback=d3.jsonp.relhum",
+                "url": "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=18678021&summary_interval=daily",
+                "developmentUrl": "../../data/development/hubbard-relhum.js?jsonp=relhum",
                 "visible": false,
                 "color": "blue",
                 "units": "Percentage"

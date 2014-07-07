@@ -5,8 +5,12 @@
     },
     "plugins": [
         "wintersmith-data-json",
-        "wintersmith-less"
+        "wintersmith-less",
+        "wintersmith-browserify"
         ],
     "port": 8888,
-    "ignore": [".*"]
+    "ignore": [".*"],
+    "browserify": {
+        "debug": true
+    }
 }

@@ -1,12 +1,9 @@
 extends page
 
-
 block append styles
   link(rel="stylesheet", href=contents.styles["globe.less"].url)
 
-
 block content
-
   .row
     .col-md-3
       | Hover over a location to see more information.
@@ -15,7 +12,5 @@ block content
     .col-md-5#globe
     .col-md-4#detail
 
-
 block append scripts
-  include js/topojson
-  script(src=contents.js["locations.js"].url)
+  script(src=contents.scripts["locations.js"].url)

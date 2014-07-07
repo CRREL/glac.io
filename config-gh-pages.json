@@ -5,7 +5,8 @@
     },
     "plugins": [
         "wintersmith-data-json",
-        "wintersmith-less"
+        "wintersmith-less",
+        "wintersmith-browserify"
         ],
     "baseUrl": "/glac.io/",
     "ignore": [".*"]

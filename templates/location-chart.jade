@@ -1,19 +1,13 @@
 extends page
 
-
 block append styles
   link(rel="stylesheet", href=contents.styles["chart.css"].url)
 
-
 block content
-  .row
+  #chart-wrapper.row(data-slug=page.metadata.slug, data-development=locals.development)
     #sidebar.col-md-2
       #controls.list-group
     #chart.col-md-10
 
-
 block append scripts
-  include js/d3
-  script(src=contents.js["jsonp.js"].url)
-  script(src=contents.js["chart.js"].url)
-  script(type="text/javascript") ready("!{page.metadata.slug}"); var development = !{locals.development}
+  script(src=contents.scripts["location-chart.js"].url)

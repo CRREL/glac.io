@@ -1,6 +1,15 @@
+var d3 = require("d3");
+var queue = require("queue-async");
+var xhr = require("xhr-browserify");
+var uri = require("url");
+
+
 // TODO data source objects?
 // TODO development vs. production switch?
 var urlbase = "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?"
+var chartWrapper = d3.select("#chart-wrapper"),
+    slug = chartWrapper.attr("data-slug"),
+    development = chartWrapper.attr("data-development") !== undefined;
 var loc;
 
 var defaultExtent = [d3.time.month.offset(new Date(), -2), new Date()];
@@ -15,13 +24,7 @@ var margin = {top: 10, right: 10, bottom: 100, left: 100},
 var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse;
 
 
-function ready(slug) {
-    queue()
-        .defer(d3.json, "../../data/locations.json")
-        .await(function(e, l) { return locationsReady(e, l, slug); });
-}
-
-function locationsReady(error, locations, slug) {
+function locationsReady(error, locations) {
     locations.features.some(function(l) {
         return l.properties.slug === slug ? (loc = l, true) : false;
     });
@@ -31,7 +34,7 @@ function locationsReady(error, locations, slug) {
         // TODO swich
         q.defer(function(callback) {
             var url = development ? ts.developmentUrl : ts.url;
-            return d3.jsonp(url, function(results) {
+            return xhr(uri.parse(url, true), { jsonp: true, callbackName: "jsonp" }, function(err, results) {
                 return callback(null, d3.time.scale()
                     .domain(d3.extent(results.map(function(d) { return parseDate(d.date_time); })))
                     .ticks(d3.time.day, 1)
@@ -304,3 +307,8 @@ function draw() {
         .attr("transform", "translate(0," + height2 + ")")
         .call(d3.svg.axis().scale(x2scale).orient("bottom"));
 };
+
+
+queue()
+    .defer(d3.json, "../../data/locations.json")
+    .await(locationsReady);
