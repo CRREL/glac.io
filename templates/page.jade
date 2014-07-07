@@ -1,14 +1,5 @@
 extends base
 
-mixin smart_active_li(url)
-  if page.url == url
-    li.active
-      block
-  else
-    li
-      block
-
-
 block page
   #content.container
     block content
