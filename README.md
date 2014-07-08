@@ -90,6 +90,6 @@ We use Github's [issues and pull requests](https://github.com/gadomski/glac.io/i
 
 This project is developed and maintained by:
 
-- @adamlewinter
-- @dcfinnegan
-- @gadomski
+- [@adamlewinter](https://github.com/adamlewinter)
+- [@dcfinnegan](https://github.com/dcfinnegan)
+- [@gadomski](https://github.com/gadomski)
