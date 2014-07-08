@@ -4,15 +4,15 @@
     "queue-async": "^1.0.7",
     "topojson": "^1.6.14",
     "wintersmith": "~2.0.10",
-    "wintersmith-data-json": "0.0.2",
+    "wintersmith-browserify": "^0.3.0",
+    "wintersmith-data-json": "gadomski/wintersmith-data-json.git",
     "wintersmith-less": "^0.2.2",
-    "xhr-browserify": "0.0.1"
+    "xhr-browserify": "gadomski/xhr-browserify"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
     "grunt-gh-pages": "^0.9.1",
-    "grunt-wintersmith": "0.0.2",
-    "wintersmith-browserify": "^0.3.0"
+    "grunt-wintersmith": "0.0.2"
   }
 }
