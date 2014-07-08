@@ -5,7 +5,7 @@ Static file website for visualizing glacier data.
 Uses [wintersmith](http://wintersmith.io/) to generate content, and [d3.js](http://d3js.org/) for visualization.
 
 This website can be viewed at at [http://gadomski.github.io/glac.io/](http://gadomski.github.io/glac.io/).
-This *will* be changes in the near future to a (as of yet unspecified) custom domain.
+This *will* be changed in the near future to a (as of yet unspecified) custom domain.
 
 
 Downloading and Viewing a Local Copy
