@@ -9,11 +9,5 @@
         "wintersmith-browserify"
         ],
     "port": 8888,
-    "ignore": [".*"],
-    "browserify": {
-        "exclude": [
-            "./contents/scripts/bootstrap.min.js",
-            "./contents/scripts/jquery.min.js"
-        ]
-    }
+    "ignore": [".*"]
 }
