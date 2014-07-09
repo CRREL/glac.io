@@ -1,6 +1,6 @@
 ---
 title: About
-template: page.jade
+template: page-narrow.jade
 ---
 
 **glacierresearch.org** is a collaborative data presentation website, created and maintained by US Army Corps of Engineers Cold Regions Research and Engineering Lab's Remote Sensing and Geographic Information Systems department.
