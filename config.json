@@ -3,11 +3,19 @@
         "title": "glacierresearch.org",
         "development": true
     },
+    "require": {
+        "moment": "moment",
+        "typogr": "typogr"
+    },
     "plugins": [
         "wintersmith-data-json",
         "wintersmith-less",
         "wintersmith-browserify"
         ],
+    "markdown": {
+        "smartLists": true,
+        "smartypants": true
+    },
     "port": 8888,
     "ignore": [".*"]
 }
