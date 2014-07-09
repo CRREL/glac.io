@@ -11,6 +11,9 @@
     "port": 8888,
     "ignore": [".*"],
     "browserify": {
-        "debug": true
+        "exclude": [
+            "./contents/scripts/bootstrap.min.js",
+            "./contents/scripts/jquery.min.js"
+        ]
     }
 }

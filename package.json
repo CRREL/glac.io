@@ -4,7 +4,7 @@
     "queue-async": "^1.0.7",
     "topojson": "^1.6.14",
     "wintersmith": "~2.0.10",
-    "wintersmith-browserify": "^0.3.0",
+    "wintersmith-browserify": "gadomski/wintersmith-browserify",
     "wintersmith-data-json": "gadomski/wintersmith-data-json.git",
     "wintersmith-less": "^0.2.2",
     "xhr-browserify": "gadomski/xhr-browserify"

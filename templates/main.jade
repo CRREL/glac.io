@@ -18,8 +18,15 @@ html(lang='en')
           a.navbar-brand(href=contents.index.url)= locals.title
         .navbar-collapse.collapse
           ul.nav.navbar-nav.navbar-right
-            li
-              a(href=contents.locations["index.json"].url) Locations
+            li.dropdown
+              a.dropdown-toggle(href="#", data-toggle="dropdown") Locations 
+                span.caret
+              ul.dropdown-menu(role="menu")
+                li
+                  a(href=contents.locations["index.json"].url) All locations
+                li.divider
+                li
+                  a(href=contents.locations.hubbard["index.json"].url) Hubbard Glacier
             li
               a(href=contents["collaborators.json"].url) Collaborators
 
@@ -28,3 +35,5 @@ html(lang='en')
       != page.html
 
     block scripts
+      script(type="text/javascript", src=contents.scripts.lib["jquery.min.js"].url)
+      script(type="text/javascript", src=contents.scripts.lib["bootstrap.min.js"].url)
