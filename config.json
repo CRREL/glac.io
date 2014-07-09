@@ -5,7 +5,8 @@
     },
     "require": {
         "moment": "moment",
-        "typogr": "typogr"
+        "typogr": "typogr",
+        "url": "url"
     },
     "plugins": [
         "wintersmith-data-json",

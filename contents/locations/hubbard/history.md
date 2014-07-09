@@ -1,6 +1,7 @@
 ---
 title: History of the Hubbard Glacier
 template: page-narrow.jade
+breadcrumbs: true
 ---
 
 Man, its really cool.

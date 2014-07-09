@@ -1,0 +1,18 @@
+mixin breadcrumbs()
+  - var extractPage = function(parts) {
+  -   var page = contents;
+  -   parts.forEach(function(d) { page = page[d]; });
+  -   if (page.url === undefined) {
+  -     page = page["index.md"] || page["index.json"]
+  -   }
+  -   return page;
+  - }
+  ol.breadcrumb
+    - var parts = page.filepath.relative.split("/")
+    each part, index in parts
+      - var page = extractPage(parts.slice(0, index + 1))
+      if index === parts.length - 1
+        li.active= page.title
+      else
+        li
+          a(href=page.url)= page.title

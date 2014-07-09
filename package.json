@@ -5,6 +5,7 @@
     "queue-async": "^1.0.7",
     "topojson": "^1.6.14",
     "typogr": "^0.6.4",
+    "url": "^0.10.1",
     "wintersmith": "~2.0.10",
     "wintersmith-browserify": "gadomski/wintersmith-browserify",
     "wintersmith-data-json": "gadomski/wintersmith-data-json.git",

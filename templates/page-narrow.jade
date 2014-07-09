@@ -3,10 +3,17 @@ extends main
 block page
   #content.container
     block content
+      if page.metadata.breadcrumbs
+        include breadcrumbs
+        .row
+          .col-md-12
+            +breadcrumbs()
       .row
         .col-md-6.col-md-offset-1
             h1= page.title
+
             != typogr(page.html).typogrify()
+
         .col-md-4.col-md-offset-1
           img(src=contents.img["scanner.jpg"].url)
 
