@@ -1,4 +1,5 @@
 extends blog
+include author
 
 block title
   title= "Blog | " + locals.title
@@ -13,6 +14,9 @@ block contentLeft
           span= moment.utc(article.date).format('DD. MMMM YYYY')
         h2
           a(href=article.url)= article.title
+        p.author.text-center
+          | Written by 
+          +author(article.metadata.author)
       section.content
         if article.intro.length > 0
           | !{ typogr(article.intro).typogrify() }
