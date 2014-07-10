@@ -1,12 +1,12 @@
 {
     "locals": {
         "title": "glacierresearch.org",
-        "development": true
+        "development": true,
+        "url": "http://localhost:8888"
     },
     "require": {
         "moment": "moment",
         "typogr": "typogr",
-        "url": "url",
         "_": "underscore"
     },
     "plugins": [
