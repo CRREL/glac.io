@@ -26,6 +26,6 @@ block contentLeft
     if prevPage
       a(href=prevPage.url) « Newer
     else
-      a(href=contents.blog.index.url + "archive.html") « Archives
+      a(href=contents.blog["archive.json"].url) « Archives
     if nextPage
       a(href=nextPage.url) Next page »

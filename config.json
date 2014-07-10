@@ -22,7 +22,7 @@
     "paginator": {
         "perPage": 5,
         "template": "blogIndex.jade",
-        "articles": "blog",
+        "articles": "blog/posts",
         "first": "blog/index.html",
         "filename": "blog/page/%d/index.html"
     },
