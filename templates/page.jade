@@ -1,0 +1,19 @@
+extends main
+
+block main
+  #content.container
+    block breadcrumbs
+      if page.metadata.breadcrumbs
+        include breadcrumbs
+        .row
+          .col-md-12
+            +breadcrumbs()
+
+    block page
+
+    footer
+      .row
+        .col-md-2.col-md-offset-5(style="text-align: center")
+          a(href=contents["about.md"].url) about 
+          | | 
+          a(href=contents["contact.md"].url) contact

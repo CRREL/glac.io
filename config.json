@@ -9,6 +9,9 @@
         "typogr": "typogr",
         "_": "underscore"
     },
+    "jade": {
+        "pretty": true
+    },
     "plugins": [
         "./plugins/paginator.coffee",
         "wintersmith-data-json",

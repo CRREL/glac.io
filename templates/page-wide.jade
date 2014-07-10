@@ -1,18 +1,4 @@
-extends main
+extends page
 
 block page
-  #content.container
-    if page.metadata.breadcrumbs
-      include breadcrumbs
-      .row
-        .col-md-12
-          +breadcrumbs()
-
-    block content
-
-    footer
-      .row
-        .col-md-2.col-md-offset-5(style="text-align: center")
-          a(href=contents["about.md"].url) about 
-          | | 
-          a(href=contents["contact.md"].url) contact
+  block content
