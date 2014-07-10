@@ -23,7 +23,6 @@
         "perPage": 5,
         "template": "blogIndex.jade",
         "articles": "posts",
-        "prefix": "blog",
         "first": "blog/index.html",
         "filename": "blog/page/%d/index.html"
     },
