@@ -75,11 +75,11 @@ module.exports = (env, callback) ->
 
     # create the object that will be merged with the content tree (contents)
     # do _not_ modify the tree directly inside a generator, consider it read-only
-    rv = {pages:{}}
+    rv = {blog:{pages:{}}}
     for page in pages
-      rv.pages["#{ page.pageNum }.page"] = page # file extension is arbitrary
-    rv['index.page'] = pages[0] # alias for first page
-    rv['last.page'] = pages[(numPages-1)] # alias for last page
+      rv.blog.pages["#{ page.pageNum }.page"] = page # file extension is arbitrary
+    rv.blog['index.page'] = pages[0] # alias for first page
+    rv.blog['last.page'] = pages[(numPages-1)] # alias for last page
 
     # callback with the generated contents
     callback null, rv

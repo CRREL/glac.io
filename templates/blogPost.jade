@@ -1,0 +1,15 @@
+extends blog
+include author
+
+block contentLeft
+  h1= page.title
+
+  p.author
+    | Written by 
+    mixin author(page.metadata.author)
+
+  article.article
+    != typogr(page.html).typogrify()
+
+  .blog-footer
+    a(href=contents.blog.index.url) « Full blog

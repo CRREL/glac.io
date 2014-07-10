@@ -1,0 +1,7 @@
+mixin author(name)
+  - var author = contents.authors[name + ".json"]
+  span.author
+    if author
+      a(href="mailto:" + author.metadata.email)= author.metadata.name
+    else
+      = name
