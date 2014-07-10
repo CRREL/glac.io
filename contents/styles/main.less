@@ -65,6 +65,49 @@ body {
     }
 }
 
+//
+// blog
+//
+.article {
+  margin: 3em 0 4em;
+  header {
+    border-top: 1px dashed @gray-light;
+
+    h2 {
+      text-align: center;
+      margin: 0.8em 0;
+    }
+
+    a {
+      text-decoration: none;
+      color: #333;
+    }
+
+    .date {
+      text-align: center;
+      font-size: 0.8em;
+      margin-top: -0.7em;
+
+      span {
+        background-color: #fff;
+        padding: 0 0.7em;
+      }
+    }
+  }
+  .more {
+    text-decoration: underline;
+    font-weight: 700;
+    padding-left: 0.3em;
+  }
+}
+
+.more, .date {
+  font-variant: small-caps;
+  text-transform: lowercase;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
 
 //
 // footer
