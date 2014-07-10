@@ -6,9 +6,11 @@
     "require": {
         "moment": "moment",
         "typogr": "typogr",
-        "url": "url"
+        "url": "url",
+        "_": "underscore"
     },
     "plugins": [
+        "./plugins/paginator.coffee",
         "wintersmith-data-json",
         "wintersmith-less",
         "wintersmith-browserify"
@@ -16,6 +18,9 @@
     "markdown": {
         "smartLists": true,
         "smartypants": true
+    },
+    "paginator": {
+        "perPage": 5
     },
     "port": 8888,
     "ignore": [".*"]
