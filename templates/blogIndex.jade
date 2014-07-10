@@ -22,11 +22,10 @@ block contentLeft
           p.more
             a(href=article.url) more
 
-  hr
-
-  if prevPage
-    a(href=prevPage.url) « Newer
-  else
-    a(href='/archive.html') « Archives
-  if nextPage
-    a(href=nextPage.url) Next page »
+  .blog-footer
+    if prevPage
+      a(href=prevPage.url) « Newer
+    else
+      a(href=contents.blog.index.url + "archive.html") « Archives
+    if nextPage
+      a(href=nextPage.url) Next page »
