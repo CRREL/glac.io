@@ -1,3 +1,4 @@
 {
-    "template": "blogArchive.jade"
+    "template": "blogArchive.jade",
+    "title": "Blog Archive"
 }
