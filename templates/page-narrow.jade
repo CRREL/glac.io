@@ -1,25 +1,12 @@
-extends main
+extends page
 
 block page
-  #content.container
-    block content
-      if page.metadata.breadcrumbs
-        include breadcrumbs
-        .row
-          .col-md-12
-            +breadcrumbs()
-      .row
-        .col-md-6.col-md-offset-1
-            h1= page.title
+  block content 
+    .row
+      .col-md-6.col-md-offset-1
+          h1= page.title
 
-            != typogr(page.html).typogrify()
+          != typogr(page.html).typogrify()
 
-        .col-md-4.col-md-offset-1
-          img(src=contents.img["scanner.jpg"].url)
-
-    footer
-      .row
-        .col-md-2.col-md-offset-5(style="text-align: center")
-          a(href=contents["about.md"].url) about 
-          | | 
-          a(href=contents["contact.md"].url) contact
+      .col-md-4.col-md-offset-1
+        img(src=contents.img["scanner.jpg"].url)

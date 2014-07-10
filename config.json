@@ -8,6 +8,9 @@
         "typogr": "typogr",
         "url": "url"
     },
+    "jade": {
+        "pretty": true
+    },
     "plugins": [
         "wintersmith-data-json",
         "wintersmith-less",
