@@ -5,9 +5,12 @@
     },
     "require": {
         "moment": "moment",
-        "typogr": "typogr"
+        "typogr": "typogr",
+        "url": "url",
+        "_": "underscore"
     },
     "plugins": [
+        "./plugins/paginator.coffee",
         "wintersmith-data-json",
         "wintersmith-less",
         "wintersmith-browserify"
@@ -15,6 +18,14 @@
     "markdown": {
         "smartLists": true,
         "smartypants": true
+    },
+    "paginator": {
+        "perPage": 5,
+        "template": "blogIndex.jade",
+        "articles": "posts",
+        "prefix": "blog",
+        "first": "blog/index.html",
+        "filename": "blog/page/%d/index.html"
     },
     "baseUrl": "/glac.io/",
     "ignore": [".*"]
