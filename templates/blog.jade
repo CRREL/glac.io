@@ -1,4 +1,9 @@
 extends page-narrow
 
 block contentRight
-  | barfoo
+  - var archives = env.helpers.getArticles(contents)
+  for archive in archives
+    .row
+      .col-md-4.date= moment.utc(archive.date).format("DD. MMMM YYYY")
+      .col-md-8.post-title
+        a(href=archive.url)= archive.title
