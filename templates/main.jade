@@ -25,32 +25,35 @@ html(lang='en')
       meta(property="og:url", content=ogUrl)
       if page.metadata.ogImage
         meta(property="og:image", content=(locals.url + page.metadata.ogImage))
+      if locals.facebookAppId
+        meta(property="fb:app_id", content=locals.facebookAppId)
 
   body
-    #navigation.navbar.navbar-static-top.navbar-default(role="navigation")
-      .container
-        .navbar-header
-          a.navbar-brand(href=contents.index.url)= locals.title
-        .navbar-collapse.collapse
-          ul.nav.navbar-nav.navbar-right
-            li.dropdown
-              a.dropdown-toggle(href="#", data-toggle="dropdown") Locations 
-                span.caret
-              ul.dropdown-menu(role="menu")
-                li
-                  a(href=contents.locations["index.json"].url) All locations
-                li.divider
-                li
-                  a(href=contents.locations.hubbard["index.json"].url) Hubbard Glacier
-            li
-              a(href=contents.blog.index.url) Blog
-            li
-              a(href=contents["collaborators.json"].url) Collaborators
+    block body
+      #navigation.navbar.navbar-static-top.navbar-default(role="navigation")
+        .container
+          .navbar-header
+            a.navbar-brand(href=contents.index.url)= locals.title
+          .navbar-collapse.collapse
+            ul.nav.navbar-nav.navbar-right
+              li.dropdown
+                a.dropdown-toggle(href="#", data-toggle="dropdown") Locations 
+                  span.caret
+                ul.dropdown-menu(role="menu")
+                  li
+                    a(href=contents.locations["index.json"].url) All locations
+                  li.divider
+                  li
+                    a(href=contents.locations.hubbard["index.json"].url) Hubbard Glacier
+              li
+                a(href=contents.blog.index.url) Blog
+              li
+                a(href=contents["collaborators.json"].url) Collaborators
 
-    block main
-      h1= page.title
-      != page.html
+      block main
+        h1= page.title
+        != page.html
 
-    block scripts
-      script(type="text/javascript", src=contents.scripts.lib["jquery.min.js"].url)
-      script(type="text/javascript", src=contents.scripts.lib["bootstrap.min.js"].url)
+      block scripts
+        script(type="text/javascript", src=contents.scripts.lib["jquery.min.js"].url)
+        script(type="text/javascript", src=contents.scripts.lib["bootstrap.min.js"].url)
