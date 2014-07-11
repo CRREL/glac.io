@@ -1,11 +1,6 @@
 extends blog
 include author
 
-block title
-  title= "Blog | " + locals.title
-
-block breadcrumbs
-
 block contentLeft
   each article in articles
     article.article.intro

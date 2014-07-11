@@ -24,7 +24,8 @@
         "template": "blogIndex.jade",
         "articles": "blog",
         "first": "blog/index.html",
-        "filename": "blog/page/%d/index.html"
+        "filename": "blog/page/%d/index.html",
+        "blogTitle": "Blog"
     },
     "baseUrl": "/glac.io/",
     "ignore": [".*"]
