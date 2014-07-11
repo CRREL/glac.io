@@ -11,6 +11,21 @@ html(lang='en')
     block title
       title= page.title ? page.title + " | " + locals.title : locals.title
 
+    block og
+      meta(property="og:site_name", content=locals.title)
+      meta(property="og:title", content=page.title)
+      if page.metadata.description
+        meta(property="og:description", content=page.metadata.description)
+      block ogType
+        - var ogType = page.metadata.ogType || "website"
+        meta(property="og:type", content=ogType)
+
+      // We assume that a page w/o getUrl has already set url appropriately
+      - var ogUrl = page.getUrl ? page.getUrl(locals.url) : page.url;
+      meta(property="og:url", content=ogUrl)
+      if page.metadata.ogImage
+        meta(property="og:image", content=(locals.url + page.metadata.ogImage))
+
   body
     #navigation.navbar.navbar-static-top.navbar-default(role="navigation")
       .container

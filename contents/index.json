@@ -1,5 +1,6 @@
 {
     "template": "homepage.jade",
-    "lead": "Real time environmental data from around the world. A collaborative, multidisciplinary project using state-of-the-art monitoring technologies.",
-    "title": "Home"
+    "description": "Real time environmental data from around the world. A collaborative, multidisciplinary project using state-of-the-art monitoring technologies.",
+    "title": "Home",
+    "ogImage": "/img/cover1920px.jpg"
 }
