@@ -4,10 +4,10 @@ block append styles
   link(rel="stylesheet", href=contents.styles["chart.css"].url)
 
 block append content
-  #chart-wrapper.row(data-slug=page.metadata.slug, data-development=locals.development)
+  .row
     #sidebar.col-md-2
       #controls.list-group
     #chart.col-md-10
 
 block append scripts
-  script(src=contents.scripts["location-chart.js"].url)
+  script(src=contents.scripts["location-chart"]["index.coffee"].url)

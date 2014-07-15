@@ -11,6 +11,9 @@ block content
       #locations.list-group
     .col-md-5#globe
     .col-md-4#detail
+      #sensors
+        h3 Sensor Types
+      #location-detail
 
 block append scripts
-  script(src=contents.scripts["locations.js"].url)
+  script(src=contents.scripts["locations.coffee"].url)

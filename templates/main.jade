@@ -54,6 +54,14 @@ html(lang='en')
         h1= page.title
         != page.html
 
+      block glacio-config
+        script#glacio-config(type="application/json").
+          {
+            "baseUrl": "!{ locals.baseUrl }",
+            "development": !{ locals.development },
+            "slug": "!{ page.metadata.slug }"
+          }
+
       block scripts
         script(type="text/javascript", src=contents.scripts.lib["jquery.min.js"].url)
         script(type="text/javascript", src=contents.scripts.lib["bootstrap.min.js"].url)

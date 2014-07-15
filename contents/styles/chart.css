@@ -21,11 +21,13 @@ svg {
     shape-rendering: crispEdges;
 }
 
-circle.datapoint {
-    fill: steelblue;
+.panel .title {
+    font-size: 24px;
+    text-anchor: middle;
 }
 
-.chart-title {
-    font-size: 16px;
-    font-weight: bold;
+.panel .y.label {
+    text-anchor: start;
+    font-size: 12px;
+    font-weight: normal;
 }
