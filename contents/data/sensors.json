@@ -2,26 +2,26 @@
     "climate": {
         "filename": "climate64px.png",
         "name": "Climate station",
-        "description": "Permanent climate station with real time data transmitted via satellite link."
+        "description": "Permanent climate station with real-time data transmitted via satellite link."
     },
     "satellitecamera": {
         "filename": "satellitecamera64px.png",
         "name": "Satellite linked time lapse camera",
-        "description": "Permanement time lapse camera with real time transmission of images via satellite link."
+        "description": "Permanent time-lapse camera with real-time transmission of images via satellite link."
     },
     "lidar": {
         "filename": "lidar64px.png",
         "name": "LiDAR data",
-        "description": "High resolution point cloud data."
+        "description": "High resolution point-cloud data."
     },
     "thermal": {
         "filename": "thermal64px.png",
         "name": "Thermal camera",
-        "description": "Thermal camera data."
+        "description": "Permanent thermal infrared time-lapse camera data with real-time transmission of images via satellite link."
     },
     "timelapse": {
         "filename": "camera64px.png",
         "name": "Time lapse camera",
-        "description": "Permanement time lapse camera with real time transmission of images via satellite link."
+        "description": "Permanent high-resolution time-lapse camera."
     }
 }
