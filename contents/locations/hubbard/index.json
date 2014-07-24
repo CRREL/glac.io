@@ -2,7 +2,6 @@
     "title": "Hubbard Glacier",
     "template": "location.jade",
     "blurb": "The Hubbard Glacier is located near Yakutat, Alaksa.",
-    "slug": "hubbard",
     "tiles": [
     {
         "name": "History",
