@@ -57,7 +57,7 @@ html(lang='en')
       block glacio-config
         script#glacio-config(type="application/json").
           {
-            "baseUrl": "!{ locals.baseUrl }",
+            "baseUrl": "!{ env.config.baseUrl }",
             "development": !{ locals.development },
             "slug": "!{ page.metadata.slug }"
           }
