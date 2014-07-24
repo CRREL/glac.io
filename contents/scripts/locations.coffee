@@ -178,5 +178,5 @@ unfocus = (location) ->
 queue()
     .defer(d3.json, config.url("/data/sensors.json"))
     .defer(d3.json, config.url("/data/world-110m.json"))
-    .defer(d3.json, config.url("data/locations.json"))
+    .defer(d3.json, config.url("/data/locations.json"))
     .await ready
