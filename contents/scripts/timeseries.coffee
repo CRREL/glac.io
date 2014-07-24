@@ -24,6 +24,9 @@ class Timeseries
         @productionUrl = @buildProductionUrl()
 
     fetch: (callback) ->
+        if @development and not @developmentUrl
+            @setData []
+            return callback null, this
         options =
             jsonp: true
             callbackName: "jsonp"

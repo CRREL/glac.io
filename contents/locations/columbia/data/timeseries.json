@@ -52,7 +52,8 @@
     "name": "Air temp 1",
     "ts_codes": 15108021,
     "unit_id": "C",
-    "visible": true
+    "visible": true,
+    "developmentUrl": "../../data/development/columbia-temp1.js?jsonp=temp1"
 },
 {
     "type": "cwms",
