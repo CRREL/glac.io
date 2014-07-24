@@ -67,7 +67,7 @@ ready = (error, sensors, world, locations) ->
                     .attr("class", "pull-left")
                     .append("img")
                     .attr("class", "media-object")
-                    .attr("src", (f) -> config.baseUrl + "/img/sensor-icons/" + sensors[e].filename)
+                    .attr("src", (f) -> config.url("/img/sensor-icons/") + sensors[e].filename)
                 d3.select(this)
                     .append("div")
                     .attr("class", "media-body")
@@ -176,7 +176,7 @@ unfocus = (location) ->
 
 
 queue()
-    .defer(d3.json, config.baseUrl + "/data/sensors.json")
-    .defer(d3.json, config.baseUrl + "/data/world-110m.json")
-    .defer(d3.json, config.baseUrl + "/data/locations.json")
+    .defer(d3.json, config.url("/data/sensors.json"))
+    .defer(d3.json, config.url("/data/world-110m.json"))
+    .defer(d3.json, config.url("data/locations.json"))
     .await ready

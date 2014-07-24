@@ -2,7 +2,6 @@ d3 = require("d3")
 queue = require("queue-async")
 xhr = require("xhr-browserify")
 url = require("url")
-
 config = require("../config")
 
 parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse
@@ -14,7 +13,7 @@ findLocation = (locations, slug) ->
 
 module.exports = (callback) ->
     queue()
-        .defer(d3.json, config.baseUrl + "/data/locations.json")
+        .defer(d3.json, config.url("/data/locations.json"))
         .await (error, locations) -> locationsReady error, locations, callback
 
 
