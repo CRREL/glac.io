@@ -1,0 +1,18 @@
+{
+    "title": "Columbia Glacier",
+    "template": "location.jade",
+    "tiles": [
+    {
+        "name": "History",
+        "url": "history.html"
+    },
+    {
+        "name": "Images",
+        "url": "images.html"
+    },
+    {
+        "name": "Real time data",
+        "url": "data.html"
+    }
+    ]
+}

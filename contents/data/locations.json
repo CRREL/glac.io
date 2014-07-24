@@ -25,29 +25,20 @@
             "slug": "helheim",
             "name": "Helheim Glacier",
             "location_id": "HEL",
-            "scale": 400,
-            "timeseries": [
-            {
-            }
-                
-            ]
+            "scale": 400
         }
     },
     {
         "geometry": {
             "type": "Point",
-            "coordinates": [
-                -146.833975,
-                61.22250277777778
-                ]
+            "coordinates": [-146.833975, 61.22250277777778]
         },
         "type": "Feature",
         "properties": {
             "slug": "columbia",
             "name": "Columbia Glacier",
             "location_id": "COL",
-            "scale": 800,
-            "disabled": true
+            "scale": 800
         }
     },
     {

@@ -1,6 +1,5 @@
 {
     "template": "location-chart.jade",
-    "slug": "hubbard",
     "title": "Hubbard Data",
     "breadcrumbs": true
 }

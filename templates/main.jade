@@ -47,6 +47,8 @@ html(lang='en')
                     a(href=contents.locations.hubbard["index.json"].url) Hubbard Glacier
                   li
                     a(href=contents.locations.helheim["index.json"].url) Helheim Glacier
+                  li
+                    a(href=contents.locations.columbia["index.json"].url) Columbia Glacier
               li
                 a(href=contents.blog.index.url) Blog
               li
@@ -60,8 +62,7 @@ html(lang='en')
         script#glacio-config(type="application/json").
           {
             "baseUrl": "!{ env.config.baseUrl }",
-            "development": !{ locals.development },
-            "slug": "!{ page.metadata.slug }"
+            "development": !{ locals.development }
           }
 
       block scripts

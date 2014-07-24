@@ -1,5 +1,5 @@
 {
-    "title": "Helheim Data",
     "template": "location-chart.jade",
+    "title": "Columbia Data",
     "breadcrumbs": true
 }
