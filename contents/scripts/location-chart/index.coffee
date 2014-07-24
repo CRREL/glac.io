@@ -76,9 +76,7 @@ brush = d3.svg.brush()
     )
 
 
-build = (error, location) ->
-    timeseries = location.properties.timeseries
-
+build = (error, timeseries) ->
     control = controls.selectAll(".control").data(timeseries)
     control
         .enter()

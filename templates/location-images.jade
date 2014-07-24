@@ -30,7 +30,7 @@ block content
           - for (var i = 0; i < images.length; i++)
             - var klass = (i === 0 ? 'active item' : 'item')
             div(class=klass)
-              img(src=contents.img.hubbard[images[i].filename].url)
+              img(src=images[i].filename)
               .carousel-caption.panel
                 = images[i].caption
 
