@@ -130,8 +130,17 @@ toggleControl = (d) ->
     d.visible = not d.visible
     controls.call(drawControls)
 
+    oldBrushExtent = brush.extent()
     visible = visibleTimeseries()
     x2scale.domain(d3.extent(d3.merge(d3.extent(t.data, (u) -> u.date_time) for t in visible)))
+    brush.extent [
+        d3.max([oldBrushExtent[0], x2scale.domain()[0]]),
+        d3.min([oldBrushExtent[1], x2scale.domain()[1]])
+    ]
+    context
+        .select(".x.brush")
+        .call(brush)
+        .call(brush.event)
 
     panel = focus.selectAll(".panel").data(visible, (t) -> t.name)
     panel
