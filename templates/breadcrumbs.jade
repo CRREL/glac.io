@@ -9,6 +9,8 @@ mixin breadcrumbs()
   - }
   ol.breadcrumb
     - var parts = page.filepath.relative.split("/")
+    - if (parts[parts.length - 1] === "index.md" || parts[parts.length - 1] === "index.json")
+      - parts.pop()
     each part, index in parts
       - var page = extractPage(parts.slice(0, index + 1))
       if index === parts.length - 1
