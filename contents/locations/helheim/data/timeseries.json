@@ -1,0 +1,115 @@
+[{
+    "type": "cwms",
+    "name": "Air temperature 1",
+    "ts_code": 22338021,
+    "units": "°C",
+    "visible": false,
+    "color": "steelblue",
+    "visible": false,
+    "color": "steelblue"
+},
+{
+    "type": "cwms",
+    "name": "Air temperature 2",
+    "ts_code": 22339021,
+    "units": "°C",
+    "visible": false,
+    "color": "steelblue"
+},
+{
+    "type": "cwms",
+    "name": "Solar radiation up",
+    "ts_code": 12681021,
+    "units": "J/m2",
+    "visible": false,
+    "color": "steelblue"
+},
+{
+    "type": "cwms",
+    "name": "Solar radiation down",
+    "ts_code": 12683021,
+    "units": "J/m2",
+    "visible": false,
+    "color": "steelblue"
+},
+{
+    "type": "cwms",
+    "name": "Precipitation",
+    "ts_code": 12684021,
+    "units": "mm",
+    "visible": false,
+    "color": "steelblue"
+},
+{
+    "type": "cwms",
+    "name": "Air temperature",
+    "ts_code": 12685021,
+    "units": "°C",
+    "visible": true,
+    "color": "steelblue"
+},
+{
+    "type": "cwms",
+    "name": "Relative humidity",
+    "ts_code": 12686021,
+    "units": "%",
+    "visible": false,
+    "color": "steelblue"
+},
+{
+    "type": "cwms",
+    "name": "Wind speed 1",
+    "ts_code": 12688021,
+    "units": "kph",
+    "visible": false,
+    "color": "steelblue"
+},
+{
+    "type": "cwms",
+    "name": "Wind direction 1",
+    "ts_code": 12689021,
+    "units": "deg",
+    "visible": false,
+    "color": "steelblue"
+},
+{
+    "type": "cwms",
+    "name": "Wind speed 2",
+    "ts_code": 12690021,
+    "units": "kph",
+    "visible": false,
+    "color": "steelblue"
+},
+{
+    "type": "cwms",
+    "name": "Wind direction 2",
+    "ts_code": 12691021,
+    "units": "deg",
+    "visible": false,
+    "color": "steelblue"
+},
+{
+    "type": "cwms",
+    "name": "Pressure",
+    "ts_code": 12692021,
+    "units": "kPa",
+    "visible": false,
+    "color": "steelblue"
+},
+{
+    "type": "cwms",
+    "name": "Voltage",
+    "ts_code": 12693021,
+    "units": "volt",
+    "visible": false,
+    "color": "steelblue"
+},
+{
+    "type": "cwms",
+    "name": "Snow depth",
+    "ts_code": 12694021,
+    "units": "mm",
+    "visible": false,
+    "color": "steelblue"
+}
+]

@@ -1,0 +1,20 @@
+{
+    "title": "Helheim Glacier",
+    "template": "location.jade",
+    "blurb": "",
+    "slug": "helheim",
+    "tiles": [
+    {
+        "name": "History",
+        "url": "history.html"
+    },
+    {
+        "name": "Images",
+        "url": "images.html"
+    },
+    {
+        "name": "Real time data",
+        "url": "data.html"
+    }
+    ]
+}

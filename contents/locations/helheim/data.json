@@ -1,0 +1,6 @@
+{
+    "title": "Helheim Data",
+    "template": "location-chart.jade",
+    "slug": "helheim",
+    "breadcrumbs": true
+}

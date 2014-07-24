@@ -13,6 +13,12 @@ block content
       - for (; i < Math.min(tiles.length, initial + 4); i++)
         .col-md-3.tile
           a.thumbnail(href=tiles[i].url)
-            img(src=tiles[i].filename)
+            if tiles[i].filename
+              img(src=tiles[i].filename)
+            else
+              img(src=contents.scripts.lib["holder.js"].url + "/200x150")
             h4= tiles[i].name
   // TODO include a map of the location
+
+block append scripts
+  script(src=contents.scripts.lib["holder.js"].url)

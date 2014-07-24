@@ -10,6 +10,7 @@
         "properties": {
             "slug": "hubbard",
             "name": "Hubbard Glacier",
+            "location_id": "HUB",
             "sensors": ["climate", "lidar", "satellitecamera"],
             "scale": 800
         }
@@ -23,8 +24,13 @@
         "properties": {
             "slug": "helheim",
             "name": "Helheim Glacier",
+            "location_id": "HEL",
             "scale": 400,
-            "disabled": true
+            "timeseries": [
+            {
+            }
+                
+            ]
         }
     },
     {
@@ -39,6 +45,7 @@
         "properties": {
             "slug": "columbia",
             "name": "Columbia Glacier",
+            "location_id": "COL",
             "scale": 800,
             "disabled": true
         }
