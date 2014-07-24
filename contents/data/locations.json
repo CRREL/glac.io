@@ -25,6 +25,7 @@
             "slug": "helheim",
             "name": "Helheim Glacier",
             "location_id": "HEL",
+            "sensors": ["climate", "lidar", "satellitecamera"],
             "scale": 400
         }
     },
@@ -38,6 +39,7 @@
             "slug": "columbia",
             "name": "Columbia Glacier",
             "location_id": "COL",
+            "sensors": ["climate", "satellitecamera"],
             "scale": 800
         }
     },
