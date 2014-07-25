@@ -5,7 +5,7 @@
     "slug": "helheim",
     "tiles": [
     {
-        "name": "History",
+        "name": "Overview",
         "url": "history.html"
     },
     {
@@ -13,7 +13,7 @@
         "url": "images.html"
     },
     {
-        "name": "Real time data",
+        "name": "Real-time Data",
         "url": "data.html"
     }
     ]
