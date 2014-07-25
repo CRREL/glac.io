@@ -55,7 +55,8 @@
         "properties": {
             "slug": "scott",
             "name": "Scott Glacier",
-            "scale": 800,
+            "sensors": ["climate"],
+	    "scale": 800,
             "disabled": true
         }
     },
@@ -71,6 +72,7 @@
         "properties": {
             "slug": "valdez",
             "name": "Valdez Glacier",
+            "sensors": ["climate"],
             "scale": 800,
             "disabled": true
         }
@@ -87,6 +89,7 @@
         "properties": {
             "slug": "gulkana",
             "name": "Gulkana Glacier",
+            "sensors": ["climate"],
             "scale": 800,
             "disabled": true
         }
@@ -103,6 +106,7 @@
         "properties": {
             "slug": "wolverine",
             "name": "Wolverine Glacier",
+            "sensors": ["climate"],
             "scale": 800,
             "disabled": true
         }
