@@ -1,5 +1,5 @@
 ---
-title: History of the Hubbard Glacier
+title: Overview of the Hubbard Glacier
 template: page-narrow.jade
 breadcrumbs: true
 ---
