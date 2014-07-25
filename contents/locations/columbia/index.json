@@ -4,7 +4,7 @@
     "tiles": [
     {
         "name": "Overview",
-        "url": "history.html"
+        "url": "overview.html"
     },
     {
         "name": "Images",
