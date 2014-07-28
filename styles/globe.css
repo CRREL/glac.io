@@ -1,0 +1,11 @@
+#sphere {
+  stroke: #333;
+  fill: #fff;
+}
+.land {
+  fill: #222;
+}
+.location {
+  fill-opacity: 0.8;
+  stroke: #fff;
+}

@@ -1,0 +1,8 @@
+.land {
+  fill: #222;
+}
+.location {
+  fill: steelblue;
+  fill-opacity: 0.8;
+  stroke: #fff;
+}

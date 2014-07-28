@@ -1,0 +1,74 @@
+@import "../../bower_components/bootstrap/less/bootstrap.less";
+@import "variables.less";
+
+//
+// body
+//
+body {
+  background-image: url("../img/cover.jpg");
+  background-size: cover;
+}
+
+
+//
+// navigation
+//
+#navigation {
+  .box-shadow(@shadow: 0 1px 3px rgba(0, 0, 0, 0.25));
+}
+
+
+//
+// content
+//
+#content {
+  padding-top: @line-height-computed;
+  background-color: @body-bg;
+  background-image: none;
+  .border-bottom-radius(10px);
+  .box-shadow(@shadow: 1px 1px 3px rgba(0, 0, 0, 0.25));
+}
+
+
+//
+// tiles
+//
+.tile {
+  text-align: center;
+  a, a:hover, a:active {
+    color: #333;
+  }
+  img {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+
+//
+// collaborators
+//
+.collaborator {
+  img {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: block;
+    max-width: 100%;
+  }
+}
+
+
+//
+// footer
+//
+footer {
+  margin-top: 50px;
+  padding-top: @navbar-padding-vertical;
+  padding-bottom: @navbar-padding-vertical;
+  border-top: 1px solid @gray-light;
+  a {
+    color: @gray;
+  }
+}

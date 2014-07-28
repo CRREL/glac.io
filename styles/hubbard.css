@@ -1,0 +1,31 @@
+svg {
+    font: 10px sans-serif;
+}
+
+.line {
+    stroke: steelblue;
+    fill: none;
+    clip-path: url(#clip);
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.brush .extent {
+    stroke: #fff;
+    fill-opacity: .125;
+    shape-rendering: crispEdges;
+}
+
+circle.datapoint {
+    fill: steelblue;
+}
+
+.chart-title {
+    font-size: 14px;
+    font-weight: bold;
+}
