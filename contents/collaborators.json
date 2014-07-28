@@ -7,10 +7,6 @@
         "url": "http://www.crrel.usace.army.mil/facilitieslabstestsites/center-rsgis.html"
     },
     {
-        "filename": "nsidc.jpg",
-        "url": "http://nsidc.org"
-    },
-    {
         "filename": "usgs.png",
         "url": "http://www.usgs.gov"
     },
@@ -27,48 +23,8 @@
         "url": "http://www.fs.fed.us"
     },
     {
-        "filename": "abasin.jpg",
-        "url": "http://www.arapahoebasin.com"
-    },
-    {
-        "filename": "mammoth.png",
-        "url": "http://www.mammothmountain.com"
-    },
-    {
-        "filename": "ucsb.png",
-        "url": "http://www.bren.ucsb.edu/people/Faculty/jeff_dozier.htm"
-    },
-    {
-        "filename": "hvo.png",
-        "url": "http://hvo.wr.usgs.gov"
-    },
-    {
-        "filename": "unc.jpg",
-        "url": "http://esci.unco.edu"
-    },
-    {
-        "filename": "psi.png",
-        "url": "http://www.psi.edu"
-    },
-    {
-        "filename": "aiare.png",
-        "url": "http://avtraining.org"
-    },
-    {
         "filename": "DGGS_logo.png",
         "url": "http://www.dggs.alaska.gov/"
-    },
-    {
-        "filename": "cires.jpg",
-        "url": "http://cires.colorado.edu/index.html"
-    },
-    {
-        "filename": "csas.jpg",
-        "url": "http://www.snowstudies.org/"
-    },
-    {
-        "filename": "cu.jpg",
-        "url": "http://www.colorado.edu/"
     },
     {
         "filename": "jpl.jpg",
