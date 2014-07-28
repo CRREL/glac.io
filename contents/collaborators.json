@@ -7,6 +7,10 @@
         "url": "http://www.crrel.usace.army.mil/facilitieslabstestsites/center-rsgis.html"
     },
     {
+        "filename": "nsidc.jpg",
+        "url": "http://nsidc.org"
+    },
+    {
         "filename": "usgs.png",
         "url": "http://www.usgs.gov"
     },
@@ -27,6 +31,10 @@
         "url": "http://www.dggs.alaska.gov/"
     },
     {
+        "filename": "cu.jpg",
+        "url": "http://www.colorado.edu/"
+    },
+    {
         "filename": "jpl.jpg",
         "url": "http://www.jpl.nasa.gov/"
     },
@@ -34,5 +42,5 @@
         "filename": "nasa.jpg",
         "url": "http://www.nasa.gov/"
     }
-]
+    ]
 }
