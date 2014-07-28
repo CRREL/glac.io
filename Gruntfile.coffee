@@ -6,17 +6,26 @@ module.exports = (grunt) ->
             "lidar-io":
                 options:
                     config: "./config-lidar-io.json"
+            "gh-pages":
+                options:
+                    config: "./config-gh-pages.json"
 
         "gh-pages":
-            options:
-                base: "build"
-                repo: "pgadomski@lidar.io:glacierresearch.org.git"
-            src: ["**"]
+            "lidar-io":
+                options:
+                    base: "build"
+                    repo: "pgadomski@lidar.io:glacierresearch.org.git"
+                src: ["**"]
+            "gh-pages":
+                options:
+                    base: "build"
+                src: ["**"]
 
     grunt.loadNpmTasks "grunt-wintersmith"
     grunt.loadNpmTasks "grunt-gh-pages"
 
-    grunt.registerTask "deploy", ["location-kml", "wintersmith:lidar-io", "gh-pages"]
+    grunt.registerTask "deploy-dev", ["location-kml", "wintersmith:gh-pages", "gh-pages:gh-pages"]
+    grunt.registerTask "deploy", ["deploy-dev", "wintersmith:lidar-io", "gh-pages:lidar-io"]
 
     grunt.registerTask "location-kml", "Write a kml file for each location", () ->
         locations = grunt.file.readJSON "contents/data/locations.json"

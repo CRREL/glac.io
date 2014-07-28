@@ -1,0 +1,32 @@
+{
+    "locals": {
+        "title": "glacierresearch.org",
+        "development": false,
+        "url": "http://gadomski.github.io/glac.io/"
+    },
+    "require": {
+        "moment": "moment",
+        "typogr": "typogr",
+        "_": "underscore"
+    },
+    "plugins": [
+        "./plugins/paginator.coffee",
+        "wintersmith-data-json",
+        "wintersmith-less",
+        "wintersmith-browserify"
+    ],
+    "markdown": {
+        "smartLists": true,
+        "smartypants": true
+    },
+    "paginator": {
+        "perPage": 5,
+        "template": "blogIndex.jade",
+        "articles": "blog",
+        "first": "blog/index.html",
+        "filename": "blog/page/%d/index.html",
+        "blogTitle": "Blog"
+    },
+    "baseUrl": "/glac.io",
+    "ignore": [".*"]
+}
