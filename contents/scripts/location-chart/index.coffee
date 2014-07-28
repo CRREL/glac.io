@@ -59,6 +59,20 @@ context = svg.append("g")
     .attr("class", "context")
     .attr("transform", translate(margin2.left, margin2.top))
 
+context
+    .append("defs")
+    .append("pattern")
+    .attr("id", "dimples")
+    .attr("x", 1)
+    .attr("y", 1)
+    .attr("width", 3)
+    .attr("height", 3)
+    .attr("patternUnits", "userSpaceOnUse")
+    .append("circle")
+    .attr("cx", 1)
+    .attr("cy", 1)
+    .attr("r", 1)
+
 brush = d3.svg.brush()
     .x(x2scale)
     .on("brush", (d) ->
@@ -115,8 +129,19 @@ build = (error, timeseries) ->
         .attr("class", "x brush")
         .call(brush)
         .selectAll("rect")
-        .attr("y", -6)
-        .attr("height", height2 + 7)
+        .attr("height", height2)
+        .attr("rx", 10)
+        .attr("ry", 10)
+
+    context
+        .select(".x.brush")
+        .selectAll(".resize")
+        .append("rect")
+        .attr("height", height2)
+        .attr("width", 20)
+        .attr("rx", 10)
+        .attr("ry", 10)
+        .attr("transform", (d, i) -> if i == 0 then "translate(-20,0)" else "")
 
     brush.extent defaultBrushExtent
     context

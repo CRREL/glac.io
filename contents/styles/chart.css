@@ -16,7 +16,6 @@ svg {
 }
 
 .brush .extent {
-    stroke: #fff;
     fill-opacity: .125;
     shape-rendering: crispEdges;
 }
@@ -30,4 +29,14 @@ svg {
     text-anchor: start;
     font-size: 12px;
     font-weight: normal;
+}
+
+.resize rect {
+  fill: url(#dimples);
+  fill-opacity: 0.8;
+}
+
+#dimples circle {
+    stroke: none;
+    fill: steelblue;
 }
