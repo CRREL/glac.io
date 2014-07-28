@@ -2,7 +2,7 @@
     "locals": {
         "title": "glacierresearch.org",
         "development": false,
-        "url": "http://gadomski.github.io/glac.io"
+        "url": "http://glacierresearch.org"
     },
     "require": {
         "moment": "moment",
@@ -27,6 +27,6 @@
         "filename": "blog/page/%d/index.html",
         "blogTitle": "Blog"
     },
-    "baseUrl": "/glac.io",
+    "baseUrl": "/",
     "ignore": [".*"]
 }

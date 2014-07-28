@@ -3,19 +3,20 @@ module.exports = function(grunt) {
     grunt.initConfig({
 
         wintersmith: {
-            "gh-pages": {
+            "lidar-io": {
                 options: {
-                    config: "./config-gh-pages.json"
+                    config: "./config-lidar-io.json"
                 }
             }
         },
 
         "gh-pages": {
             options: {
-                base: "build"
+                base: "build",
+                repo: "pgadomski@lidar.io:glacierresearch.org.git"
             },
             src: ["**"]
-        },
+        }
 
     });
         
@@ -23,6 +24,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-wintersmith");
     grunt.loadNpmTasks('grunt-gh-pages');
 
-    grunt.registerTask("deploy", ["wintersmith:gh-pages", "gh-pages"]);
+    grunt.registerTask("deploy", ["wintersmith:lidar-io", "gh-pages"]);
 
 }
