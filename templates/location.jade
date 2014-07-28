@@ -5,6 +5,7 @@ block prepend main
 
 block content
   - var tiles = page.metadata.tiles;
+  - var slug = page.filepath.relative.split("/")[1];
 
   div(style="text-align: center")
     h1= page.title
@@ -22,6 +23,11 @@ block content
               img(src=contents.scripts.lib["holder.js"].url + "/200x150")
             h4= tiles[i].name
   // TODO include a map of the location
+  .row
+    .col-md-4.col-md-offset-4.text-center
+      p
+        a(href=page.parent[slug + ".kml"].url)
+          img(src=contents.img["google-earth.png"].url)
 
 block append scripts
   script(src=contents.scripts.lib["holder.js"].url)

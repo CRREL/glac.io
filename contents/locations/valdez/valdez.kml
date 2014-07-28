@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+    <Placemark>
+        <name>Valdez Glacier</name>
+        <Point>
+            <coordinates>-146.1716972222222,61.17735277777778</coordinates>
+        </Point>
+    </Placemark>
+</kml>

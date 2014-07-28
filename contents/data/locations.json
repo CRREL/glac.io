@@ -5,7 +5,7 @@
         "type": "Feature",
         "geometry": {
             "type": "Point",
-            "coordinates": [-140.377778, 60.583333]
+            "coordinates": [-139.486293, 59.994394]
         },
         "properties": {
             "slug": "hubbard",
