@@ -1,18 +1,28 @@
 {
     "title": "Columbia Glacier",
     "template": "location.jade",
+    "blurb": "The Columbia Glacier is located in Prince William Sound, outside of Valdez, Alaska.",
     "tiles": [
     {
         "name": "Overview",
-        "url": "overview.html"
+        "url": "overview.html",
+        "filename": "LeWinter_Columbia_landscape.jpg"
     },
     {
         "name": "Images",
-        "url": "images.html"
+        "url": "images.html",
+        "filename": "_LDR0105.JPG"
     },
     {
         "name": "Real-time Data",
-        "url": "data.html"
+        "url": "data.html",
+        "filename": "chart.png"
+    },
+    {
+        "name": "Time-lapse",
+        "url": "timelapse.html",
+        "filename": "ColumbiaIridium.jpg"
     }
+
     ]
 }
