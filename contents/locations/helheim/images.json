@@ -1,0 +1,39 @@
+{
+    "template": "location-images.jade",
+    "title": "Images of the Helheim Glacier",
+    "images":
+        [
+        {
+            "filename": "_LDR1976.jpg",
+            "caption": "Riegl VZ-6000 LiDAR setup at Helheim Glacier, August 2013. Credit: Adam LeWinter, CRREL"
+        },
+        {
+            "filename": "_LDR2006.jpg",
+            "caption": "Riegl VZ-6000 LiDAR setup at Helheim Glacier, August 2013. Credit: Adam LeWinter, CRREL"
+        },
+        {
+            "filename": "_LDR2193.jpg",
+            "caption": "Field team relocating the Helheim terminus camera. Credit: Adam LeWinter, CRREL"
+        },
+        {
+            "filename": "_LDR2606.jpg",
+            "caption": "Field camp under the Northern Lights, August 2013. Credit: Adam LeWinter, CRREL"
+        },
+        {
+            "filename": "_LDR2621.jpg",
+            "caption": "Field camp and scanning LiDAR system at night, August 2013. Credit: Adam LeWinter, CRREL"
+        },
+        {
+            "filename": "_LDR2624.jpg",
+            "caption": "Riegl VZ-6000 scanning at night, with Helheim terminus in the background, August 2013. Credit: Adam LeWinter, CRREL"
+        },
+        {
+            "filename": "_LDR2649.jpg",
+            "caption": "Iridium-linked satellite camera at the Helheim terminus. Credit: Adam LeWinter, CRREL"
+        },
+        {
+            "filename": "_LDR2653.jpg",
+            "caption": "CRREL designed Iridium-linked satellite camera at Helheim Glacier. Credit: Adam LeWinter, CRREL"
+        }
+    ]
+}

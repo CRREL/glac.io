@@ -5,15 +5,24 @@
     "tiles": [
     {
         "name": "Overview",
-        "url": "overview.html"
+        "url": "overview.html",
+        "filename": "_LDR2649 Thumbnail.jpg"
     },
     {
         "name": "Images",
-        "url": "images.html"
+        "url": "images.html",
+        "filename": "_LDR2621 Thumbnail.jpg"
     },
     {
         "name": "Real-time Data",
-        "url": "data.html"
+        "url": "data.html",
+	"filename": "chart.png"
+    },
+    {
+        "name": "Time-lapse",
+        "url": "timelapse.html",
+        "filename": "HEL_Terminus_20140720_210000 Thumbnail.jpg"
     }
+
     ]
 }
