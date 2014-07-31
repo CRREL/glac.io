@@ -312,11 +312,11 @@ img {
   border-radius: 6px;
 }
 .img-thumbnail {
-  padding: 4px;
+  padding: 0;
   line-height: 1.42857143;
   background-color: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 4px;
+  border: 1px solid #333333;
+  border-radius: 0;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
   display: inline-block;
@@ -4391,12 +4391,12 @@ a.list-group-item.active > .badge,
 }
 .thumbnail {
   display: block;
-  padding: 4px;
+  padding: 0;
   margin-bottom: 20px;
   line-height: 1.42857143;
   background-color: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 4px;
+  border: 1px solid #333333;
+  border-radius: 0;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
@@ -5842,6 +5842,10 @@ body {
   font-weight: 700;
   padding-left: 0.3em;
 }
+.article .thumbnail {
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+}
 .more,
 .date {
   font-variant: small-caps;
@@ -5870,6 +5874,11 @@ body {
 }
 .blog-footer a {
   color: #333;
+}
+.blog-sidebar-post {
+  border-bottom: 1px dashed #aaa;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
 }
 footer {
   margin-top: 100px;

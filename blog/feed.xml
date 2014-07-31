@@ -1,3 +1,50 @@
-<?xml version="1.0" encoding="utf-8" ?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title></title><atom:link href="http://gadomski.github.io/glac.io//feed.xml" rel="self" type="application/rss+xml"></atom:link><link>http://gadomski.github.io/glac.io/</link><description></description><pubDate>Wed, 09 Jul 2014 18:00:00 -0600</pubDate><generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator><language>en</language><item><title>My First Blog Post</title><link>http://gadomski.github.io/glac.io//glac.io/blog/2014-07-first-post/</link><pubDate>Wed, 09 Jul 2014 18:00:00 -0600</pubDate><guid isPermaLink="true">http://gadomski.github.io/glac.io//glac.io/blog/2014-07-first-post/</guid><author></author><description>&lt;p&gt;This is a great post! &lt;span class=&quot;more&quot;&gt;&lt;/span&gt; &lt;/p&gt;
-&lt;p&gt;But there’s more!&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" ?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title></title><atom:link href="http://gadomski.github.io/glac.io//feed.xml" rel="self" type="application/rss+xml"></atom:link><link>http://gadomski.github.io/glac.io/</link><description></description><pubDate>Sun, 15 Sep 2013 18:00:00 -0600</pubDate><generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator><language>en</language><item><title>Hubbard Glacier Update</title><link>http://gadomski.github.io/glac.io//glac.io/blog/2013-09-16-hubbard/</link><pubDate>Sun, 15 Sep 2013 18:00:00 -0600</pubDate><guid isPermaLink="true">http://gadomski.github.io/glac.io//glac.io/blog/2013-09-16-hubbard/</guid><author></author><description>&lt;h3 id=&quot;gilbert-point&quot;&gt;Gilbert Point&lt;/h3&gt;
+&lt;p&gt;The Automated Laser ranging system at Gilbert Point was replaced in late August with a new updated system.
+Researchers from CRREL, The National Snow and Ice Data Center (Boulder, Colorado) and the USGS Alaska Science Center (Anchorage) removed the previous laser scanning system and replaced it with an updated version of the system developed by CRREL.
+The previous system was dependent on a high-powered radio link to Haenke Island, which required significant power to operate.
+The new system utilizes a low-power two-way Iridium communication system that reduces overall power consumption and allows for increased data acquisition intervals (hourly).
+Furthermore, a realtime camera system has been installed at Gilbert Point to collect and transmit visible images every 3 hours and thermal images every 8 hours.&lt;/p&gt;
+&lt;h3 id=&quot;haenke-island&quot;&gt;Haenke Island&lt;/h3&gt;
+&lt;p&gt;The climate station at Haenke Island is damaged beyond repair and is scheduled for replacement.
+Inclement weather prohibited the team from replacing the system in August but the team will return in November to bring a new modern station online.
+The new system will also operate on the Iridium network versus the previous GOES system.&lt;/p&gt;
+</description></item><item><title>Spring Is Coming</title><link>http://gadomski.github.io/glac.io//glac.io/blog/2008-03-13-spring-is-coming/</link><pubDate>Wed, 12 Mar 2008 18:00:00 -0600</pubDate><guid isPermaLink="true">http://gadomski.github.io/glac.io//glac.io/blog/2008-03-13-spring-is-coming/</guid><author></author><description>&lt;p&gt;Spring is finally nearing and it looks as if the monitoring equipment at Hubbard Glacier and Haenke Island survived the long cold winter.
+Our upgrades to the power systems last season worked as we hoped they would and power was never an issue, even during the darkest months.
+The glacier terminus near Gilbert Point should be at a point where it is advancing and we hope the laser ranging unit will begin to return valid data very soon.
+Measurements are begining to appear but difficult to determine if the measurements are valid or not.
+The laser ranging unit is only capable of about 1000 m range in good conditions.
+A team of researchers from CRREL, the New England Corps of Engineers and the Alaska District COE will return in late April to install an updated laser ranging system and a new high resolution imaging camera, which is a joint effort between our research team and the &lt;a href=&quot;http://www.extremeicesurvey.org/&quot;&gt;Extreme Ice Survey&lt;/a&gt; organization, an effort spear headed by James Balog and National Geographic.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;more&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;div class=&quot;row&quot;&gt;
+  &lt;div class=&quot;col-md-6 col-md-offset-3&quot;&gt;
+  &lt;div class=&quot;thumbnail&quot;&gt;
+    &lt;img src=&quot;http://gadomski.github.io/glac.io/blog/2008-03-13-spring-is-coming/HUB_SYSTEM_redux.JPG&quot; alt=&quot;Hubbard System, photo 1&quot;&gt;
+    &lt;div class=&quot;caption&quot;&gt;
+      C. Grove USFS
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;row&quot;&gt;
+  &lt;div class=&quot;col-md-6 col-md-offset-3&quot;&gt;
+  &lt;div class=&quot;thumbnail&quot;&gt;
+    &lt;img src=&quot;http://gadomski.github.io/glac.io/blog/2008-03-13-spring-is-coming/HUBBARD2_FEB2008_redux.JPG&quot; alt=&quot;Hubbard System, photo 2&quot;&gt;
+    &lt;div class=&quot;caption&quot;&gt;
+      C. Grove USFS
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;row&quot;&gt;
+  &lt;div class=&quot;col-md-6 col-md-offset-3&quot;&gt;
+  &lt;div class=&quot;thumbnail&quot;&gt;
+    &lt;img src=&quot;http://gadomski.github.io/glac.io/blog/2008-03-13-spring-is-coming/HUBBARD_FEB2008_redux.JPG&quot; alt=&quot;Hubbard System, photo 3&quot;&gt;
+    &lt;div class=&quot;caption&quot;&gt;
+      C. Grove USFS 
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
 </description></item></channel></rss>
