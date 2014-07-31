@@ -21,7 +21,7 @@ block prepend body
 block contentRight
   - var archives = env.helpers.getArticles(contents)
   for archive in archives
-    .row
+    .row.blog-sidebar-post
       .col-md-4.date= moment.utc(archive.date).format("DD. MM YYYY")
       .col-md-8.post-title
         a(href=archive.url)= archive.title
