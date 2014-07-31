@@ -47,5 +47,16 @@ Located in eastern Alaska north of Yakutat, with its origins in Yukon, Canada, H
   </div>
   </div>
 </div>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+  <div class="thumbnail tight">
+    ![Haenke Station, photo 1](HaenkeStation.JPG)
+    <div class="caption">
+      Haenke Island Climate Station. Credit: Dave Finnegan, CRREL.
+    </div>
+  </div>
+  </div>
+</div>
+
 <br>
 
