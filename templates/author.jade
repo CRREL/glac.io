@@ -5,3 +5,7 @@ mixin author(name)
       a(href="mailto:" + author.metadata.email)= author.metadata.name
     else
       = name
+    if author.metadata.affiliation
+      |  (
+      = author.metadata.affiliation
+      | )
