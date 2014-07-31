@@ -16,7 +16,7 @@ A team of researchers from CRREL, the New England Corps of Engineers and the Ala
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-  <div class="thumbnail">
+  <div class="thumbnail tight">
     ![Hubbard System, photo 1](HUB_SYSTEM_redux.JPG)
     <div class="caption">
       C. Grove USFS
@@ -27,7 +27,7 @@ A team of researchers from CRREL, the New England Corps of Engineers and the Ala
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-  <div class="thumbnail">
+  <div class="thumbnail tight">
     ![Hubbard System, photo 2](HUBBARD2_FEB2008_redux.JPG)
     <div class="caption">
       C. Grove USFS
@@ -38,7 +38,7 @@ A team of researchers from CRREL, the New England Corps of Engineers and the Ala
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-  <div class="thumbnail">
+  <div class="thumbnail tight">
     ![Hubbard System, photo 3](HUBBARD_FEB2008_redux.JPG)
     <div class="caption">
       C. Grove USFS 
