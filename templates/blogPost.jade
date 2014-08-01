@@ -7,6 +7,8 @@ block contentLeft
   p.author
     | Written by 
     mixin author(page.metadata.author)
+    | , 
+    span= moment.utc(page.metadata.date).format("DD. MMMM YYYY")
 
   article.article
     != typogr(page.html).typogrify()
