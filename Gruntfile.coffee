@@ -25,7 +25,7 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-gh-pages"
 
     grunt.registerTask "deploy-dev", ["location-kml", "wintersmith:gh-pages", "gh-pages:gh-pages"]
-    grunt.registerTask "deploy", ["deploy-dev", "wintersmith:lidar-io", "gh-pages:lidar-io"]
+    grunt.registerTask "deploy", ["location-kml", "wintersmith:lidar-io", "gh-pages:lidar-io"]
 
     grunt.registerTask "location-kml", "Write a kml file for each location", () ->
         locations = grunt.file.readJSON "contents/data/locations.json"
