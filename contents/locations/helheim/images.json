@@ -3,7 +3,11 @@
     "title": "Images of the Helheim Glacier",
     "images":
         [
-        {
+       {
+            "filename": "Helheim_overview.png",
+            "caption": "Landsat 8 image of Helheim Glacier and Sermilik Fjord, collected June 11, 2014. Cameras, the automated weather station, and repeat LiDAR survey locations are indicated in red."
+        },
+	{
             "filename": "_LDR1976.jpg",
             "caption": "Riegl VZ-6000 LiDAR setup at Helheim Glacier, August 2013. Credit: Adam LeWinter, CRREL"
         },
@@ -34,6 +38,10 @@
         {
             "filename": "_LDR2653.jpg",
             "caption": "CRREL designed Iridium-linked satellite camera at Helheim Glacier. Credit: Adam LeWinter, CRREL"
+        },
+{
+            "filename": "Helheim-Aug2009.png",
+            "caption": "Helheim terminus, August 2009. Credit:Gordon Hamilton, University of Maine"
         }
     ]
 }

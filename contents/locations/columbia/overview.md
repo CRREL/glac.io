@@ -17,7 +17,7 @@ Columbia Glacier, located in Prince William Sound and the Chugach Mountains of A
   </div>
 </div>
 <br>
-We have a satellite-linked camera located on Great Nunatak, southwest of the current terminus position of the main branch of Columbia. In addition, there is a climate station located up-glacier approximately 15km from the camera installation. Both stations transmit data multiple times/day, which can be viewed in near real-time on the [Real-time data](data.html) and [Time-lapse](timelapse.html) pages.
+We have a satellite-linked camera located on Great Nunatak, southwest of the current terminus position of the main branch of Columbia. The camera relies on a light sensor to measure the ambient light. If there is sufficient light, the system powers on the camera, captures an image, and transmits the image to our servers via the Iridium satellite array. In addition, there is a climate station located up-glacier approximately 15km from the camera installation. Both stations transmit data multiple times/day, which can be viewed in near real-time on the [Real-time data](data.html) and [Time-lapse](timelapse.html) pages.
 <br>
 <br><div class="row">
   <div class="col-md-12">
