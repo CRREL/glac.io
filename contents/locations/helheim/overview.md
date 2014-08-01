@@ -1,5 +1,5 @@
 ---
-title: Overview of the Helheim Glacier
+title: Overview of Helheim Glacier
 template: page-narrow.jade
 breadcrumbs: true
 ---
