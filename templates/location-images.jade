@@ -13,6 +13,9 @@ block append styles
       background-image: none;
     }
 
+block prepend main
+  - page.metadata.breadcrumbs = true
+
 block content
   - var images = page.metadata.images;
 
