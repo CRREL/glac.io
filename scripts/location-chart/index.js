@@ -17,7 +17,7 @@ module.exports = config;
 
 
 },{}],2:[function(require,module,exports){
-var config, d3, locationsReady, parseDate, queue, ts;
+var config, d3, parseDate, queue, ts;
 
 d3 = require("d3");
 
@@ -29,36 +29,38 @@ ts = require("../timeseries");
 
 parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse;
 
-module.exports = function(callback) {
-  return queue().defer(d3.json, "data/timeseries.json").await(function(error, timeseries) {
-    return locationsReady(error, timeseries, callback);
-  });
-};
-
-locationsReady = function(error, data, callback) {
-  var q, t, timeseries, _fn, _i, _len;
-  q = queue(3);
-  timeseries = data.map(function(d) {
-    d.development = config.development;
-    return ts.makeTimeseries(d);
-  });
-  _fn = function(t) {
-    return q.defer(function(callback) {
-      return t.fetch(callback);
+module.exports = {
+  timeseries: function(callback) {
+    return queue().defer(d3.json, "data/timeseries.json").await(function(error, data) {
+      return callback(error, data.map(function(d) {
+        d.development = config.development;
+        return ts.makeTimeseries(d);
+      }));
     });
-  };
-  for (_i = 0, _len = timeseries.length; _i < _len; _i++) {
-    t = timeseries[_i];
-    _fn(t);
+  },
+  data: function(timeseries, callback) {
+    var q, t, _fn, _i, _len;
+    q = queue(3);
+    _fn = function(t) {
+      if (!t.hasData()) {
+        return q.defer(function(callback) {
+          return t.fetch(callback);
+        });
+      }
+    };
+    for (_i = 0, _len = timeseries.length; _i < _len; _i++) {
+      t = timeseries[_i];
+      _fn(t);
+    }
+    return q.awaitAll(function(error) {
+      return callback(error, timeseries);
+    });
   }
-  return q.awaitAll(function(error, timeseries) {
-    return callback(error, timeseries);
-  });
 };
 
 
 },{"../config":1,"../timeseries":4,"d3":5,"queue-async":6}],3:[function(require,module,exports){
-var addContextLine, addPanel, brush, build, chart, context, controls, d3, defaultBrushExtent, drawContext, drawControls, drawFocus, emptyAxis, fetch, focus, height, height2, margin, margin2, padding, svg, toggleControl, translate, visibleTimeseries, width, x2axis, x2scale, xaxis, xscale, y2scale;
+var addContextLine, addPanel, animateBubbles, brush, chart, context, controls, d3, defaultBrushExtent, draw, drawContext, drawControls, drawFocus, emptyAxis, fetch, focus, height, height2, initialBuild, margin, margin2, padding, svg, toggleControl, translate, tsName, update, visibleTimeseries, width, x2axis, x2scale, xaxis, xscale, y2scale;
 
 d3 = require("d3");
 
@@ -95,16 +97,6 @@ height = 600 - margin.top - margin.bottom;
 
 height2 = 600 - margin2.top - margin2.bottom;
 
-xscale = d3.time.scale().range([0, width]);
-
-x2scale = d3.time.scale().range([0, width]);
-
-y2scale = d3.scale.linear().range([height2, 0]);
-
-xaxis = d3.svg.axis().scale(xscale).orient("bottom");
-
-x2axis = d3.svg.axis().scale(x2scale).orient("bottom");
-
 defaultBrushExtent = [d3.time.month.offset(new Date(), -2), new Date()];
 
 translate = function(x, y) {
@@ -113,6 +105,10 @@ translate = function(x, y) {
 
 emptyAxis = function() {
   return d3.svg.axis().tickValues([]).outerTickSize(0);
+};
+
+tsName = function(t) {
+  return t.name;
 };
 
 visibleTimeseries = function() {
@@ -127,6 +123,16 @@ visibleTimeseries = function() {
   }
   return _results;
 };
+
+xscale = d3.time.scale().range([0, width]);
+
+x2scale = d3.time.scale().range([0, width]);
+
+y2scale = d3.scale.linear().range([height2, 0]);
+
+xaxis = d3.svg.axis().scale(xscale).orient("bottom");
+
+x2axis = d3.svg.axis().scale(x2scale).orient("bottom");
 
 svg = chart.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom);
 
@@ -147,8 +153,8 @@ brush = d3.svg.brush().x(x2scale).on("brush", function(d) {
   }
 });
 
-build = function(error, timeseries) {
-  var contextLines, control, dy, t, visible;
+initialBuild = function(error, timeseries) {
+  var control;
   control = controls.selectAll(".control").data(timeseries);
   control.enter().append("a").attr("href", "#").attr("class", "list-group-item control").on("click", toggleControl);
   control.append("span").attr("class", "glyphicon");
@@ -156,26 +162,6 @@ build = function(error, timeseries) {
     return " " + d.name;
   });
   controls.call(drawControls);
-  visible = visibleTimeseries();
-  x2scale.domain(d3.extent(d3.merge((function() {
-    var _i, _len, _results;
-    _results = [];
-    for (_i = 0, _len = visible.length; _i < _len; _i++) {
-      t = visible[_i];
-      _results.push(d3.extent(t.data, function(u) {
-        return u.date_time;
-      }));
-    }
-    return _results;
-  })())));
-  dy = height / visible.length;
-  focus.selectAll(".panel").data(visible, function(t) {
-    return t.name;
-  }).enter().call(addPanel);
-  focus.call(drawFocus);
-  contextLines = context.selectAll(".line").data(visible, function(t) {
-    return t.name;
-  }).enter().call(addContextLine);
   context.append("g").attr("class", "x axis bottom");
   context.append("g").attr("class", "x brush").call(brush).selectAll("rect").attr("height", height2).attr("rx", 10).attr("ry", 10);
   context.select(".x.brush").selectAll(".resize").append("rect").attr("height", height2).attr("width", 20).attr("rx", 10).attr("ry", 10).attr("transform", function(d, i) {
@@ -186,41 +172,45 @@ build = function(error, timeseries) {
     }
   });
   brush.extent(defaultBrushExtent);
-  return context.select(".x.brush").call(brush).call(brush.event);
+  return update();
 };
 
-toggleControl = function(d) {
-  var contextLines, oldBrushExtent, panel, t, visible;
-  d.visible = !d.visible;
-  controls.call(drawControls);
-  oldBrushExtent = brush.extent();
-  visible = visibleTimeseries();
+update = function() {
+  var contextLines, panels, timeseries;
+  timeseries = visibleTimeseries();
+  panels = focus.selectAll(".panel").data(timeseries, tsName);
+  panels.enter().call(addPanel);
+  panels.exit().remove();
+  focus.call(drawFocus);
+  contextLines = context.selectAll(".line").data(timeseries, tsName);
+  contextLines.enter().call(addContextLine);
+  contextLines.exit().remove();
+  return fetch.data(timeseries, draw);
+};
+
+draw = function(error, timeseries) {
+  var oldBrushExtent, t;
   x2scale.domain(d3.extent(d3.merge((function() {
     var _i, _len, _results;
     _results = [];
-    for (_i = 0, _len = visible.length; _i < _len; _i++) {
-      t = visible[_i];
+    for (_i = 0, _len = timeseries.length; _i < _len; _i++) {
+      t = timeseries[_i];
       _results.push(d3.extent(t.data, function(u) {
         return u.date_time;
       }));
     }
     return _results;
   })())));
+  oldBrushExtent = brush.extent();
   brush.extent([d3.max([oldBrushExtent[0], x2scale.domain()[0]]), d3.min([oldBrushExtent[1], x2scale.domain()[1]])]);
-  context.select(".x.brush").call(brush).call(brush.event);
-  panel = focus.selectAll(".panel").data(visible, function(t) {
-    return t.name;
-  });
-  panel.enter().call(addPanel);
-  panel.exit().remove();
-  focus.call(drawFocus);
-  contextLines = context.selectAll(".line").data(visible, function(t) {
-    return t.name;
-  });
-  contextLines.enter().call(addContextLine);
-  contextLines.exit().remove();
-  context.call(drawContext);
-  return d3.event.preventDefault();
+  return context.select(".x.brush").call(brush).call(brush.event);
+};
+
+toggleControl = function(d) {
+  d3.event.preventDefault();
+  d.visible = !d.visible;
+  controls.call(drawControls);
+  return update();
 };
 
 drawControls = function(sel) {
@@ -232,13 +222,32 @@ drawControls = function(sel) {
 };
 
 addPanel = function(sel) {
-  var panel;
+  var loading, panel;
   panel = sel.append("g").attr("class", "panel");
   panel.append("path").attr("class", "line");
   panel.append("g").attr("class", "x axis");
   panel.append("g").attr("class", "y axis");
   panel.append("text").attr("class", "title");
-  return panel.append("text").attr("class", "y label");
+  panel.append("text").attr("class", "y label");
+  loading = panel.append("g").attr("class", "loading");
+  loading.append("circle").attr({
+    transform: translate(0, 0),
+    cx: 0,
+    cy: 16,
+    r: 0
+  }).call(animateBubbles, 0);
+  loading.append("circle").attr({
+    transform: translate(16, 0),
+    cx: 0,
+    cy: 16,
+    r: 0
+  }).call(animateBubbles, 0.3);
+  return loading.append("circle").attr({
+    transform: translate(32, 0),
+    cx: 0,
+    cy: 16,
+    r: 0
+  }).call(animateBubbles, 0.6);
 };
 
 drawFocus = function(sel, heights) {
@@ -265,6 +274,15 @@ drawFocus = function(sel, heights) {
   return sel.selectAll(".panel").each(function(d, i) {
     var data, e, line, yaxis, yscale;
     d3.select(this).attr("transform", translate(0, dy(i)));
+    d3.select(this).select(".title").attr("transform", translate(width / 2, 50)).attr("text-anchor", "middle").text(function(e) {
+      return e.name;
+    });
+    if (!d.hasData()) {
+      d3.select(this).select(".loading").attr("transform", translate(width / 2, 25 + heights[i] / 2));
+      return;
+    } else {
+      d3.select(this).select(".loading").remove();
+    }
     yscale = d3.scale.linear().domain(d3.extent(d.data, function(e) {
       return e.value;
     })).range([heights[i] - padding.bottom, padding.top]).nice();
@@ -288,14 +306,9 @@ drawFocus = function(sel, heights) {
     }).defined(function(e) {
       return e.value;
     });
-    d3.select(this).select(".line").datum(data).attr("d", line).style("stroke", function(d) {
-      return d.color;
-    });
+    d3.select(this).select(".line").datum(data).attr("d", line).style("stroke", d.color);
     d3.select(this).select(".x.axis").attr("transform", translate(0, heights[i] - padding.bottom)).call(xaxis);
     d3.select(this).select(".y.axis").call(yaxis);
-    d3.select(this).select(".title").attr("transform", translate(width / 2, 50)).text(function(e) {
-      return e.name;
-    });
     return d3.select(this).select(".y.label").attr("transform", translate(padding.left + 10, padding.top + 10)).text(function(e) {
       return e.units;
     });
@@ -329,7 +342,20 @@ drawContext = function(sel) {
   return sel.select(".x.brush").call(brush);
 };
 
-fetch(build);
+animateBubbles = function(circle, begin) {
+  return circle.append("animate").attr({
+    attributeName: "r",
+    values: "0; 4; 0; 0",
+    dur: "1.2s",
+    repeatCount: "indefinite",
+    begin: begin,
+    keytimes: "0;0.2;0.7;1",
+    keySplines: "0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8",
+    calcMode: "spline"
+  });
+};
+
+fetch.timeseries(initialBuild);
 
 
 },{"./fetch":2,"d3":5}],4:[function(require,module,exports){
@@ -395,6 +421,10 @@ Timeseries = (function() {
 
   Timeseries.prototype.setData = function(data) {
     this.data = data;
+  };
+
+  Timeseries.prototype.hasData = function() {
+    return this.data != null;
   };
 
   Timeseries.prototype.processData = function(data) {

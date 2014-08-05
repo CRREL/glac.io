@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
-    <Placemark>
-        <name>Wolverine Glacier</name>
-        <Point>
-            <coordinates>-148.90606111111111,60.40937777777778</coordinates>
-        </Point>
-    </Placemark>
+  <Placemark>
+    <name>Wolverine Glacier</name>
+    <Point>
+      <coordinates>-148.90606111111111,60.40937777777778</coordinates>
+    </Point>
+  </Placemark>
 </kml>

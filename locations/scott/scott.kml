@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
-    <Placemark>
-        <name>Scott Glacier</name>
-        <Point>
-            <coordinates>-145.2713638888889,60.66708055555555</coordinates>
-        </Point>
-    </Placemark>
+  <Placemark>
+    <name>Scott Glacier</name>
+    <Point>
+      <coordinates>-145.2713638888889,60.66708055555555</coordinates>
+    </Point>
+  </Placemark>
 </kml>

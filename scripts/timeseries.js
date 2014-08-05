@@ -63,6 +63,10 @@ Timeseries = (function() {
     this.data = data;
   };
 
+  Timeseries.prototype.hasData = function() {
+    return this.data != null;
+  };
+
   Timeseries.prototype.processData = function(data) {
     var reducer, timeScale;
     timeScale = d3.time.scale().domain(d3.extent(data.map(function(d) {

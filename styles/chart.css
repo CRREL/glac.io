@@ -40,3 +40,8 @@ svg {
     stroke: none;
     fill: steelblue;
 }
+
+.loading {
+  fill: #333;
+  stroke: none;
+}

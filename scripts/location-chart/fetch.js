@@ -17,7 +17,7 @@ module.exports = config;
 
 
 },{}],2:[function(require,module,exports){
-var config, d3, locationsReady, parseDate, queue, ts;
+var config, d3, parseDate, queue, ts;
 
 d3 = require("d3");
 
@@ -29,31 +29,33 @@ ts = require("../timeseries");
 
 parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse;
 
-module.exports = function(callback) {
-  return queue().defer(d3.json, "data/timeseries.json").await(function(error, timeseries) {
-    return locationsReady(error, timeseries, callback);
-  });
-};
-
-locationsReady = function(error, data, callback) {
-  var q, t, timeseries, _fn, _i, _len;
-  q = queue(3);
-  timeseries = data.map(function(d) {
-    d.development = config.development;
-    return ts.makeTimeseries(d);
-  });
-  _fn = function(t) {
-    return q.defer(function(callback) {
-      return t.fetch(callback);
+module.exports = {
+  timeseries: function(callback) {
+    return queue().defer(d3.json, "data/timeseries.json").await(function(error, data) {
+      return callback(error, data.map(function(d) {
+        d.development = config.development;
+        return ts.makeTimeseries(d);
+      }));
     });
-  };
-  for (_i = 0, _len = timeseries.length; _i < _len; _i++) {
-    t = timeseries[_i];
-    _fn(t);
+  },
+  data: function(timeseries, callback) {
+    var q, t, _fn, _i, _len;
+    q = queue(3);
+    _fn = function(t) {
+      if (!t.hasData()) {
+        return q.defer(function(callback) {
+          return t.fetch(callback);
+        });
+      }
+    };
+    for (_i = 0, _len = timeseries.length; _i < _len; _i++) {
+      t = timeseries[_i];
+      _fn(t);
+    }
+    return q.awaitAll(function(error) {
+      return callback(error, timeseries);
+    });
   }
-  return q.awaitAll(function(error, timeseries) {
-    return callback(error, timeseries);
-  });
 };
 
 
@@ -120,6 +122,10 @@ Timeseries = (function() {
 
   Timeseries.prototype.setData = function(data) {
     this.data = data;
+  };
+
+  Timeseries.prototype.hasData = function() {
+    return this.data != null;
   };
 
   Timeseries.prototype.processData = function(data) {
