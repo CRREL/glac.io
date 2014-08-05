@@ -40,6 +40,8 @@ class Timeseries
 
   setData: (@data) ->
 
+  hasData: () -> @data?
+
   processData: (data) ->
     timeScale = d3.time.scale()
       .domain(d3.extent data.map (d) -> parseDate(d.date_time))

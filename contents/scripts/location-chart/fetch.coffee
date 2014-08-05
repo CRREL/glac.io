@@ -5,19 +5,20 @@ ts = require("../timeseries")
 
 parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse
 
-module.exports = (callback) ->
-  queue()
-    .defer(d3.json, "data/timeseries.json")
-    .await (error, timeseries) -> locationsReady error, timeseries, callback
+module.exports =
+  timeseries: (callback) ->
+    queue()
+      .defer(d3.json, "data/timeseries.json")
+      .await (error, data) ->
+        callback error, data.map (d) ->
+          d.development = config.development
+          ts.makeTimeseries d
 
-
-locationsReady = (error, data, callback) ->
-  # TODO parameterize
-  q = queue(3)
-  timeseries = data.map (d) ->
-    d.development = config.development
-    ts.makeTimeseries d
-  for t in timeseries
-    do (t) -> q.defer (callback) -> t.fetch callback
-
-  q.awaitAll (error, timeseries) -> callback error, timeseries
+  data: (timeseries, callback) ->
+    # TODO parameterize
+    q = queue(3)
+    for t in timeseries
+      do (t) ->
+        if not t.hasData()
+          q.defer (callback) -> t.fetch callback
+    q.awaitAll (error) -> callback error, timeseries

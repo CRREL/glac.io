@@ -24,6 +24,18 @@ width = 945 - margin.left - margin.right
 height = 600 - margin.top - margin.bottom
 height2 = 600 - margin2.top - margin2.bottom
 
+defaultBrushExtent = [
+  d3.time.month.offset(new Date(), -2)
+  new Date()
+]
+translate = (x, y) -> "translate(#{x},#{y})"
+emptyAxis = () -> d3.svg.axis().tickValues([]).outerTickSize(0)
+tsName = (t) -> t.name
+
+visibleTimeseries = () ->
+  (c for c in controls.selectAll(".control").data() when c.visible)
+
+
 xscale = d3.time.scale().range([0, width])
 x2scale = d3.time.scale().range([0, width])
 y2scale = d3.scale.linear().range([height2, 0])
@@ -34,18 +46,6 @@ xaxis = d3.svg.axis()
 x2axis = d3.svg.axis()
   .scale(x2scale)
   .orient("bottom")
-
-
-defaultBrushExtent = [
-  d3.time.month.offset(new Date(), -2)
-  new Date()
-]
-translate = (x, y) -> "translate(#{x},#{y})"
-emptyAxis = () -> d3.svg.axis().tickValues([]).outerTickSize(0)
-
-visibleTimeseries = () ->
-  (c for c in controls.selectAll(".control").data() when c.visible)
-
 
 svg = chart.append("svg")
   .attr("width", width + margin.left + margin.right)
@@ -83,14 +83,12 @@ brush = d3.svg.brush()
         .call(brush.event)
     else
       xscale.domain brush.extent()
-      focus
-        .call(drawFocus)
-      context
-        .call(drawContext)
+      focus.call(drawFocus)
+      context.call(drawContext)
   )
 
 
-build = (error, timeseries) ->
+initialBuild = (error, timeseries) ->
   control = controls.selectAll(".control").data(timeseries)
   control
     .enter()
@@ -107,23 +105,9 @@ build = (error, timeseries) ->
   controls
     .call(drawControls)
 
-  visible = visibleTimeseries()
-  x2scale.domain(d3.extent(d3.merge(d3.extent(t.data, (u) -> u.date_time) for t in visible)))
-  dy = height / visible.length
-
-  focus.selectAll(".panel").data(visible, (t) -> t.name)
-    .enter()
-    .call(addPanel)
-  focus
-    .call(drawFocus)
-
-  contextLines = context.selectAll(".line").data(visible, (t) -> t.name)
-    .enter()
-    .call(addContextLine)
   context
     .append("g")
     .attr("class", "x axis bottom")
-
   context
     .append("g")
     .attr("class", "x brush")
@@ -132,7 +116,6 @@ build = (error, timeseries) ->
     .attr("height", height2)
     .attr("rx", 10)
     .attr("ry", 10)
-
   context
     .select(".x.brush")
     .selectAll(".resize")
@@ -144,20 +127,28 @@ build = (error, timeseries) ->
     .attr("transform", (d, i) -> if i == 0 then "translate(-20,0)" else "")
 
   brush.extent defaultBrushExtent
-  context
-    .select(".x.brush")
-    .call(brush)
-    .call(brush.event)
+
+  update()
 
 
-toggleControl = (d) ->
-  # TODO don't let the user turn off the last graph
-  d.visible = not d.visible
-  controls.call(drawControls)
+update = () ->
+  timeseries = visibleTimeseries()
 
+  panels = focus.selectAll(".panel").data(timeseries, tsName)
+  panels.enter().call(addPanel)
+  panels.exit().remove()
+  focus.call(drawFocus)
+
+  contextLines = context.selectAll(".line").data(timeseries, tsName)
+  contextLines.enter().call(addContextLine)
+  contextLines.exit().remove()
+
+  fetch.data timeseries, draw
+
+
+draw = (error, timeseries) ->
+  x2scale.domain(d3.extent(d3.merge(d3.extent(t.data, (u) -> u.date_time) for t in timeseries)))
   oldBrushExtent = brush.extent()
-  visible = visibleTimeseries()
-  x2scale.domain(d3.extent(d3.merge(d3.extent(t.data, (u) -> u.date_time) for t in visible)))
   brush.extent [
     d3.max([oldBrushExtent[0], x2scale.domain()[0]]),
     d3.min([oldBrushExtent[1], x2scale.domain()[1]])
@@ -167,21 +158,13 @@ toggleControl = (d) ->
     .call(brush)
     .call(brush.event)
 
-  panel = focus.selectAll(".panel").data(visible, (t) -> t.name)
-  panel
-    .enter()
-    .call(addPanel)
-  panel.exit().remove()
-  focus.call(drawFocus)
 
-  contextLines = context.selectAll(".line").data(visible, (t) -> t.name)
-  contextLines
-    .enter()
-    .call(addContextLine)
-  contextLines.exit().remove()
-  context.call(drawContext)
-
+toggleControl = (d) ->
+  # TODO don't let the user turn off the last graph
   d3.event.preventDefault()
+  d.visible = not d.visible
+  controls.call(drawControls)
+  update()
 
 
 drawControls = (sel) ->
@@ -213,6 +196,33 @@ addPanel = (sel) ->
   panel
     .append("text")
     .attr("class", "y label")
+  loading = panel
+    .append("g")
+    .attr("class", "loading")
+  loading.append("text")
+    .attr("text-anchor", "middle")
+    .text("loading data")
+  loading.append("circle")
+    .attr(
+      transform: translate(-16, 10)
+      cx: 0
+      cy: 16
+      r: 0)
+    .call(animateBubbles, 0)
+  loading.append("circle")
+    .attr(
+      transform: translate(0, 10)
+      cx: 0
+      cy: 16
+      r: 0)
+    .call(animateBubbles, 0.3)
+  loading.append("circle")
+    .attr(
+      transform: translate(16, 10)
+      cx: 0
+      cy: 16
+      r: 0)
+    .call(animateBubbles, 0.6)
 
 
 drawFocus = (sel, heights) ->
@@ -224,6 +234,18 @@ drawFocus = (sel, heights) ->
   sel.selectAll(".panel").each (d, i) ->
     d3.select(this)
       .attr("transform", translate(0, dy(i)))
+
+    d3.select(this).select(".title")
+      .attr("transform", translate(width / 2, 50))
+      .attr("text-anchor", "middle")
+      .text((e) -> e.name)
+
+    if not d.hasData()
+      d3.select(this).select(".loading")
+        .attr("transform", translate(width / 2, 25 + heights[i] / 2))
+      return
+    else
+      d3.select(this).select(".loading").remove()
 
     yscale = d3.scale.linear()
       .domain(d3.extent(d.data, (e) -> e.value))
@@ -252,10 +274,6 @@ drawFocus = (sel, heights) ->
       
     d3.select(this).select(".y.axis")
       .call(yaxis)
-
-    d3.select(this).select(".title")
-      .attr("transform", translate(width / 2, 50))
-      .text((e) -> e.name)
 
     d3.select(this).select(".y.label")
       .attr("transform", translate(padding.left + 10, padding.top + 10))
@@ -291,4 +309,18 @@ drawContext = (sel) ->
     .call(brush)
 
 
-fetch build
+animateBubbles = (circle, begin) ->
+  circle.append("animate")
+    .attr(
+      attributeName: "r"
+      values: "0; 4; 0; 0"
+      dur: "1.2s"
+      repeatCount: "indefinite"
+      begin: begin
+      keytimes: "0;0.2;0.7;1"
+      keySplines: "0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8"
+      calcMode: "spline"
+    )
+
+
+fetch.timeseries initialBuild
