@@ -244,7 +244,7 @@ drawFocus = (sel, heights) ->
     d3.select(this).select(".line")
       .datum(data)
       .attr("d", line)
-      .style("stroke", (d) -> d.color)
+      .style("stroke", d.color)
 
     d3.select(this).select(".x.axis")
       .attr("transform", translate(0, heights[i] - padding.bottom))
