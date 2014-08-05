@@ -23,15 +23,6 @@
 },
 {
     "type": "cwms",
-    "name": "Precipitation",
-    "ts_codes": 8568021,
-    "developmentUrl": "../../data/development/hubbard-precip.js?jsonp=precip",
-    "visible": false,
-    "color": "steelblue",
-    "units": "mm"
-},
-{
-    "type": "cwms",
     "name": "Pressure",
     "ts_codes": 8572021,
     "developmentUrl": "../../data/development/hubbard-pressure.js?jsonp=pressure",
