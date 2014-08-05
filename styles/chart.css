@@ -45,3 +45,6 @@ svg {
   fill: #333;
   stroke: none;
 }
+.loading text {
+    font-size: 16px;
+  }

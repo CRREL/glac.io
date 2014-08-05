@@ -230,20 +230,21 @@ addPanel = function(sel) {
   panel.append("text").attr("class", "title");
   panel.append("text").attr("class", "y label");
   loading = panel.append("g").attr("class", "loading");
+  loading.append("text").attr("text-anchor", "middle").text("loading data");
   loading.append("circle").attr({
-    transform: translate(0, 0),
+    transform: translate(-16, 10),
     cx: 0,
     cy: 16,
     r: 0
   }).call(animateBubbles, 0);
   loading.append("circle").attr({
-    transform: translate(16, 0),
+    transform: translate(0, 10),
     cx: 0,
     cy: 16,
     r: 0
   }).call(animateBubbles, 0.3);
   return loading.append("circle").attr({
-    transform: translate(32, 0),
+    transform: translate(16, 10),
     cx: 0,
     cy: 16,
     r: 0
