@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
-    <Placemark>
-        <name>Gulkana Glacier</name>
-        <Point>
-            <coordinates>-145.41485555555556,63.27641666666666</coordinates>
-        </Point>
-    </Placemark>
+  <Placemark>
+    <name>Gulkana Glacier</name>
+    <Point>
+      <coordinates>-145.41485555555556,63.27641666666666</coordinates>
+    </Point>
+  </Placemark>
 </kml>

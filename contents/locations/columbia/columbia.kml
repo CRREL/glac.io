@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
-    <Placemark>
-        <name>Columbia Glacier</name>
-        <Point>
-            <coordinates>-146.833975,61.22250277777778</coordinates>
-        </Point>
-    </Placemark>
+  <Placemark>
+    <name>Columbia Glacier</name>
+    <Point>
+      <coordinates>-146.833975,61.22250277777778</coordinates>
+    </Point>
+  </Placemark>
 </kml>
