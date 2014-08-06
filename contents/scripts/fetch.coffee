@@ -1,7 +1,7 @@
 d3 = require("d3")
 queue = require("queue-async")
-config = require("../config")
-ts = require("../timeseries")
+config = require("./config")
+ts = require("./timeseries")
 
 parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse
 
