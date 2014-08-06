@@ -6,7 +6,7 @@
     },
     "satellitecamera": {
         "filename": "satellitecamera64px.png",
-        "name": "Satellite linked time lapse camera",
+        "name": "Satellite linked time-lapse camera",
         "description": "Permanent time-lapse camera with real-time transmission of images via satellite link."
     },
     "lidar": {
@@ -21,7 +21,7 @@
     },
     "timelapse": {
         "filename": "camera64px.png",
-        "name": "Time lapse camera",
+        "name": "Time-lapse camera",
         "description": "Permanent high-resolution time-lapse camera."
     }
 }
