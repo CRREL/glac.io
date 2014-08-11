@@ -39,7 +39,23 @@
             "filename": "_LDR2653.jpg",
             "caption": "CRREL designed Iridium-linked satellite camera at Helheim Glacier. Credit: Adam LeWinter, CRREL"
         },
-{
+	 {
+            "filename": "HEL_Climate.jpg",
+            "caption": "Updated climate station installed at Helheim Glacier in July, 2014. Credit: Dave Finnegan, CRREL"
+        },
+	{
+            "filename": "HEL_Climate2.jpg",
+            "caption": "Updated climate station installed at Helheim Glacier in July, 2014. Credit: Dave Finnegan, CRREL"
+        },
+	{
+            "filename": "HEL_Terminus2.jpg",
+            "caption": "Updated terminus camera installed July 2014. Credit: Dave Finnegan, CRREL"
+        },
+	{
+            "filename": "HEL_Terminus3.jpg",
+            "caption": "Updated satellite-linked time-lapse camera at Helheim Glacier in July, 2014. Credit: Dave Finnegan, CRREL"
+        },
+	{
             "filename": "Helheim-Aug2009.png",
             "caption": "Helheim terminus, August 2009. Credit:Gordon Hamilton, University of Maine"
         }
