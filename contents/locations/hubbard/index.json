@@ -6,22 +6,22 @@
     {
         "name": "Overview",
         "url": "overview.html",
-        "filename": "Hubbard_Location-Thumbnail.jpg"
+        "image_url": "Hubbard_Location-Thumbnail.jpg"
     },
     {
         "name": "Images",
         "url": "images.html",
-        "filename": "Hubbard_Images_1_Thumbnail.jpg"
+        "image_url": "Hubbard_Images_1_Thumbnail.jpg"
     },
     {
         "name": "Real-time Data",
         "url": "data.html",
-        "filename": "chart.png"
+        "image_url": "chart.png"
     },
     {
         "name": "Time-lapse",
         "url": "timelapse.html",
-        "filename": "timelapse.jpg"
+        "image_url": "timelapse.jpg"
     }
 
     ]

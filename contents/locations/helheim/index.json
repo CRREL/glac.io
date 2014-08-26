@@ -6,22 +6,22 @@
     {
         "name": "Overview",
         "url": "overview.html",
-        "filename": "_LDR2649-Thumbnail.jpg"
+        "image_url": "_LDR2649-Thumbnail.jpg"
     },
     {
         "name": "Images",
         "url": "images.html",
-        "filename": "_LDR2621-Thumbnail.jpg"
+        "image_url": "_LDR2621-Thumbnail.jpg"
     },
     {
         "name": "Real-time Data",
         "url": "data.html",
-	"filename": "chart.png"
+        "image_url": "chart.png"
     },
     {
         "name": "Time-lapse",
         "url": "timelapse.html",
-        "filename": "HEL_Terminus_20140720_210000-Thumbnail.jpg"
+        "image_url": "HEL_Terminus_20140720_210000-Thumbnail.jpg"
     }
 
     ]

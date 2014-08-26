@@ -1,27 +1,6 @@
-extends page-wide
+extends tiles
 
-block prepend main
-  - page.metadata.breadcrumbs = true
-
-block content
-  - var tiles = page.metadata.tiles;
-  - var slug = page.filepath.relative.split("/")[1];
-
-  div(style="text-align: center")
-    h1= page.title
-    p= page.metadata.blurb
-
-  - for (var i = 0; i < tiles.length;)
-    - var initial = i;
-    .row
-      - for (; i < Math.min(tiles.length, initial + 4); i++)
-        .col-md-3.tile
-          a.thumbnail(href=tiles[i].url)
-            if tiles[i].filename
-              img(src=tiles[i].filename)
-            else
-              img(src=contents.scripts.lib["holder.js"].url + "/200x150")
-            h4= tiles[i].name
+block append content
   // TODO include a map of the location
   .row
     .col-md-4.col-md-offset-4.text-center

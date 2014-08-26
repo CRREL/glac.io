@@ -1,0 +1,30 @@
+extends page-wide
+
+block append styles
+  link(rel="stylesheet", href=contents.styles["camera-images.less"].url)
+
+block prepend main
+  - page.metadata.breadcrumbs = true
+
+block content
+  .text-center
+    h1= page.title
+
+    p
+      | Select image using the thumbnails on the left, or scroll in the image viewer.
+      | You can also use the arrow keys to scroll forward and backward.
+
+  hr
+
+  .row
+    #controls.col-md-2
+    .col-md-1
+      a.left.arrow
+        span.glyphicon.glyphicon-chevron-left
+    #viewer.col-md-8
+    .col-md-1
+      a.right.arrow
+        span.glyphicon.glyphicon-chevron-right
+
+block append scripts
+  script(src=contents.scripts["camera-images.coffee"].url)
