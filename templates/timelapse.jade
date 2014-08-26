@@ -1,0 +1,20 @@
+extends page-wide
+
+block append styles
+  link(rel="stylesheet", href=contents.styles["timelapse.less"].url)
+
+block append content
+  .row
+    .col-md-8.col-md-offset-2
+      .timelapse
+        ul.timelapse-links
+          li.timelapse-fullsize-image
+        .timelapse-viewer
+        .timelapse-scrubber
+        .timelapse-controls
+          a.glyphicon.glyphicon-play.timelapse-play-stop(href="#")
+          a.glyphicon.glyphicon-forward.timelapse-forward-backward(href="#")
+        .timelapse-context
+
+block append scripts
+  script(src=contents.scripts["timelapse.coffee"].url)
