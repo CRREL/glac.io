@@ -42,7 +42,7 @@ yscale = d3.time.scale().range([height, 0]);
 yaxis = d3.svg.axis().scale(yscale).orient("left");
 
 build = function(error, camera) {
-  var imageContainer, images, update;
+  var activate, getActiveIndex, imageContainer, images, nextImage, prevImage, update;
   images = camera.images.sort(function(a, b) {
     return b.datetime - a.datetime;
   }).slice(0, 20);
@@ -55,13 +55,34 @@ build = function(error, camera) {
     activeImage = images.filter(function(d) {
       return d.active;
     })[0];
-    viewer.select(".description").html("This picture was taken " + moment(activeImage.datetime).fromNow() + " on " + moment(activeImage.datetime).format("llll") + ".");
+    viewer.select(".description").html("This picture was taken " + moment(activeImage.datetime).fromNow() + " on " + moment(activeImage.datetime).format("DD-MMM-YYYY [at] ha") + ".");
     viewer.select("img").datum(activeImage).attr("src", function(d) {
       return camera.imageBaseUrl + d.path;
     });
     return controls.selectAll("rect").classed("active", function(d) {
       return d.active;
     });
+  };
+  getActiveIndex = function() {
+    var i, image;
+    for (i in images) {
+      image = images[i];
+      if (image.active) {
+        return Number(i);
+      }
+    }
+  };
+  nextImage = function() {
+    return activate(d3.max([getActiveIndex() - 1, 0]));
+  };
+  prevImage = function() {
+    return activate(d3.min([getActiveIndex() + 1, images.length - 1]));
+  };
+  activate = function(idx) {
+    images.forEach(function(d, i) {
+      return d.active = i === idx;
+    });
+    return update();
   };
   controls.append("g").attr("class", "axis").attr("transform", translate(margin.left, margin.top)).call(yaxis);
   imageContainer = controls.append("g").attr("class", "images").attr("transform", translate(margin.left, margin.top));
@@ -86,6 +107,17 @@ build = function(error, camera) {
   }).attr("y", function(d) {
     return yscale(d.datetime);
   });
+  d3.select("body").on("keydown", function() {
+    var _ref, _ref1;
+    d3.event.preventDefault();
+    if ((_ref = d3.event.keyCode) === 40 || _ref === 39 || _ref === 83 || _ref === 68 || _ref === 74 || _ref === 76) {
+      return prevImage();
+    } else if ((_ref1 = d3.event.keyCode) === 38 || _ref1 === 37 || _ref1 === 87 || _ref1 === 65 || _ref1 === 75 || _ref1 === 72) {
+      return nextImage();
+    }
+  });
+  d3.select(".arrow.left").on("click", prevImage);
+  d3.select(".arrow.right").on("click", nextImage);
   return update();
 };
 
