@@ -19,7 +19,7 @@ margin = {
   top: 40,
   bottom: 30,
   right: 20,
-  left: 60
+  left: 100
 };
 
 controlImageHeight = 20;
