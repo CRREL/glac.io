@@ -361,35 +361,29 @@ module.exports = {
     });
   },
   images: function(callback) {
-    return queue().defer(d3.json, "data/timelapse.json").await(function(error, cameras) {
-      var camera, q, _fn, _i, _len;
+    return queue().defer(d3.json, "data/images.json").await(function(error, camera) {
+      var q;
       q = queue();
-      _fn = function(camera) {
-        return q.defer(function(cb) {
-          var options, url;
-          options = {
-            jsonp: true,
-            callbackName: "jsonp"
-          };
-          if (config.development) {
-            url = uri.parse("/data/development/hubbard-images.js?jsonp=cameraImageList", true);
-          } else {
-            url = uri.parse(camera.listUrl, true);
-          }
-          return xhr(url, options, function(error, data) {
-            camera.images = data.map(function(d) {
-              d.datetime = new Date(d.datetime);
-              return d;
-            });
-            return cb(error, camera);
+      q.defer(function(cb) {
+        var options, url;
+        options = {
+          jsonp: true,
+          callbackName: "jsonp"
+        };
+        if (config.development) {
+          url = uri.parse("/data/development/hubbard-images.js?" + "jsonp=cameraImageList", true);
+        } else {
+          url = uri.parse(camera.url, true);
+        }
+        return xhr(url, options, function(error, data) {
+          camera.images = data.map(function(d) {
+            d.datetime = new Date(d.datetime);
+            return d;
           });
+          return cb(error, camera);
         });
-      };
-      for (_i = 0, _len = cameras.length; _i < _len; _i++) {
-        camera = cameras[_i];
-        _fn(camera);
-      }
-      return q.awaitAll(callback);
+      });
+      return q.await(callback);
     });
   }
 };

@@ -1,0 +1,20 @@
+.tick {
+  font-size: 12px;
+}
+line,
+path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.images image {
+  cursor: pointer;
+}
+.images rect {
+  stroke: none;
+  fill: none;
+}
+.images rect.active {
+  stroke: gold;
+  stroke-width: 2px;
+}
