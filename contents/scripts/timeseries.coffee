@@ -21,7 +21,8 @@ module.exports =
 class Timeseries
 
   constructor: (options) ->
-    {@name, @visible, @color, @units, @development, @developmentUrl} = options
+    {@name, @visible, @color, @units, @development, @developmentUrl,
+      @min, @max} = options
     @productionUrl = @buildProductionUrl()
 
   fetch: (callback) ->

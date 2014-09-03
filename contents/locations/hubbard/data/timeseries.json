@@ -28,7 +28,9 @@
     "developmentUrl": "../../data/development/hubbard-pressure.js?jsonp=pressure",
     "visible": false,
     "color": "orange",
-    "units": "kPa"
+    "units": "kPa",
+    "min": 0,
+    "max": 105
 },
 {
     "type": "cwms",

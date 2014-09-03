@@ -248,9 +248,10 @@ drawFocus = (sel, heights) ->
       d3.select(this).select(".loading").remove()
 
     yscale = d3.scale.linear()
-      .domain(d3.extent(d.data, (e) -> e.value))
+      .domain(getYExtent(d))
       .range([heights[i] - padding.bottom, padding.top])
       .nice()
+      .clamp(true)
 
     yaxis = d3.svg.axis()
       .scale(yscale)
@@ -290,9 +291,10 @@ addContextLine = (sel) ->
 drawContext = (sel) ->
   sel.selectAll(".line").each (d) ->
     yscale = d3.scale.linear()
-      .domain(d3.extent(d.data, (e) -> e.value))
+      .domain(getYExtent(d))
       .range([height2, 0])
       .nice()
+      .clamp(true)
     line = d3.svg.line()
       .x((e) -> x2scale(e.date_time))
       .y((e) -> yscale(e.value))
@@ -322,6 +324,15 @@ animateBubbles = (circle, begin) ->
       keySplines: "0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8"
       calcMode: "spline"
     )
+
+
+getYExtent = (timeseries) ->
+  extent = d3.extent(timeseries.data, (e) -> e.value)
+  if timeseries.min
+    extent[0] = d3.max([extent[0], timeseries.min])
+  if timeseries.max
+    extent[1] = d3.min([extent[1], timeseries.max])
+  return extent
 
 
 fetch.timeseries initialBuild
