@@ -3,8 +3,9 @@
     "name": "Air temperature 1",
     "ts_codes": 22338021,
     "units": "°C",
-    "visible": false,
-    "color": "steelblue"
+    "visible": true,
+    "color": "steelblue",
+    "max": 30
 },
 {
     "type": "cwms",
@@ -12,7 +13,8 @@
     "ts_codes": 22339021,
     "units": "°C",
     "visible": false,
-    "color": "steelblue"
+    "color": "steelblue",
+    "max": 30
 },
 {
     "type": "cwms",
@@ -32,27 +34,13 @@
 },
 {
     "type": "cwms",
-    "name": "Precipitation",
-    "ts_codes": 12684021,
-    "units": "mm",
-    "visible": false,
-    "color": "steelblue"
-},
-{
-    "type": "cwms",
-    "name": "Air temperature",
-    "ts_codes": 12685021,
-    "units": "°C",
-    "visible": true,
-    "color": "steelblue"
-},
-{
-    "type": "cwms",
     "name": "Relative humidity",
     "ts_codes": 12686021,
     "units": "%",
     "visible": false,
-    "color": "steelblue"
+    "color": "steelblue",
+    "min": 0,
+    "max": 100
 },
 {
     "type": "cwms",
@@ -60,7 +48,8 @@
     "ts_codes": 12688021,
     "units": "kph",
     "visible": false,
-    "color": "steelblue"
+    "color": "steelblue",
+    "min": 0
 },
 {
     "type": "cwms",
@@ -68,7 +57,9 @@
     "ts_codes": 12689021,
     "units": "deg",
     "visible": false,
-    "color": "steelblue"
+    "color": "steelblue",
+    "min": 0,
+    "max": 360
 },
 {
     "type": "cwms",
@@ -76,7 +67,8 @@
     "ts_codes": 12690021,
     "units": "kph",
     "visible": false,
-    "color": "steelblue"
+    "color": "steelblue",
+    "min": 0
 },
 {
     "type": "cwms",
@@ -84,7 +76,9 @@
     "ts_codes": 12691021,
     "units": "deg",
     "visible": false,
-    "color": "steelblue"
+    "color": "steelblue",
+    "min": 0,
+    "max": 360
 },
 {
     "type": "cwms",
@@ -99,14 +93,6 @@
     "name": "Voltage",
     "ts_codes": 12693021,
     "units": "volt",
-    "visible": false,
-    "color": "steelblue"
-},
-{
-    "type": "cwms",
-    "name": "Snow depth",
-    "ts_codes": 12694021,
-    "units": "mm",
     "visible": false,
     "color": "steelblue"
 }
