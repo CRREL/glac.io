@@ -147,7 +147,8 @@ update = () ->
 
 
 draw = (error, timeseries) ->
-  x2scale.domain(d3.extent(d3.merge(d3.extent(t.data, (u) -> u.date_time) for t in timeseries)))
+  x2scale.domain(d3.extent(d3.merge(
+    d3.extent(t.data, (u) -> u.date_time) for t in timeseries)))
   oldBrushExtent = brush.extent()
   brush.extent [
     d3.max([oldBrushExtent[0], x2scale.domain()[0]]),
@@ -257,7 +258,8 @@ drawFocus = (sel, heights) ->
       .orient("left")
       .ticks(10 / heights.length)
 
-    data = (e for e in d.data when xscale.domain()[0] <= e.date_time <= xscale.domain()[1])
+    [minTime, maxTime] = xscale.domain()
+    data = (e for e in d.data when minTime <= e.date_time <= maxTime)
     line = d3.svg.line()
       .x((e) -> xscale(e.date_time))
       .y((e) -> yscale(e.value))
