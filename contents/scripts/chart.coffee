@@ -38,7 +38,6 @@ visibleTimeseries = () ->
 
 xscale = d3.time.scale().range([0, width])
 x2scale = d3.time.scale().range([0, width])
-y2scale = d3.scale.linear().range([height2, 0])
 
 xaxis = d3.svg.axis()
   .scale(xscale)
