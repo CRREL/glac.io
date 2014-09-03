@@ -19,7 +19,8 @@
     "developmentUrl": "../../data/development/hubbard-avgtemp-daily.js?jsonp=temperature",
     "visible": false,
     "color": "red",
-    "units": "°C"
+    "units": "°C",
+    "max": 30
 },
 {
     "type": "cwms",
@@ -28,7 +29,8 @@
     "developmentUrl": "../../data/development/hubbard-avgtemp-daily.js?jsonp=temperature",
     "visible": false,
     "color": "orange",
-    "units": "°C"
+    "units": "°C",
+    "max": 30
 },
 {
     "type": "cwms",
@@ -48,7 +50,8 @@
     "developmentUrl": "../../data/development/hubbard-solar.js?jsonp=solar",
     "visible": false,
     "color": "orange",
-    "units": "J/m2"
+    "units": "J/m2",
+    "min": 0
 },
 {
     "type": "cwms",
@@ -57,7 +60,8 @@
     "developmentUrl": "../../data/development/hubbard-solar.js?jsonp=solar",
     "visible": false,
     "color": "orange",
-    "units": "J/m2"
+    "units": "J/m2",
+    "min": 0
 },
 {
     "type": "cwms",
@@ -66,7 +70,8 @@
     "developmentUrl": "../../data/development/hubbard-windspeed.js?jsonp=windspeed",
     "visible": false,
     "color": "blue",
-    "units": "Kilometers per hour"
+    "units": "Kilometers per hour",
+    "min": 0
 },
 {
     "type": "cwms",
@@ -75,7 +80,8 @@
     "developmentUrl": "../../data/development/hubbard-windspeed.js?jsonp=windspeed",
     "visible": false,
     "color": "blue",
-    "units": "Kilometers per hour"
+    "units": "Kilometers per hour",
+    "min": 0
 },
 {
     "type": "cwms",
@@ -84,7 +90,9 @@
     "developmentUrl": "../../data/development/hubbard-windspeed.js?jsonp=windspeed",
     "visible": false,
     "color": "blue",
-    "units": "Degrees"
+    "units": "Degrees",
+    "min": 0,
+    "max": 360
 },
 {
     "type": "cwms",
@@ -93,7 +101,9 @@
     "developmentUrl": "../../data/development/hubbard-windspeed.js?jsonp=windspeed",
     "visible": false,
     "color": "blue",
-    "units": "Degrees"
+    "units": "Degrees",
+    "min": 0,
+    "max": 360
 },
 {
     "type": "cwms",
@@ -102,7 +112,9 @@
     "developmentUrl": "../../data/development/hubbard-relhum.js?jsonp=relhum",
     "visible": false,
     "color": "blue",
-    "units": "Percentage"
+    "units": "Percentage",
+    "min": 0,
+    "max": 100
 },
 {
     "type": "cwms",
@@ -111,6 +123,7 @@
     "developmentUrl": "../../data/development/hubbard-relhum.js?jsonp=relhum",
     "visible": false,
     "color": "yellow",
-    "units": "Volts"
+    "units": "Volts",
+    "min": 0
 }
 ]
