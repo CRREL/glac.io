@@ -4,7 +4,7 @@
     "ts_codes": 22338021,
     "units": "°C",
     "visible": true,
-    "color": "steelblue",
+    "color": "#51A7F9",
     "max": 30
 },
 {
@@ -13,7 +13,7 @@
     "ts_codes": 22339021,
     "units": "°C",
     "visible": false,
-    "color": "steelblue",
+    "color": "#0432FC",
     "max": 30
 },
 {
@@ -22,7 +22,8 @@
     "ts_codes": 12681021,
     "units": "J/m2",
     "visible": false,
-    "color": "steelblue"
+    "color": "#C39719",
+    "min": 0
 },
 {
     "type": "cwms",
@@ -30,7 +31,8 @@
     "ts_codes": 12683021,
     "units": "J/m2",
     "visible": false,
-    "color": "steelblue"
+    "color": "#DE6A10",
+    "min": 0
 },
 {
     "type": "cwms",
@@ -38,7 +40,7 @@
     "ts_codes": 12686021,
     "units": "%",
     "visible": false,
-    "color": "steelblue",
+    "color": "#535860",
     "min": 0,
     "max": 100
 },
@@ -48,7 +50,7 @@
     "ts_codes": 12688021,
     "units": "kph",
     "visible": false,
-    "color": "steelblue",
+    "color": "#FA40FF",
     "min": 0
 },
 {
@@ -57,7 +59,7 @@
     "ts_codes": 12689021,
     "units": "deg",
     "visible": false,
-    "color": "steelblue",
+    "color": "#FA40FF",
     "min": 0,
     "max": 360
 },
@@ -67,7 +69,7 @@
     "ts_codes": 12690021,
     "units": "kph",
     "visible": false,
-    "color": "steelblue",
+    "color": "#9D369B",
     "min": 0
 },
 {
@@ -76,7 +78,7 @@
     "ts_codes": 12691021,
     "units": "deg",
     "visible": false,
-    "color": "steelblue",
+    "color": "#942191",
     "min": 0,
     "max": 360
 },
@@ -86,7 +88,9 @@
     "ts_codes": 12692021,
     "units": "kPa",
     "visible": false,
-    "color": "steelblue"
+    "color": "#AA7A41",
+    "min": 0,
+    "max": 105
 },
 {
     "type": "cwms",
@@ -94,6 +98,7 @@
     "ts_codes": 12693021,
     "units": "volt",
     "visible": false,
-    "color": "steelblue"
+    "color": "#FA2908",
+    "min": 0
 }
 ]
