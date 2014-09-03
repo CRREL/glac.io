@@ -9,7 +9,7 @@
     "floor": 320,
     "developmentUrl": "../../data/development/hubbard-avgrange-daily.js?jsonp=ntsfvAwWtPjZJKz",
     "visible": true,
-    "color": "steelblue",
+    "color": "#000000",
     "units": "Meters from Gilbert Point. 320 meters is closure."
 },
 {
@@ -18,7 +18,7 @@
     "ts_codes": 18676021,
     "developmentUrl": "../../data/development/hubbard-avgtemp-daily.js?jsonp=temperature",
     "visible": false,
-    "color": "red",
+    "color": "#51A7F9",
     "units": "°C",
     "max": 30
 },
@@ -28,7 +28,7 @@
     "ts_codes": 18677021,
     "developmentUrl": "../../data/development/hubbard-avgtemp-daily.js?jsonp=temperature",
     "visible": false,
-    "color": "orange",
+    "color": "#0432FC",
     "units": "°C",
     "max": 30
 },
@@ -38,7 +38,7 @@
     "ts_codes": 8572021,
     "developmentUrl": "../../data/development/hubbard-pressure.js?jsonp=pressure",
     "visible": false,
-    "color": "orange",
+    "color": "#AA7A41",
     "units": "kPa",
     "min": 0,
     "max": 105
@@ -49,7 +49,7 @@
     "ts_codes": 18682021,
     "developmentUrl": "../../data/development/hubbard-solar.js?jsonp=solar",
     "visible": false,
-    "color": "orange",
+    "color": "#DE6A10",
     "units": "J/m2",
     "min": 0
 },
@@ -59,7 +59,7 @@
     "ts_codes": 18681021,
     "developmentUrl": "../../data/development/hubbard-solar.js?jsonp=solar",
     "visible": false,
-    "color": "orange",
+    "color": "#C39719",
     "units": "J/m2",
     "min": 0
 },
@@ -69,7 +69,7 @@
     "ts_codes": 18679021,
     "developmentUrl": "../../data/development/hubbard-windspeed.js?jsonp=windspeed",
     "visible": false,
-    "color": "blue",
+    "color": "#FA40FF",
     "units": "Kilometers per hour",
     "min": 0
 },
@@ -79,7 +79,7 @@
     "ts_codes": 12050021,
     "developmentUrl": "../../data/development/hubbard-windspeed.js?jsonp=windspeed",
     "visible": false,
-    "color": "blue",
+    "color": "#9D369B",
     "units": "Kilometers per hour",
     "min": 0
 },
@@ -89,7 +89,7 @@
     "ts_codes": 18680021,
     "developmentUrl": "../../data/development/hubbard-windspeed.js?jsonp=windspeed",
     "visible": false,
-    "color": "blue",
+    "color": "#FA40FF",
     "units": "Degrees",
     "min": 0,
     "max": 360
@@ -100,7 +100,7 @@
     "ts_codes": 12051021,
     "developmentUrl": "../../data/development/hubbard-windspeed.js?jsonp=windspeed",
     "visible": false,
-    "color": "blue",
+    "color": "#942191",
     "units": "Degrees",
     "min": 0,
     "max": 360
@@ -111,7 +111,7 @@
     "ts_codes": 18678021,
     "developmentUrl": "../../data/development/hubbard-relhum.js?jsonp=relhum",
     "visible": false,
-    "color": "blue",
+    "color": "#535860",
     "units": "Percentage",
     "min": 0,
     "max": 100
@@ -122,7 +122,7 @@
     "ts_codes": 18683021,
     "developmentUrl": "../../data/development/hubbard-relhum.js?jsonp=relhum",
     "visible": false,
-    "color": "yellow",
+    "color": "#FA2908",
     "units": "Volts",
     "min": 0
 }
