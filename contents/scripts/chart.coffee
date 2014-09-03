@@ -42,6 +42,9 @@ x2scale = d3.time.scale().range([0, width])
 xaxis = d3.svg.axis()
   .scale(xscale)
   .orient("bottom")
+xgrid = d3.svg.axis()
+  .scale(xscale)
+  .orient("bottom")
 x2axis = d3.svg.axis()
   .scale(x2scale)
   .orient("bottom")
@@ -182,6 +185,15 @@ addPanel = (sel) ->
     .append("g")
     .attr("class", "panel")
   panel
+    .append("rect")
+    .attr("class", "fill")
+  panel
+    .append("g")
+    .attr("class", "x grid")
+  panel
+    .append("g")
+    .attr("class", "y grid")
+  panel
     .append("path")
     .attr("class", "line")
   panel
@@ -204,21 +216,21 @@ addPanel = (sel) ->
     .text("loading data")
   loading.append("circle")
     .attr(
-      transform: translate(-16, 10)
+      transform: translate(-16, 6)
       cx: 0
       cy: 16
       r: 0)
     .call(animateBubbles, 0)
   loading.append("circle")
     .attr(
-      transform: translate(0, 10)
+      transform: translate(0, 6)
       cx: 0
       cy: 16
       r: 0)
     .call(animateBubbles, 0.3)
   loading.append("circle")
     .attr(
-      transform: translate(16, 10)
+      transform: translate(16, 6)
       cx: 0
       cy: 16
       r: 0)
@@ -240,6 +252,12 @@ drawFocus = (sel, heights) ->
       .attr("text-anchor", "middle")
       .text((e) -> e.name)
 
+    d3.select(this).select(".fill")
+      .attr(
+        width: width
+        height: heights[i] - padding.bottom - padding.top
+        x: 0
+        y: padding.top)
     if not d.hasData()
       d3.select(this).select(".loading")
         .attr("transform", translate(width / 2, heights[i] / 2))
@@ -273,12 +291,23 @@ drawFocus = (sel, heights) ->
     d3.select(this).select(".x.axis")
       .attr("transform", translate(0, heights[i] - padding.bottom))
       .call(xaxis)
+
+    d3.select(this).select(".x.grid")
+      .attr("transform", translate(0, heights[i] - padding.bottom))
+      .call(xgrid
+        .tickSize(-heights[i] + padding.bottom + padding.top, 0)
+        .tickFormat(""))
       
     d3.select(this).select(".y.axis")
       .call(yaxis)
 
+    d3.select(this).select(".y.grid")
+      .call(yaxis
+        .tickSize(-width, 0)
+        .tickFormat(""))
+
     d3.select(this).select(".y.label")
-      .attr("transform", translate(padding.left + 10, padding.top + 10))
+      .attr("transform", translate(padding.left + 10, padding.top - 6))
       .text((e) -> e.units)
 
 
