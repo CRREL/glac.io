@@ -3,63 +3,85 @@
     "name": "Relative humidity",
     "ts_codes": 15110021,
     "units": "%",
-    "visible": false
+    "visible": false,
+    "color": "#535860",
+    "min": 0,
+    "max": 100
 },
 {
     "type": "cwms",
     "name": "Wind speed 1",
     "ts_codes": 15111021,
     "units": "kph",
-    "visible": false
+    "visible": false,
+    "color": "#FA40FF",
+    "min": 0
 },
 {
     "type": "cwms",
     "name": "Wind direction 1",
     "ts_codes": 15112021,
     "units": "deg",
-    "visible": false
+    "visible": false,
+    "color": "#FA40FF",
+    "min": 0,
+    "max": 360
 },
 {
     "type": "cwms",
     "name": "Wind speed 2",
     "ts_codes": 15113021,
     "units": "kph",
-    "visible": false
+    "visible": false,
+    "color": "#9D369B",
+    "min": 0
 },
 {
     "type": "cwms",
     "name": "Wind direction 2",
     "ts_codes": 15114021,
     "units": "deg",
-    "visible": false
+    "visible": false,
+    "color": "#942191",
+    "min": 0,
+    "max": 360
 },
 {
     "type": "cwms",
     "name": "Pressure",
     "ts_codes": 15115021,
     "units": "kPa",
-    "visible": false
+    "visible": false,
+    "color": "#AA7A41",
+    "min": 0,
+    "max": 105
 },
 {
     "type": "cwms",
     "name": "Voltage",
     "ts_codes": 15116021,
     "units": "volt",
-    "visible": false
+    "visible": false,
+    "color": "#FA2908",
+    "min": 0
 },
 {
     "type": "cwms",
     "name": "Air temp 1",
     "ts_codes": 15108021,
-    "units": "C",
     "visible": true,
-    "developmentUrl": "../../data/development/columbia-temp1.js?jsonp=temp1"
+    "developmentUrl": "../../data/development/columbia-temp1.js?jsonp=temp1",
+    "units": "°C",
+    "color": "#51A7F9",
+    "max": 30
 },
 {
     "type": "cwms",
     "name": "Air temp 2",
     "ts_codes": 15109021,
-    "units": "C",
-    "visible": false
+    "visible": false,
+    "units": "°C",
+    "color": "#0432FC",
+    "max": 30
 }
 ]
