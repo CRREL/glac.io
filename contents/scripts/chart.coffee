@@ -328,9 +328,9 @@ animateBubbles = (circle, begin) ->
 
 getYExtent = (timeseries) ->
   extent = d3.extent(timeseries.data, (e) -> e.value)
-  if timeseries.min
+  if timeseries.min?
     extent[0] = d3.max([extent[0], timeseries.min])
-  if timeseries.max
+  if timeseries.max?
     extent[1] = d3.min([extent[1], timeseries.max])
   return extent
 
