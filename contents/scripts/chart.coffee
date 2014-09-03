@@ -11,9 +11,9 @@ margin =
   bottom: 100
   left: 100
 padding =
-  top: 60
+  top: 20
   right: 0
-  bottom: 60
+  bottom: 40
   left: 0
 margin2 =
   top: 500
@@ -236,13 +236,13 @@ drawFocus = (sel, heights) ->
       .attr("transform", translate(0, dy(i)))
 
     d3.select(this).select(".title")
-      .attr("transform", translate(width / 2, 50))
+      .attr("transform", translate(width / 2, 10))
       .attr("text-anchor", "middle")
       .text((e) -> e.name)
 
     if not d.hasData()
       d3.select(this).select(".loading")
-        .attr("transform", translate(width / 2, 25 + heights[i] / 2))
+        .attr("transform", translate(width / 2, heights[i] / 2))
       return
     else
       d3.select(this).select(".loading").remove()
