@@ -4,7 +4,8 @@ xhr = require("xhr-browserify")
 
 parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse
 # http://coffeescriptcookbook.com/chapters/arrays/check-type-is-array
-typeIsArray = Array.isArray || ( value ) -> return {}.toString.call(value) is "[object Array]"
+typeIsArray = Array.isArray || ( value ) ->
+  return {}.toString.call(value) is "[object Array]"
 
 
 module.exports =
@@ -13,7 +14,7 @@ module.exports =
       when "cwms"
         CwmsTimeseries
       else
-        throw "Unknown timeseries type"
+        throw new Error("Unknown timeseries type")
     new klass options
 
 
@@ -49,7 +50,10 @@ class Timeseries
         .ticks(d3.time.day, 1)
 
     reducer = (p, c) ->
-      value = if parseDate(data[0].date_time) <= c then data.shift().value else null
+      value = if parseDate(data[0].date_time) <= c
+        data.shift().value
+      else
+        null
       d =
         date_time: c
         value: value
@@ -57,7 +61,7 @@ class Timeseries
 
     timeScale.reduce reducer, []
 
-  buildProductionUrl: () -> throw "Not implemented"
+  buildProductionUrl: () -> throw new Error("Not implemented")
 
 
 class CwmsTimeseries extends Timeseries
@@ -69,7 +73,8 @@ class CwmsTimeseries extends Timeseries
     super options
 
   buildProductionUrl: () ->
-    url = "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=#{ @ts_codes.join(",") }"
+    url = "http://nae-rrs2.usace.army.mil:7777/" +
+      "pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=#{ @ts_codes.join(",") }"
     if @floor
       url += "&floor=#{ @floor }"
     # TODO handle summary interval changes
