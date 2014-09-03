@@ -6,6 +6,7 @@ svg {
     stroke: steelblue;
     fill: none;
     clip-path: url(#clip);
+    pointer-events: none;
 }
 
 .axis path,
