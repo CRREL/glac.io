@@ -4,59 +4,59 @@
     "images":
         [
        {
-            "filename": "Helheim_overview.png",
+            "filename": "img/Helheim_overview.png",
             "caption": "Landsat 8 image of Helheim Glacier and Sermilik Fjord, collected June 11, 2014. Cameras, the automated weather station, and repeat LiDAR survey locations are indicated in red."
         },
 	{
-            "filename": "_LDR1976.jpg",
+            "filename": "img/_LDR1976.jpg",
             "caption": "Riegl VZ-6000 LiDAR setup at Helheim Glacier, August 2013. Credit: Adam LeWinter, CRREL"
         },
         {
-            "filename": "_LDR2006.jpg",
+            "filename": "img/_LDR2006.jpg",
             "caption": "Riegl VZ-6000 LiDAR setup at Helheim Glacier, August 2013. Credit: Adam LeWinter, CRREL"
         },
         {
-            "filename": "_LDR2193.jpg",
+            "filename": "img/_LDR2193.jpg",
             "caption": "Field team relocating the Helheim terminus camera. Credit: Adam LeWinter, CRREL"
         },
         {
-            "filename": "_LDR2606.jpg",
+            "filename": "img/_LDR2606.jpg",
             "caption": "Field camp under the Northern Lights, August 2013. Credit: Adam LeWinter, CRREL"
         },
         {
-            "filename": "_LDR2621.jpg",
+            "filename": "img/_LDR2621.jpg",
             "caption": "Field camp and scanning LiDAR system at night, August 2013. Credit: Adam LeWinter, CRREL"
         },
         {
-            "filename": "_LDR2624.jpg",
+            "filename": "img/_LDR2624.jpg",
             "caption": "Riegl VZ-6000 scanning at night, with Helheim terminus in the background, August 2013. Credit: Adam LeWinter, CRREL"
         },
         {
-            "filename": "_LDR2649.jpg",
+            "filename": "img/_LDR2649.jpg",
             "caption": "Iridium-linked satellite camera at the Helheim terminus. Credit: Adam LeWinter, CRREL"
         },
         {
-            "filename": "_LDR2653.jpg",
+            "filename": "img/_LDR2653.jpg",
             "caption": "CRREL designed Iridium-linked satellite camera at Helheim Glacier. Credit: Adam LeWinter, CRREL"
         },
 	 {
-            "filename": "HEL_Climate.jpg",
+            "filename": "img/HEL_Climate.jpg",
             "caption": "Updated climate station installed at Helheim Glacier in July, 2014. Credit: Dave Finnegan, CRREL"
         },
 	{
-            "filename": "HEL_Climate2.jpg",
+            "filename": "img/HEL_Climate2.jpg",
             "caption": "Updated climate station installed at Helheim Glacier in July, 2014. Credit: Dave Finnegan, CRREL"
         },
 	{
-            "filename": "HEL_Terminus2.jpg",
+            "filename": "img/HEL_Terminus2.jpg",
             "caption": "Updated terminus camera installed July 2014. Credit: Dave Finnegan, CRREL"
         },
 	{
-            "filename": "HEL_Terminus3.jpg",
+            "filename": "img/HEL_Terminus3.jpg",
             "caption": "Updated satellite-linked time-lapse camera at Helheim Glacier in July, 2014. Credit: Dave Finnegan, CRREL"
         },
 	{
-            "filename": "Helheim-Aug2009.png",
+            "filename": "img/Helheim-Aug2009.png",
             "caption": "Helheim terminus, August 2009. Credit:Gordon Hamilton, University of Maine"
         }
     ]

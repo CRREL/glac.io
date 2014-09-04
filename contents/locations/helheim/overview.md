@@ -17,7 +17,7 @@ up to 200 m.
 <br><div class="row">
   <div class="col-md-12">
   <div class="thumbnail tight">
-    ![Helheim Location Map, photo 1](Helheim_overview.png)
+    ![Helheim Location Map, photo 1](img/Helheim_overview.png)
     <div class="caption">
 	Landsat 8 image of Helheim Glacier and Sermilik Fjord, collected June 11, 2014. Cameras, the automated weather station, and repeat LiDAR survey locations are indicated in red.
     </div>
@@ -28,7 +28,7 @@ up to 200 m.
 <div class="row">
   <div class="col-md-12">
   <div class="thumbnail tight">
-    ![Helheim MODIS Terminus, photo 1](Hel-terminus-20012010-MODIS.png)
+    ![Helheim MODIS Terminus, photo 1](img/Hel-terminus-20012010-MODIS.png)
     <div class="caption">
 	Helheim terminus position change vs. time, derived from MODIS satellite imagery. Source: Schild, K.M. and Hamilton, G.S., 2013, Seasonal variations of outlet glacier terminus position in Greenland, Journal of Glaciology.	
     </div>
@@ -49,7 +49,7 @@ We have two satellite-linked time-lapse cameras installed on bedrock on the sout
 <br><div class="row">
   <div class="col-md-12">
   <div class="thumbnail tight">
-    ![Terminus Camera, photo 1](_LDR2649.jpg)
+    ![Terminus Camera, photo 1](img/_LDR2649.jpg)
     <div class="caption">
 	Satellite-linked camera focused on the terminus of Helheim Glacier. Images are transmitted multiple times/day. Credit: Adam LeWinter, CRREL.
     </div>
@@ -60,7 +60,7 @@ We have two satellite-linked time-lapse cameras installed on bedrock on the sout
 <div class="row">
   <div class="col-md-12">
   <div class="thumbnail tight">
-    ![Terminus Camera Image, photo 1](HEL_Terminus_20140731_210000.jpg)
+    ![Terminus Camera Image, photo 1](img/HEL_Terminus_20140731_210000.jpg)
     <div class="caption">
 	Image from the Helheim Terminus camera, taken July 31, 2014.
     </div>

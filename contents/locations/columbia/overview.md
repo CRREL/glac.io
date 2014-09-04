@@ -9,7 +9,7 @@ Columbia Glacier, located in Prince William Sound and the Chugach Mountains of A
 <br><div class="row">
   <div class="col-md-12">
   <div class="thumbnail tight">
-    ![Columbia Aerial Retreat, photo 1](Columbia Overview Image.jpg)
+    ![Columbia Aerial Retreat, photo 1](img/Columbia-Overview-Image.jpg)
     <div class="caption">
 	Aerial photograph of Columbia Glacier, looking north. The white lines indicate the terminus position since the 1980's retreat. The terminus continues to retreat.
     </div>
@@ -22,7 +22,7 @@ We have a satellite-linked camera located on Great Nunatak, southwest of the cur
 <br><div class="row">
   <div class="col-md-12">
   <div class="thumbnail tight">
-    ![Climate Station, photo 1](_LDR0089.JPG)
+    ![Climate Station, photo 1](img/_LDR0089.jpg)
     <div class="caption">
 	Climate station installed above the Columbia Glacier. Data from this station can be viewed on the [Real-time data](data.html) page. Credit: Adam LeWinter, CRREL.
     </div>
@@ -33,7 +33,7 @@ We have a satellite-linked camera located on Great Nunatak, southwest of the cur
 <br><div class="row">
   <div class="col-md-12">
   <div class="thumbnail tight">
-    ![Columbia camera, photo 1](ColumbiaIridium.jpg)
+    ![Columbia camera, photo 1](img/ColumbiaIridium.jpg)
     <div class="caption">
 	Sample image from the Columbia Glacier satellite-linked camera. Images are uploaded daily from this camera, and can be viewed on the [Time-lapse](timelapse.html) page.
     </div>

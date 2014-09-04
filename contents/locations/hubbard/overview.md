@@ -8,7 +8,7 @@ Located in south-central Alaska north of Yakutat, with its origins in Yukon Terr
 <br><div class="row">
   <div class="col-md-12">
   <div class="thumbnail tight">
-    ![Hubbard Location, photo 1](Hubbard_Location.jpg)
+    ![Hubbard Location, photo 1](img/Hubbard_Location.jpg)
     <div class="caption">
       Location of Hubbard Glacier, Valerie Glacier, Disenchantment Bay, and Russell Fjord.
     </div>
@@ -17,7 +17,7 @@ Located in south-central Alaska north of Yakutat, with its origins in Yukon Terr
 </div><div class="row">
   <div class="col-md-8 col-md-offset-2">
   <div class="thumbnail tight">
-    ![Hubbard Glacier Aerial Image, photo 1](Hubbard_Images_8.jpg)
+    ![Hubbard Glacier Aerial Image, photo 1](img/Hubbard_Images_8.jpg)
     <div class="caption">
       Hubbard Glacier terminus and Haenke Island in Disenchantment Bay. Credit: Adam LeWinter, CRREL
     </div>
@@ -28,7 +28,7 @@ Located in south-central Alaska north of Yakutat, with its origins in Yukon Terr
 <br><div class="row">
   <div class="col-md-8 col-md-offset-2">
   <div class="thumbnail tight">
-    ![Hubbard Glacier Closure, photo 1](HubbardGlacierClosure.jpg)
+    ![Hubbard Glacier Closure, photo 1](img/HubbardGlacierClosure.jpg)
     <div class="caption">
       Hubbard Glacier closing the Russell Fiord (top right of image) opening to Disenchantment Bay (bottom of image) by pinning sediment against Gilbert Point on July 16, 2002. Credit: U.S. Geological Survey, the U.S. Forest Service, Yakutat Range District and National Park Service, Yakutat Ranger Station.
     </div>
@@ -40,7 +40,7 @@ Located in south-central Alaska north of Yakutat, with its origins in Yukon Terr
 <br><div class="row">
   <div class="col-md-8 col-md-offset-2">
   <div class="thumbnail tight">
-    ![Satellite Image, photo 1](HUBBARD_20130822_SatImage.jpeg)
+    ![Satellite Image, photo 1](img/HUBBARD_20130822_SatImage.jpg)
     <div class="caption">
       Image from the Hubbard Glacier terminus camera, transmitting daily images to the [Time-lapse](timelapse.html) page.
     </div>
@@ -50,7 +50,7 @@ Located in south-central Alaska north of Yakutat, with its origins in Yukon Terr
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
   <div class="thumbnail tight">
-    ![Haenke Station, photo 1](HaenkeStation.JPG)
+    ![Haenke Station, photo 1](img/HaenkeStation.jpg)
     <div class="caption">
       Haenke Island Climate Station. Credit: Dave Finnegan, CRREL.
     </div>
