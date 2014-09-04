@@ -9,7 +9,7 @@ Columbia Glacier, located in Prince William Sound and the Chugach Mountains of A
 <br><div class="row">
   <div class="col-md-12">
   <div class="thumbnail tight">
-    ![Columbia Aerial Retreat, photo 1](Columbia Overview Image.jpg)
+    ![Columbia Aerial Retreat, photo 1](Columbia-Overview-Image.jpg)
     <div class="caption">
 	Aerial photograph of Columbia Glacier, looking north. The white lines indicate the terminus position since the 1980's retreat. The terminus continues to retreat.
     </div>
