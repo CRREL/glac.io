@@ -15,8 +15,12 @@ margin =
   right: 20
   left: 100
 thumbnailHeight = 20
-thumbnailWidth = 40
-thumbnailPadding = 6
+thumbnailWidth = 41
+thumbnailPadding =
+  left: 6
+  right: 6
+  top: 6
+  bottom: 0
 
 container = d3.select "[data-viewer='realtime-images']"
 cameraUrl = container.attr("data-camera-url")
@@ -34,12 +38,41 @@ controls = d3.select(".realtime-images-controls")
     height: height + margin.top + margin.bottom
     width: width + margin.left + margin.right
   )
+daynight = controls.append("rect")
+  .attr(
+    class: "daynight"
+    transform: translate(margin.left, margin.top)
+    x: 0
+    y: 0
+    height: height
+    width: thumbnailWidth + thumbnailPadding.left + thumbnailPadding.right
+  )
 controls.append("g")
   .attr("class", "axis")
   .attr("transform", translate(margin.left, margin.top))
 thumbnails = controls.append("g")
   .attr("class", "thumbnails")
   .attr("transform", translate(margin.left, margin.top))
+controls.append("linearGradient")
+  .attr(
+    id: "daynight-gradient"
+    gradientUnits: "userSpaceOnUse"
+    x1: 0
+    x2: 0
+    y1: 0
+    y2: height
+    spreadMethod: "reflect")
+  .selectAll("stop")
+    .data([
+      {offset: "0%", color: "blue", opacity: 0.2}
+      {offset: "100%", color: "yellow", opacity: 0.2}
+    ])
+  .enter().append("stop")
+    .attr(
+      offset: (d) -> d.offset
+      "stop-color": (d) -> d.color
+      "stop-opacity": (d) -> d.opacity
+    )
 
 
 timeFormat = d3.time.format.multi [
@@ -62,7 +95,9 @@ build = (error, allImages) ->
 
   prepareImages = () ->
     images = allImages.slice(0, imageIdx)
-    yscale.domain(d3.extent(images, (d) -> d.datetime))
+    yscale
+      .domain(d3.extent(images, (d) -> d.datetime))
+      .nice(d3.time.day)
     interval = (yscale.domain()[1] - yscale.domain()[0]) / (1000 * 60 * 60 * 24)
     if interval > 50
       yaxis.ticks d3.time.month
@@ -76,7 +111,7 @@ build = (error, allImages) ->
         i.showThumbnail = true
       else
         i.showThumbnail = (yscale(i.datetime) - yOfLastThumbnail) > \
-          thumbnailHeight + thumbnailPadding
+          thumbnailHeight + thumbnailPadding.top + thumbnailPadding.bottom
       if i.showThumbnail
         yOfLastThumbnail = yscale i.datetime
   prepareImages()
@@ -110,12 +145,21 @@ build = (error, allImages) ->
         ".")
     viewer.select("img").datum(activeImage)
       .attr("src", (d) -> imageBaseUrl + d.path)
-    controls.selectAll("rect")
+    controls.selectAll(".thumbnail-rect")
       .classed("active", (d) -> d.active)
 
   updateControls = () ->
+    lastMidnight = d3.time.day.floor(yscale.domain()[1])
+    noonBeforelastMidnight = d3.time.hour.offset(lastMidnight, -12)
+
     controls.select(".axis")
       .call(yaxis)
+
+    controls.select("#daynight-gradient")
+      .attr(
+        y1: yscale(lastMidnight)
+        y2: yscale(noonBeforelastMidnight)
+      )
 
     thumbnailImages = thumbnails.selectAll(".thumbnail")
       .data(images.filter((d) -> d.showThumbnail), (d) -> d.datetime)
@@ -125,7 +169,7 @@ build = (error, allImages) ->
       .attr("class", "thumbnail")
     thumbnailImages
       .attr(
-        x: 4
+        x: thumbnailPadding.left
         height: thumbnailHeight
         width: thumbnailWidth)
       .attr("y", (d) -> yscale d.datetime)
@@ -135,14 +179,15 @@ build = (error, allImages) ->
         updateViewer())
     thumbnailImages.exit().remove()
 
-    thumbnailRects = thumbnails.selectAll("rect")
+    thumbnailRects = thumbnails.selectAll(".thumbnail-rect")
       .data(images)
     thumbnailRects
       .enter()
       .append("rect")
+      .attr("class", "thumbnail-rect")
     thumbnailRects
       .attr(
-        x: 4
+        x: thumbnailPadding.left
         height: thumbnailHeight
         width: thumbnailWidth)
       .attr("y", (d) -> yscale(d.datetime))
@@ -150,10 +195,11 @@ build = (error, allImages) ->
 
   d3.select("body")
     .on("keydown", () ->
-      d3.event.preventDefault()
       if d3.event.keyCode in [40, 39, 83, 68, 74, 76]
+        d3.event.preventDefault()
         prevImage()
       else if d3.event.keyCode in [38, 37, 87, 65, 75, 72]
+        d3.event.preventDefault()
         nextImage()
       )
 
