@@ -6,6 +6,7 @@ svg {
     stroke: steelblue;
     fill: none;
     clip-path: url(#clip);
+    pointer-events: none;
 }
 
 .axis path,
@@ -21,7 +22,7 @@ svg {
 }
 
 .panel .title {
-    font-size: 24px;
+    font-size: 16px;
     text-anchor: middle;
 }
 
@@ -29,6 +30,8 @@ svg {
     text-anchor: start;
     font-size: 12px;
     font-weight: normal;
+    fill: #666;
+    font-style: italic;
 }
 
 .resize rect {
@@ -47,4 +50,14 @@ svg {
 }
 .loading text {
     font-size: 16px;
-  }
+}
+.fill {
+  fill: #f8f8f8;
+}
+.grid .tick {
+  stroke: #fff;
+}
+.grid path {
+  stroke-width: 0;
+  fill: none;
+}

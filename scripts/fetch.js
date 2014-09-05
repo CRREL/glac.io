@@ -60,31 +60,23 @@ module.exports = {
       return callback(error, timeseries);
     });
   },
-  images: function(callback) {
-    return queue().defer(d3.json, "data/images.json").await(function(error, camera) {
-      var q;
-      q = queue();
-      q.defer(function(cb) {
-        var options, url;
-        options = {
-          jsonp: true,
-          callbackName: "jsonp"
-        };
-        if (config.development) {
-          url = uri.parse("/data/development/hubbard-images.js?" + "jsonp=cameraImageList", true);
-        } else {
-          url = uri.parse(camera.url, true);
-        }
-        return xhr(url, options, function(error, data) {
-          camera.images = data.map(function(d) {
-            d.datetime = new Date(d.datetime);
-            return d;
-          });
-          return cb(error, camera);
+  images: function(cameraUrl, callback) {
+    return queue().defer(function(cb) {
+      var options, url;
+      options = {
+        jsonp: true,
+        callbackName: "jsonp"
+      };
+      url = uri.parse(cameraUrl, true);
+      return xhr(url, options, function(error, data) {
+        var images;
+        images = data.map(function(d) {
+          d.datetime = new Date(d.datetime);
+          return d;
         });
+        return cb(error, images);
       });
-      return q.await(callback);
-    });
+    }).await(callback);
   }
 };
 
@@ -114,7 +106,7 @@ module.exports = {
         case "cwms":
           return CwmsTimeseries;
         default:
-          throw "Unknown timeseries type";
+          throw new Error("Unknown timeseries type");
       }
     })();
     return new klass(options);
@@ -123,7 +115,7 @@ module.exports = {
 
 Timeseries = (function() {
   function Timeseries(options) {
-    this.name = options.name, this.visible = options.visible, this.color = options.color, this.units = options.units, this.development = options.development, this.developmentUrl = options.developmentUrl;
+    this.name = options.name, this.visible = options.visible, this.color = options.color, this.units = options.units, this.development = options.development, this.developmentUrl = options.developmentUrl, this.min = options.min, this.max = options.max;
     this.productionUrl = this.buildProductionUrl();
   }
 
@@ -176,7 +168,7 @@ Timeseries = (function() {
   };
 
   Timeseries.prototype.buildProductionUrl = function() {
-    throw "Not implemented";
+    throw new Error("Not implemented");
   };
 
   return Timeseries;
@@ -196,7 +188,7 @@ CwmsTimeseries = (function(_super) {
 
   CwmsTimeseries.prototype.buildProductionUrl = function() {
     var url;
-    url = "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=" + (this.ts_codes.join(","));
+    url = "http://nae-rrs2.usace.army.mil:7777/" + ("pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=" + (this.ts_codes.join(",")));
     if (this.floor) {
       url += "&floor=" + this.floor;
     }

@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var addContextLine, addPanel, animateBubbles, brush, chart, context, controls, d3, defaultBrushExtent, draw, drawContext, drawControls, drawFocus, emptyAxis, fetch, focus, height, height2, initialBuild, margin, margin2, padding, svg, toggleControl, translate, tsName, update, visibleTimeseries, width, x2axis, x2scale, xaxis, xscale, y2scale;
+var addContextLine, addPanel, animateBubbles, brush, chart, context, controls, d3, defaultBrushExtent, draw, drawContext, drawControls, drawFocus, emptyAxis, fetch, focus, getYExtent, height, height2, initialBuild, margin, margin2, padding, svg, toggleControl, translate, tsName, update, visibleTimeseries, width, x2axis, x2scale, xaxis, xgrid, xscale;
 
 d3 = require("d3");
 
@@ -17,9 +17,9 @@ margin = {
 };
 
 padding = {
-  top: 60,
+  top: 20,
   right: 0,
-  bottom: 60,
+  bottom: 40,
   left: 0
 };
 
@@ -67,9 +67,9 @@ xscale = d3.time.scale().range([0, width]);
 
 x2scale = d3.time.scale().range([0, width]);
 
-y2scale = d3.scale.linear().range([height2, 0]);
-
 xaxis = d3.svg.axis().scale(xscale).orient("bottom");
+
+xgrid = d3.svg.axis().scale(xscale).orient("bottom");
 
 x2axis = d3.svg.axis().scale(x2scale).orient("bottom");
 
@@ -163,6 +163,9 @@ drawControls = function(sel) {
 addPanel = function(sel) {
   var loading, panel;
   panel = sel.append("g").attr("class", "panel");
+  panel.append("rect").attr("class", "fill");
+  panel.append("g").attr("class", "x grid");
+  panel.append("g").attr("class", "y grid");
   panel.append("path").attr("class", "line");
   panel.append("g").attr("class", "x axis");
   panel.append("g").attr("class", "y axis");
@@ -171,19 +174,19 @@ addPanel = function(sel) {
   loading = panel.append("g").attr("class", "loading");
   loading.append("text").attr("text-anchor", "middle").text("loading data");
   loading.append("circle").attr({
-    transform: translate(-16, 10),
+    transform: translate(-16, 6),
     cx: 0,
     cy: 16,
     r: 0
   }).call(animateBubbles, 0);
   loading.append("circle").attr({
-    transform: translate(0, 10),
+    transform: translate(0, 6),
     cx: 0,
     cy: 16,
     r: 0
   }).call(animateBubbles, 0.3);
   return loading.append("circle").attr({
-    transform: translate(16, 10),
+    transform: translate(16, 6),
     cx: 0,
     cy: 16,
     r: 0
@@ -212,28 +215,33 @@ drawFocus = function(sel, heights) {
     }
   };
   return sel.selectAll(".panel").each(function(d, i) {
-    var data, e, line, yaxis, yscale;
+    var data, e, line, maxTime, minTime, yaxis, yscale, _ref;
     d3.select(this).attr("transform", translate(0, dy(i)));
-    d3.select(this).select(".title").attr("transform", translate(width / 2, 50)).attr("text-anchor", "middle").text(function(e) {
+    d3.select(this).select(".title").attr("transform", translate(width / 2, 10)).attr("text-anchor", "middle").text(function(e) {
       return e.name;
     });
+    d3.select(this).select(".fill").attr({
+      width: width,
+      height: heights[i] - padding.bottom - padding.top,
+      x: 0,
+      y: padding.top
+    });
     if (!d.hasData()) {
-      d3.select(this).select(".loading").attr("transform", translate(width / 2, 25 + heights[i] / 2));
+      d3.select(this).select(".loading").attr("transform", translate(width / 2, heights[i] / 2));
       return;
     } else {
       d3.select(this).select(".loading").remove();
     }
-    yscale = d3.scale.linear().domain(d3.extent(d.data, function(e) {
-      return e.value;
-    })).range([heights[i] - padding.bottom, padding.top]).nice();
+    yscale = d3.scale.linear().domain(getYExtent(d)).range([heights[i] - padding.bottom, padding.top]).nice().clamp(true);
     yaxis = d3.svg.axis().scale(yscale).orient("left").ticks(10 / heights.length);
+    _ref = xscale.domain(), minTime = _ref[0], maxTime = _ref[1];
     data = (function() {
-      var _i, _len, _ref, _ref1, _results;
-      _ref = d.data;
+      var _i, _len, _ref1, _ref2, _results;
+      _ref1 = d.data;
       _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        e = _ref[_i];
-        if ((xscale.domain()[0] <= (_ref1 = e.date_time) && _ref1 <= xscale.domain()[1])) {
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        e = _ref1[_i];
+        if ((minTime <= (_ref2 = e.date_time) && _ref2 <= maxTime)) {
           _results.push(e);
         }
       }
@@ -248,8 +256,10 @@ drawFocus = function(sel, heights) {
     });
     d3.select(this).select(".line").datum(data).attr("d", line).style("stroke", d.color);
     d3.select(this).select(".x.axis").attr("transform", translate(0, heights[i] - padding.bottom)).call(xaxis);
+    d3.select(this).select(".x.grid").attr("transform", translate(0, heights[i] - padding.bottom)).call(xgrid.tickSize(-heights[i] + padding.bottom + padding.top, 0).tickFormat(""));
     d3.select(this).select(".y.axis").call(yaxis);
-    return d3.select(this).select(".y.label").attr("transform", translate(padding.left + 10, padding.top + 10)).text(function(e) {
+    d3.select(this).select(".y.grid").call(yaxis.tickSize(-width, 0).tickFormat(""));
+    return d3.select(this).select(".y.label").attr("transform", translate(padding.left + 10, padding.top - 6)).text(function(e) {
       return e.units;
     });
   });
@@ -262,9 +272,7 @@ addContextLine = function(sel) {
 drawContext = function(sel) {
   sel.selectAll(".line").each(function(d) {
     var line, yscale;
-    yscale = d3.scale.linear().domain(d3.extent(d.data, function(e) {
-      return e.value;
-    })).range([height2, 0]).nice();
+    yscale = d3.scale.linear().domain(getYExtent(d)).range([height2, 0]).nice().clamp(true);
     line = d3.svg.line().x(function(e) {
       return x2scale(e.date_time);
     }).y(function(e) {
@@ -293,6 +301,20 @@ animateBubbles = function(circle, begin) {
     keySplines: "0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8",
     calcMode: "spline"
   });
+};
+
+getYExtent = function(timeseries) {
+  var extent;
+  extent = d3.extent(timeseries.data, function(e) {
+    return e.value;
+  });
+  if (timeseries.min != null) {
+    extent[0] = d3.max([extent[0], timeseries.min]);
+  }
+  if (timeseries.max != null) {
+    extent[1] = d3.min([extent[1], timeseries.max]);
+  }
+  return extent;
 };
 
 fetch.timeseries(initialBuild);
@@ -360,31 +382,23 @@ module.exports = {
       return callback(error, timeseries);
     });
   },
-  images: function(callback) {
-    return queue().defer(d3.json, "data/images.json").await(function(error, camera) {
-      var q;
-      q = queue();
-      q.defer(function(cb) {
-        var options, url;
-        options = {
-          jsonp: true,
-          callbackName: "jsonp"
-        };
-        if (config.development) {
-          url = uri.parse("/data/development/hubbard-images.js?" + "jsonp=cameraImageList", true);
-        } else {
-          url = uri.parse(camera.url, true);
-        }
-        return xhr(url, options, function(error, data) {
-          camera.images = data.map(function(d) {
-            d.datetime = new Date(d.datetime);
-            return d;
-          });
-          return cb(error, camera);
+  images: function(cameraUrl, callback) {
+    return queue().defer(function(cb) {
+      var options, url;
+      options = {
+        jsonp: true,
+        callbackName: "jsonp"
+      };
+      url = uri.parse(cameraUrl, true);
+      return xhr(url, options, function(error, data) {
+        var images;
+        images = data.map(function(d) {
+          d.datetime = new Date(d.datetime);
+          return d;
         });
+        return cb(error, images);
       });
-      return q.await(callback);
-    });
+    }).await(callback);
   }
 };
 
@@ -414,7 +428,7 @@ module.exports = {
         case "cwms":
           return CwmsTimeseries;
         default:
-          throw "Unknown timeseries type";
+          throw new Error("Unknown timeseries type");
       }
     })();
     return new klass(options);
@@ -423,7 +437,7 @@ module.exports = {
 
 Timeseries = (function() {
   function Timeseries(options) {
-    this.name = options.name, this.visible = options.visible, this.color = options.color, this.units = options.units, this.development = options.development, this.developmentUrl = options.developmentUrl;
+    this.name = options.name, this.visible = options.visible, this.color = options.color, this.units = options.units, this.development = options.development, this.developmentUrl = options.developmentUrl, this.min = options.min, this.max = options.max;
     this.productionUrl = this.buildProductionUrl();
   }
 
@@ -476,7 +490,7 @@ Timeseries = (function() {
   };
 
   Timeseries.prototype.buildProductionUrl = function() {
-    throw "Not implemented";
+    throw new Error("Not implemented");
   };
 
   return Timeseries;
@@ -496,7 +510,7 @@ CwmsTimeseries = (function(_super) {
 
   CwmsTimeseries.prototype.buildProductionUrl = function() {
     var url;
-    url = "http://nae-rrs2.usace.army.mil:7777/pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=" + (this.ts_codes.join(","));
+    url = "http://nae-rrs2.usace.army.mil:7777/" + ("pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=" + (this.ts_codes.join(",")));
     if (this.floor) {
       url += "&floor=" + this.floor;
     }

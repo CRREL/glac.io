@@ -1,0 +1,46 @@
+.tick {
+  font-size: 12px;
+}
+line,
+path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.images image {
+  cursor: pointer;
+}
+.images rect {
+  stroke: none;
+  fill: none;
+}
+.images rect.active {
+  stroke: gold;
+  stroke-width: 2px;
+}
+.arrow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 15%;
+  color: #333;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+  opacity: 0.5;
+  cursor: pointer;
+}
+.arrow .glyphicon-chevron-right,
+.arrow .glyphicon-chevron-left {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  font-size: 30px;
+  top: 285px;
+}
+.arrow .glyphicon-chevron-right {
+  left: 25px;
+}
+.arrow .glyphicon-chevron-left {
+  left: 25px;
+}
