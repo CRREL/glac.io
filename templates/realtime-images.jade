@@ -16,7 +16,10 @@ block content
   .row.realtime-images(data-viewer="realtime-images",
                        data-camera-url=page.metadata.cameraUrl,
                        data-image-base-url=page.metadata.imageBaseUrl)
-    .realtime-images-controls.col-md-2
+    .col-md-2
+      .realtime-images-controls
+      button.realtime-images-load-more.btn.btn-primary.btn-sm.btn-block(type="button")
+        | Load more images
     .col-md-1
       a.left.arrow
         span.glyphicon.glyphicon-chevron-left
