@@ -12,8 +12,9 @@ margin =
   bottom: 30
   right: 20
   left: 100
-controlImageHeight = 20
-controlImageWidth = 40
+thumbnailHeight = 20
+thumbnailWidth = 40
+thumbnailPadding = 6
 
 container = d3.select "[data-viewer='realtime-images']"
 cameraUrl = container.attr("data-camera-url")
@@ -56,6 +57,16 @@ build = (error, images) ->
     yaxis.ticks d3.time.day
   images[0].active = true
 
+  yOfLastThumbnail = -1
+  images.forEach (i) ->
+    if yOfLastThumbnail == -1
+      i.showThumbnail = true
+    else
+      i.showThumbnail = (yscale(i.datetime) - yOfLastThumbnail) > \
+        thumbnailHeight + thumbnailPadding
+    if i.showThumbnail
+      yOfLastThumbnail = yscale i.datetime
+
   update = () ->
     activeImage = images.filter((d) -> d.active)[0]
     viewer.select(".description")
@@ -92,14 +103,14 @@ build = (error, images) ->
     .attr("transform", translate(margin.left, margin.top))
 
   imageContainer.selectAll("image")
-    .data(images)
+    .data(images.filter (d) -> d.showThumbnail)
     .enter()
     .append("image")
     .attr(
       x: 4
-      height: controlImageHeight
-      width: controlImageWidth)
-    .attr("y", (d) -> yscale(d.datetime))
+      height: thumbnailHeight
+      width: thumbnailWidth)
+    .attr("y", (d) -> yscale d.datetime)
     .attr("xlink:href", (d) -> imageBaseUrl + d.path)
     .on("click", (d) ->
       images.forEach((i) -> i.active = i.path == d.path)
@@ -111,8 +122,8 @@ build = (error, images) ->
     .append("rect")
     .attr(
       x: 4
-      height: controlImageHeight
-      width: controlImageWidth)
+      height: thumbnailHeight
+      width: thumbnailWidth)
     .attr("y", (d) -> yscale(d.datetime))
 
   d3.select("body")
