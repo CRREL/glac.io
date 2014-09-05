@@ -28,5 +28,5 @@
         "blogTitle": "Blog"
     },
     "baseUrl": "/",
-    "ignore": ["**/.*"]
+    "ignore": ["**/.*", "[._]*.s[a-w][a-z]", "[._]s[a-w][a-z]"]
 }
