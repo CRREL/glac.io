@@ -1,7 +1,8 @@
 {
     "locals": {
         "title": "glacierresearch.org",
-        "url": "http://glacierresearch.org"
+        "url": "http://glacierresearch.org",
+        "facebookAppId": "461190244021239"
     },
     "require": {
         "moment": "moment",
