@@ -6,22 +6,22 @@
     {
         "name": "Overview",
         "url": "overview.html",
-        "image_url": "img/Hubbard_Location-Thumbnail.jpg"
+        "imgSrc": "img/Hubbard_Location-Thumbnail.jpg"
     },
     {
         "name": "Images",
         "url": "images.html",
-        "image_url": "img/Hubbard_Images_1_Thumbnail.jpg"
+        "imgSrc": "img/Hubbard_Images_1_Thumbnail.jpg"
     },
     {
         "name": "Real-time Data",
         "url": "data.html",
-        "image_url": "img/chart.png"
+        "imgSrc": "img/chart.png"
     },
     {
         "name": "Time-lapse",
         "url": "timelapse.html",
-        "image_url": "img/timelapse.jpg"
+        "imgSrc": "img/timelapse.jpg"
     }
 
     ]
