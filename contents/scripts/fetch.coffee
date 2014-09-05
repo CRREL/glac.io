@@ -8,9 +8,9 @@ ts = require("./timeseries")
 parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse
 
 module.exports =
-  timeseries: (callback) ->
+  timeseries: (timeseriesUrl, callback) ->
     queue()
-      .defer(d3.json, "data/timeseries.json")
+      .defer(d3.json, timeseriesUrl)
       .await (error, data) ->
         callback error, data.map (d) ->
           d.development = config.development

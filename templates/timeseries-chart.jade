@@ -1,0 +1,14 @@
+extends page-wide
+
+block append styles
+  link(rel="stylesheet", href=contents.styles["chart.css"].url)
+
+block append content
+  .row.timeseries-chart(data-viewer="timeseries-chart",
+                        data-timeseries-url=page.metadata.timeseriesUrl)
+    .timeseries-chart-sidebar.col-md-2
+      .timeseries-chart-controls.list-group
+    .timeseries-chart-chart.col-md-10
+
+block append scripts
+  script(src=contents.scripts["timeseries-chart.coffee"].url)

@@ -1,5 +1,6 @@
 {
-    "template": "location-chart.jade",
+    "template": "timeseries-chart.jade",
     "title": "Columbia Data",
-    "breadcrumbs": true
+    "breadcrumbs": true,
+    "timeseriesUrl": "data/timeseries.json"
 }
