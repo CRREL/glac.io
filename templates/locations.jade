@@ -1,14 +1,11 @@
 extends page-wide
 
-block append styles
-  link(rel="stylesheet", href=contents.styles["globe.less"].url)
-
 block content
-  .row(data-viewer="locations",
-       data-sensors-url=page.metadata.sensorsUrl,
-       data-world-url=page.metadata.worldUrl,
-       data-locations-url=page.metadata.locationsUrl,
-       data-sensor-icons-base-url=page.metadata.sensorIconsBaseUrl)
+  .row.locations(data-viewer="locations",
+                 data-sensors-url=page.metadata.sensorsUrl,
+                 data-world-url=page.metadata.worldUrl,
+                 data-locations-url=page.metadata.locationsUrl,
+                 data-sensor-icons-base-url=page.metadata.sensorIconsBaseUrl)
     .col-md-3
       | Hover over a location to see more information.
       hr

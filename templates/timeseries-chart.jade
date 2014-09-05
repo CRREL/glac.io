@@ -1,8 +1,5 @@
 extends page-wide
 
-block append styles
-  link(rel="stylesheet", href=contents.styles["chart.css"].url)
-
 block append content
   .row.timeseries-chart(data-viewer="timeseries-chart",
                         data-timeseries-url=page.metadata.timeseriesUrl)
