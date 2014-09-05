@@ -33,6 +33,7 @@ Timeseries = (function() {
       }
       this.series = [
         {
+          name: this.name,
           ts_codes: options.ts_codes,
           color: options.color
         }
@@ -130,7 +131,8 @@ Timeseries = (function() {
           }
           return _results;
         }).call(_this),
-        color: ts.color
+        color: ts.color,
+        name: ts.name
       };
       return series;
     });

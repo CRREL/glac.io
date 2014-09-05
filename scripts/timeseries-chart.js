@@ -236,6 +236,7 @@ addPanel = function(sel) {
   panel.append("g").attr("class", "y axis");
   panel.append("text").attr("class", "title");
   panel.append("text").attr("class", "y label");
+  panel.append("text").attr("class", "series label");
   loading = panel.append("g").attr("class", "loading");
   loading.append("text").attr("text-anchor", "middle").text("loading data");
   loading.append("circle").attr({
@@ -280,7 +281,7 @@ drawFocus = function(sel, heights) {
     }
   };
   return sel.selectAll(".panel").each(function(d, i) {
-    var line, lines, maxTime, minTime, yaxis, yscale, _ref;
+    var labels, line, lines, maxTime, minTime, series, yaxis, yscale, _ref;
     d3.select(this).attr("transform", translate(0, dy(i)));
     d3.select(this).select(".title").attr("transform", translate(width / 2, 10)).attr("text-anchor", "middle").text(function(e) {
       return e.name;
@@ -300,6 +301,7 @@ drawFocus = function(sel, heights) {
     yscale = d3.scale.linear().domain(getYExtent(d)).range([heights[i] - padding.bottom, padding.top]).nice().clamp(true);
     yaxis = d3.svg.axis().scale(yscale).orient("left").ticks(10 / heights.length);
     _ref = xscale.domain(), minTime = _ref[0], maxTime = _ref[1];
+    series = d.getSeries(minTime, maxTime);
     line = d3.svg.line().x(function(e) {
       return xscale(e.date_time);
     }).y(function(e) {
@@ -307,7 +309,7 @@ drawFocus = function(sel, heights) {
     }).defined(function(e) {
       return e.value;
     });
-    lines = d3.select(this).selectAll(".line").data(d.getSeries(minTime, maxTime));
+    lines = d3.select(this).selectAll(".line").data(series);
     lines.enter().append("path").attr("class", "line");
     lines.attr("d", function(e) {
       return line(e.data);
@@ -319,9 +321,24 @@ drawFocus = function(sel, heights) {
     d3.select(this).select(".x.grid").attr("transform", translate(0, heights[i] - padding.bottom)).call(xgrid.tickSize(-heights[i] + padding.bottom + padding.top, 0).tickFormat(""));
     d3.select(this).select(".y.axis").call(yaxis);
     d3.select(this).select(".y.grid").call(yaxis.tickSize(-width, 0).tickFormat(""));
-    return d3.select(this).select(".y.label").attr("transform", translate(padding.left + 10, padding.top - 6)).text(function(e) {
+    d3.select(this).select(".y.label").attr("transform", translate(padding.left + 10, padding.top - 6)).text(function(e) {
       return e.units;
     });
+    if (series.length > 1) {
+      labels = d3.select(this).select(".series.label").attr("transform", translate(width - padding.right, padding.top - 6)).selectAll("tspan").data(series);
+      labels.enter().append("tspan");
+      labels.style("fill", function(s) {
+        return s.color;
+      }).each(function(l, i) {
+        var text;
+        text = l.name;
+        if (i < series.length - 1) {
+          text += ", ";
+        }
+        return d3.select(this).text(text);
+      });
+      return labels.exit().remove();
+    }
   });
 };
 
@@ -418,6 +435,7 @@ Timeseries = (function() {
       }
       this.series = [
         {
+          name: this.name,
           ts_codes: options.ts_codes,
           color: options.color
         }
@@ -515,7 +533,8 @@ Timeseries = (function() {
           }
           return _results;
         }).call(_this),
-        color: ts.color
+        color: ts.color,
+        name: ts.name
       };
       return series;
     });
