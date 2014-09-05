@@ -1,5 +1,4 @@
 [{
-    "type": "cwms",
     "name": "Relative humidity",
     "ts_codes": 15110021,
     "units": "%",
@@ -9,45 +8,43 @@
     "max": 100
 },
 {
-    "type": "cwms",
-    "name": "Wind speed 1",
-    "ts_codes": 15111021,
+    "name": "Wind speed",
+    "series": [
+      {
+        "name": "Sensor 1",
+        "ts_codes": 15111021,
+        "color": "#FA40FF"
+      },
+      {
+        "name": "Sensor 2",
+        "ts_codes": 15113021,
+        "color": "#9D369B"
+      }
+    ],
     "units": "kph",
     "visible": false,
-    "color": "#FA40FF",
     "min": 0
 },
 {
-    "type": "cwms",
-    "name": "Wind direction 1",
-    "ts_codes": 15112021,
+    "name": "Wind direction",
+    "series": [
+      {
+        "name": "Sensor 1",
+        "ts_codes": 15112021,
+        "color": "#FA40FF"
+      },
+      {
+        "name": "Sensor 2",
+        "ts_codes": 15114021,
+        "color": "#942191"
+      }
+    ],
     "units": "deg",
     "visible": false,
-    "color": "#FA40FF",
     "min": 0,
     "max": 360
 },
 {
-    "type": "cwms",
-    "name": "Wind speed 2",
-    "ts_codes": 15113021,
-    "units": "kph",
-    "visible": false,
-    "color": "#9D369B",
-    "min": 0
-},
-{
-    "type": "cwms",
-    "name": "Wind direction 2",
-    "ts_codes": 15114021,
-    "units": "deg",
-    "visible": false,
-    "color": "#942191",
-    "min": 0,
-    "max": 360
-},
-{
-    "type": "cwms",
     "name": "Pressure",
     "ts_codes": 15115021,
     "units": "kPa",
@@ -57,7 +54,6 @@
     "max": 105
 },
 {
-    "type": "cwms",
     "name": "Voltage",
     "ts_codes": 15116021,
     "units": "volt",
@@ -66,21 +62,21 @@
     "min": 0
 },
 {
-    "type": "cwms",
-    "name": "Air temp 1",
-    "ts_codes": 15108021,
+    "name": "Air temperature",
+    "series": [
+      {
+        "name": "Sensor 1",
+        "ts_codes": 15108021,
+        "color": "#51A7F9"
+      },
+      {
+        "name": "Sensor 2",
+        "ts_codes": 15109021,
+        "color": "#0432FC"
+      }
+    ],
     "visible": true,
     "units": "°C",
-    "color": "#51A7F9",
-    "max": 30
-},
-{
-    "type": "cwms",
-    "name": "Air temp 2",
-    "ts_codes": 15109021,
-    "visible": false,
-    "units": "°C",
-    "color": "#0432FC",
     "max": 30
 }
 ]

@@ -144,16 +144,18 @@ update = () ->
   panels.exit().remove()
   focus.call(drawFocus)
 
-  contextLines = context.selectAll(".line").data(timeseries, tsName)
-  contextLines.enter().call(addContextLine)
+  contextLines = context.selectAll(".lineset").data(timeseries, tsName)
+  contextLines.enter().call(addContextLineset)
   contextLines.exit().remove()
 
   fetch.data timeseries, draw
 
 
 draw = (error, timeseries) ->
-  x2scale.domain(d3.extent(d3.merge(
-    d3.extent(t.data, (u) -> u.date_time) for t in timeseries)))
+  x2scale.domain(
+    d3.extent(
+      d3.merge(d3.merge(t.getData() for t in timeseries)),
+      (d) -> d.date_time))
   oldBrushExtent = brush.extent()
   brush.extent [
     d3.max([oldBrushExtent[0], x2scale.domain()[0]]),
@@ -197,9 +199,6 @@ addPanel = (sel) ->
     .append("g")
     .attr("class", "y grid")
   panel
-    .append("path")
-    .attr("class", "line")
-  panel
     .append("g")
     .attr("class", "x axis")
   panel
@@ -211,6 +210,9 @@ addPanel = (sel) ->
   panel
     .append("text")
     .attr("class", "y label")
+  panel
+    .append("text")
+    .attr("class", "series label")
   loading = panel
     .append("g")
     .attr("class", "loading")
@@ -280,16 +282,22 @@ drawFocus = (sel, heights) ->
       .ticks(10 / heights.length)
 
     [minTime, maxTime] = xscale.domain()
-    data = (e for e in d.data when minTime <= e.date_time <= maxTime)
+    series = d.getSeries(minTime, maxTime)
+
     line = d3.svg.line()
       .x((e) -> xscale(e.date_time))
       .y((e) -> yscale(e.value))
       .defined((e) -> e.value)
 
-    d3.select(this).select(".line")
-      .datum(data)
-      .attr("d", line)
-      .style("stroke", d.color)
+    lines = d3.select(this).selectAll(".line")
+      .data(series)
+    lines.enter()
+      .append("path")
+      .attr("class", "line")
+    lines
+      .attr("d", (e) -> line e.data)
+      .style("stroke", (e) -> e.color)
+    lines.exit().remove()
 
     d3.select(this).select(".x.axis")
       .attr("transform", translate(0, heights[i] - padding.bottom))
@@ -313,27 +321,54 @@ drawFocus = (sel, heights) ->
       .attr("transform", translate(padding.left + 10, padding.top - 6))
       .text((e) -> e.units)
 
+    if series.length > 1
+      labels = d3.select(this).select(".series.label")
+        .attr("transform", translate(width - padding.right, padding.top - 6))
+        .selectAll("tspan")
+        .data(series)
+      labels.enter()
+        .append("tspan")
+      labels
+        .style("fill", (s) -> s.color)
+        .each((l, i) ->
+          text = l.name
+          if i < series.length - 1
+            text += ", "
+          d3.select(this).text text)
+      labels.exit().remove()
 
-addContextLine = (sel) ->
+
+addContextLineset = (sel) ->
   sel
-    .append("path")
-    .attr("class", "line")
+    .append("g")
+    .attr("class", "lineset")
 
 
 drawContext = (sel) ->
-  sel.selectAll(".line").each (d) ->
+  sel.selectAll(".lineset").each (d) ->
     yscale = d3.scale.linear()
       .domain(getYExtent(d))
       .range([height2, 0])
       .nice()
       .clamp(true)
+
     line = d3.svg.line()
       .x((e) -> x2scale(e.date_time))
       .y((e) -> yscale(e.value))
       .defined((e) -> e.value)
-    d3.select(this).datum(d)
+
+    lines = d3.select(this).selectAll(".line")
+      .data(d.getSeries())
+
+    lines.enter()
+      .append("path")
+      .attr("class", "line")
+
+    lines
       .attr("d", (e) -> line e.data)
       .style("stroke", (e) -> e.color)
+
+    lines.exit().remove()
 
   sel.select(".x.axis")
     .attr("transform", translate(0, height2))
@@ -359,7 +394,7 @@ animateBubbles = (circle, begin) ->
 
 
 getYExtent = (timeseries) ->
-  extent = d3.extent(timeseries.data, (e) -> e.value)
+  extent = d3.extent(d3.merge(timeseries.getData()), (e) -> e.value)
   if timeseries.min?
     extent[0] = d3.max([extent[0], timeseries.min])
   if timeseries.max?

@@ -1,23 +1,22 @@
 [{
-    "type": "cwms",
-    "name": "Air temperature 1",
-    "ts_codes": 22338021,
+    "name": "Air temperature",
+    "series": [
+      {
+        "name": "Sensor 1",
+        "ts_codes": 22338021,
+        "color": "#51A7F9"
+      },
+      {
+        "name": "Sensor 2",
+        "ts_codes": 22339021,
+        "color": "#0432FC"
+      }
+    ],
     "units": "°C",
     "visible": true,
-    "color": "#51A7F9",
     "max": 30
 },
 {
-    "type": "cwms",
-    "name": "Air temperature 2",
-    "ts_codes": 22339021,
-    "units": "°C",
-    "visible": false,
-    "color": "#0432FC",
-    "max": 30
-},
-{
-    "type": "cwms",
     "name": "Solar radiation up",
     "ts_codes": 12681021,
     "units": "J/m2",
@@ -26,7 +25,6 @@
     "min": 0
 },
 {
-    "type": "cwms",
     "name": "Solar radiation down",
     "ts_codes": 12683021,
     "units": "J/m2",
@@ -35,7 +33,6 @@
     "min": 0
 },
 {
-    "type": "cwms",
     "name": "Relative humidity",
     "ts_codes": 12686021,
     "units": "%",
@@ -45,45 +42,43 @@
     "max": 100
 },
 {
-    "type": "cwms",
-    "name": "Wind speed 1",
-    "ts_codes": 12688021,
+    "name": "Wind speed",
+    "series": [
+      {
+        "name": "Sensor 1",
+        "ts_codes": 12688021,
+        "color": "#FA40FF"
+      },
+      {
+        "name": "Sensor 2",
+        "ts_codes": 12690021,
+        "color": "#9D369B"
+      }
+    ],
     "units": "kph",
     "visible": false,
-    "color": "#FA40FF",
     "min": 0
 },
 {
-    "type": "cwms",
-    "name": "Wind direction 1",
-    "ts_codes": 12689021,
+    "name": "Wind direction",
+    "series": [
+      {
+        "name": "Sensor 1",
+        "ts_codes": 12689021,
+        "color": "#FA40FF"
+      },
+      {
+        "name": "Sensor 2",
+        "ts_codes": 12691021,
+        "color": "#942191"
+      }
+    ],
     "units": "deg",
     "visible": false,
-    "color": "#FA40FF",
     "min": 0,
     "max": 360
 },
 {
-    "type": "cwms",
-    "name": "Wind speed 2",
-    "ts_codes": 12690021,
-    "units": "kph",
-    "visible": false,
-    "color": "#9D369B",
-    "min": 0
-},
-{
-    "type": "cwms",
-    "name": "Wind direction 2",
-    "ts_codes": 12691021,
-    "units": "deg",
-    "visible": false,
-    "color": "#942191",
-    "min": 0,
-    "max": 360
-},
-{
-    "type": "cwms",
     "name": "Pressure",
     "ts_codes": 12692021,
     "units": "kPa",
@@ -93,7 +88,6 @@
     "max": 105
 },
 {
-    "type": "cwms",
     "name": "Voltage",
     "ts_codes": 12693021,
     "units": "volt",

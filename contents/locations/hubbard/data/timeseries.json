@@ -1,5 +1,4 @@
 [{
-    "type": "cwms",
     "name": "Terminus range",
     "ts_codes": [18844021, 18845021, 18846021, 18847021, 18848021, 
         18849021, 18850021, 18851021, 18852021, 18853021, 18854021, 
@@ -12,25 +11,24 @@
     "units": "Meters from Gilbert Point. 320 meters is closure."
 },
 {
-    "type": "cwms",
-    "name": "Air temperature 1",
-    "ts_codes": 18676021,
+    "name": "Air temperature",
+    "series": [
+      {
+        "name": "Sensor 1",
+        "ts_codes": 18676021,
+        "color": "#51A7F9"
+      },
+      {
+        "name": "Sensor 2",
+        "ts_codes": 18677021,
+        "color": "#0432FC"
+      }
+    ],
     "visible": false,
-    "color": "#51A7F9",
     "units": "°C",
     "max": 30
 },
 {
-    "type": "cwms",
-    "name": "Air temperature 2",
-    "ts_codes": 18677021,
-    "visible": false,
-    "color": "#0432FC",
-    "units": "°C",
-    "max": 30
-},
-{
-    "type": "cwms",
     "name": "Pressure",
     "ts_codes": 8572021,
     "visible": false,
@@ -40,8 +38,7 @@
     "max": 105
 },
 {
-    "type": "cwms",
-    "name": "Solar Radiation Down",
+    "name": "Solar radiation down",
     "ts_codes": 18682021,
     "visible": false,
     "color": "#DE6A10",
@@ -49,8 +46,7 @@
     "min": 0
 },
 {
-    "type": "cwms",
-    "name": "Solar Radiation Up",
+    "name": "Solar radiation up",
     "ts_codes": 18681021,
     "visible": false,
     "color": "#C39719",
@@ -58,46 +54,44 @@
     "min": 0
 },
 {
-    "type": "cwms",
-    "name": "Wind Speed 1",
-    "ts_codes": 18679021,
+    "name": "Wind speed",
     "visible": false,
-    "color": "#FA40FF",
+    "series": [
+      {
+        "name": "Sensor 1",
+        "ts_codes": 18679021,
+        "color": "#FA40FF"
+      },
+      {
+        "name": "Sensor 2",
+        "ts_codes": 12050021,
+        "color": "#9D369B"
+      }
+    ],
     "units": "Kilometers per hour",
     "min": 0
 },
 {
-    "type": "cwms",
-    "name": "Wind Speed 2",
-    "ts_codes": 12050021,
+    "name": "Wind direction",
     "visible": false,
-    "color": "#9D369B",
-    "units": "Kilometers per hour",
-    "min": 0
-},
-{
-    "type": "cwms",
-    "name": "Wind Dir 1",
-    "ts_codes": 18680021,
-    "visible": false,
-    "color": "#FA40FF",
+    "series": [
+      {
+        "name": "Sensor 1",
+        "ts_codes": 18680021,
+        "color": "#FA40FF"
+      },
+      {
+        "name": "Sensor 2",
+        "ts_codes": 12051021,
+        "color": "#942191"
+      }
+    ],
     "units": "Degrees",
     "min": 0,
     "max": 360
 },
 {
-    "type": "cwms",
-    "name": "Wind Dir 2",
-    "ts_codes": 12051021,
-    "visible": false,
-    "color": "#942191",
-    "units": "Degrees",
-    "min": 0,
-    "max": 360
-},
-{
-    "type": "cwms",
-    "name": "Relative Humidity",
+    "name": "Relative humidity",
     "ts_codes": 18678021,
     "visible": false,
     "color": "#535860",
@@ -106,7 +100,6 @@
     "max": 100
 },
 {
-    "type": "cwms",
     "name": "Voltage",
     "ts_codes": 18683021,
     "visible": false,

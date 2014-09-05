@@ -27,12 +27,19 @@
       text-anchor: middle;
   }
 
-  .panel .y.label {
-      text-anchor: start;
+  .label {
       font-size: 12px;
       font-weight: normal;
-      fill: #666;
       font-style: italic;
+
+      &.y {
+        fill: #666;
+        text-anchor: start;
+      }
+
+      &.series {
+        text-anchor: end;
+      }
   }
 
   .resize rect {
