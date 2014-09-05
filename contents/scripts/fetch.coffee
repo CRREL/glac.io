@@ -23,20 +23,17 @@ module.exports =
           q.defer (callback) -> t.fetch callback
     q.awaitAll (error) -> callback error, timeseries
 
-  images: (callback) ->
+  images: (cameraUrl, callback) ->
     queue()
-      .defer(d3.json, "data/images.json")
-      .await (error, camera) ->
-        q = queue()
-        q.defer (cb) ->
-          options =
-            jsonp: true
-            callbackName: "jsonp"
-          url = uri.parse camera.url, true
-          xhr url, options, (error, data) ->
-            camera.images = data.map (d) ->
-              # TODO timezone considerations?
-              d.datetime = new Date(d.datetime)
-              d
-            cb error, camera
-        q.await callback
+      .defer (cb) ->
+        options =
+          jsonp: true
+          callbackName: "jsonp"
+        url = uri.parse cameraUrl, true
+        xhr url, options, (error, data) ->
+          images = data.map (d) ->
+            # TODO timezone considerations?
+            d.datetime = new Date(d.datetime)
+            d
+          cb error, images
+      .await callback
