@@ -1,24 +1,24 @@
-.tick {
+.realtime-images .tick {
   font-size: 12px;
 }
-line,
-path {
+.realtime-images line,
+.realtime-images path {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
 }
-.images image {
+.realtime-images .images image {
   cursor: pointer;
 }
-.images rect {
+.realtime-images .images rect {
   stroke: none;
   fill: none;
 }
-.images rect.active {
+.realtime-images .images rect.active {
   stroke: gold;
   stroke-width: 2px;
 }
-.arrow {
+.realtime-images .arrow {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -30,17 +30,17 @@ path {
   opacity: 0.5;
   cursor: pointer;
 }
-.arrow .glyphicon-chevron-right,
-.arrow .glyphicon-chevron-left {
+.realtime-images .arrow .glyphicon-chevron-right,
+.realtime-images .arrow .glyphicon-chevron-left {
   position: absolute;
   width: 30px;
   height: 30px;
   font-size: 30px;
   top: 285px;
 }
-.arrow .glyphicon-chevron-right {
+.realtime-images .arrow .glyphicon-chevron-right {
   left: 25px;
 }
-.arrow .glyphicon-chevron-left {
+.realtime-images .arrow .glyphicon-chevron-left {
   left: 25px;
 }

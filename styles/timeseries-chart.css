@@ -1,0 +1,55 @@
+.timeseries-chart svg {
+  font: 10px sans-serif;
+}
+.timeseries-chart .line {
+  stroke: steelblue;
+  fill: none;
+  clip-path: url(#clip);
+  pointer-events: none;
+}
+.timeseries-chart .axis path,
+.timeseries-chart .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.timeseries-chart .brush .extent {
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+.timeseries-chart .panel .title {
+  font-size: 16px;
+  text-anchor: middle;
+}
+.timeseries-chart .panel .y.label {
+  text-anchor: start;
+  font-size: 12px;
+  font-weight: normal;
+  fill: #666;
+  font-style: italic;
+}
+.timeseries-chart .resize rect {
+  fill: url(#dimples);
+  fill-opacity: 0.8;
+}
+.timeseries-chart #dimples circle {
+  stroke: none;
+  fill: steelblue;
+}
+.timeseries-chart .loading {
+  fill: #333;
+  stroke: none;
+}
+.timeseries-chart .loading text {
+  font-size: 16px;
+}
+.timeseries-chart .fill {
+  fill: #f8f8f8;
+}
+.timeseries-chart .grid .tick {
+  stroke: #fff;
+}
+.timeseries-chart .grid path {
+  stroke-width: 0;
+  fill: none;
+}

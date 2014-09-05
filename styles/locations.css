@@ -1,0 +1,11 @@
+.locations #sphere {
+  stroke: #333;
+  fill: #fff;
+}
+.locations .land {
+  fill: #222;
+}
+.locations .location {
+  fill-opacity: 0.8;
+  stroke: #fff;
+}

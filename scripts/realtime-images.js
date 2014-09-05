@@ -193,15 +193,17 @@ fetch.images(cameraUrl, build);
 
 
 },{"./fetch":1,"d3":4,"moment":5}],3:[function(require,module,exports){
-var CwmsTimeseries, Timeseries, d3, parseDate, typeIsArray, uri, xhr,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+var DEFAULT_INTERVAL, Timeseries, d3, parseDate, queue, typeIsArray, uri, xhr;
 
 d3 = require("d3");
+
+queue = require("queue-async");
 
 uri = require("url");
 
 xhr = require("xhr-browserify");
+
+DEFAULT_INTERVAL = "daily";
 
 parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse;
 
@@ -211,58 +213,131 @@ typeIsArray = Array.isArray || function(value) {
 
 module.exports = {
   makeTimeseries: function(options) {
-    var klass;
-    klass = (function() {
-      switch (options.type) {
-        case "cwms":
-          return CwmsTimeseries;
-        default:
-          throw new Error("Unknown timeseries type");
-      }
-    })();
-    return new klass(options);
+    return new Timeseries(options);
   }
 };
 
 Timeseries = (function() {
   function Timeseries(options) {
-    this.name = options.name, this.visible = options.visible, this.color = options.color, this.units = options.units, this.min = options.min, this.max = options.max;
-    this.productionUrl = this.buildProductionUrl();
+    var ts, _fn, _i, _len, _ref;
+    this.name = options.name, this.visible = options.visible, this.units = options.units, this.min = options.min, this.max = options.max, this.floor = options.floor;
+    if (options.ts_codes != null) {
+      if (options.series != null) {
+        throw new Error("Cannot specify ts_codes and series");
+      }
+      this.series = [
+        {
+          ts_codes: options.ts_codes,
+          color: options.color
+        }
+      ];
+    } else if (options.series) {
+      this.series = options.series;
+    } else {
+      throw new Error("Must specify either ts_codes or series");
+    }
+    _ref = this.series;
+    _fn = function(ts) {
+      if (!typeIsArray(ts.ts_codes)) {
+        ts.ts_codes = [ts.ts_codes];
+      }
+      return ts.data = {};
+    };
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      ts = _ref[_i];
+      _fn(ts);
+    }
+    this.interval = DEFAULT_INTERVAL;
+    this._loaded = {};
   }
 
   Timeseries.prototype.fetch = function(callback) {
-    var options,
+    var options, q, ts, _fn, _i, _len, _ref,
       _this = this;
     options = {
       jsonp: true,
       callbackName: "jsonp"
     };
-    return xhr(this.getUrl(), options, function(error, results) {
-      _this.setData(_this.processData(results));
+    q = queue();
+    _ref = this.series;
+    _fn = function(ts) {
+      return q.defer(function(cb) {
+        return xhr(_this.getUrl(ts), options, function(error, results) {
+          ts.data[_this.interval] = _this.processData(results.map(function(d) {
+            d.date_time = parseDate(d.date_time);
+            return d;
+          }));
+          return cb(error);
+        });
+      });
+    };
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      ts = _ref[_i];
+      _fn(ts);
+    }
+    return q.awaitAll(function(error) {
+      _this._loaded[_this.interval] = true;
       return callback(error, _this);
     });
   };
 
-  Timeseries.prototype.getUrl = function() {
-    return uri.parse(this.productionUrl, true);
-  };
-
-  Timeseries.prototype.setData = function(data) {
-    this.data = data;
+  Timeseries.prototype.getUrl = function(ts) {
+    var url;
+    url = "http://nae-rrs2.usace.army.mil:7777/" + ("pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=" + (ts.ts_codes.join(",")));
+    if (this.floor) {
+      url += "&floor=" + this.floor;
+    }
+    url += "&summary_interval=daily";
+    return uri.parse(url, true);
   };
 
   Timeseries.prototype.hasData = function() {
-    return this.data != null;
+    return this._loaded[this.interval];
+  };
+
+  Timeseries.prototype.getData = function(minTime, maxTime) {
+    return this.getSeries(minTime, maxTime).map(function(d) {
+      return d.data;
+    });
+  };
+
+  Timeseries.prototype.getSeries = function(minTime, maxTime) {
+    var _this = this;
+    if (minTime == null) {
+      minTime = new Date(0);
+    }
+    if (maxTime == null) {
+      maxTime = d3.time.year.offset(new Date(), 1);
+    }
+    return this.series.map(function(ts) {
+      var e, series;
+      series = {
+        data: (function() {
+          var _i, _len, _ref, _ref1, _results;
+          _ref = ts.data[this.interval];
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            e = _ref[_i];
+            if ((minTime <= (_ref1 = e.date_time) && _ref1 <= maxTime)) {
+              _results.push(e);
+            }
+          }
+          return _results;
+        }).call(_this),
+        color: ts.color
+      };
+      return series;
+    });
   };
 
   Timeseries.prototype.processData = function(data) {
     var reducer, timeScale;
     timeScale = d3.time.scale().domain(d3.extent(data.map(function(d) {
-      return parseDate(d.date_time);
+      return d.date_time;
     }))).ticks(d3.time.day, 1);
     reducer = function(p, c) {
       var d, value;
-      value = parseDate(data[0].date_time) <= c ? data.shift().value : null;
+      value = data[0].date_time <= c ? data.shift().value : null;
       d = {
         date_time: c,
         value: value
@@ -272,41 +347,12 @@ Timeseries = (function() {
     return timeScale.reduce(reducer, []);
   };
 
-  Timeseries.prototype.buildProductionUrl = function() {
-    throw new Error("Not implemented");
-  };
-
   return Timeseries;
 
 })();
 
-CwmsTimeseries = (function(_super) {
-  __extends(CwmsTimeseries, _super);
 
-  function CwmsTimeseries(options) {
-    this.ts_codes = options.ts_codes, this.floor = options.floor;
-    if (!typeIsArray(this.ts_codes)) {
-      this.ts_codes = [this.ts_codes];
-    }
-    CwmsTimeseries.__super__.constructor.call(this, options);
-  }
-
-  CwmsTimeseries.prototype.buildProductionUrl = function() {
-    var url;
-    url = "http://nae-rrs2.usace.army.mil:7777/" + ("pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=" + (this.ts_codes.join(",")));
-    if (this.floor) {
-      url += "&floor=" + this.floor;
-    }
-    url += "&summary_interval=daily";
-    return url;
-  };
-
-  return CwmsTimeseries;
-
-})(Timeseries);
-
-
-},{"d3":4,"url":29,"xhr-browserify":32}],4:[function(require,module,exports){
+},{"d3":4,"queue-async":6,"url":29,"xhr-browserify":32}],4:[function(require,module,exports){
 !function() {
   var d3 = {
     version: "3.4.9"

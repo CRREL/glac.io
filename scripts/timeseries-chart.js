@@ -61,7 +61,7 @@ module.exports = {
 
 
 },{"./timeseries":3,"d3":4,"queue-async":5,"url":28,"xhr-browserify":31}],2:[function(require,module,exports){
-var addContextLine, addPanel, animateBubbles, brush, chart, container, context, controls, d3, defaultBrushExtent, draw, drawContext, drawControls, drawFocus, emptyAxis, fetch, focus, getYExtent, height, height2, initialBuild, margin, margin2, padding, svg, timeseriesUrl, toggleControl, translate, tsName, update, visibleTimeseries, width, x2axis, x2scale, xaxis, xgrid, xscale;
+var addContextLineset, addPanel, animateBubbles, brush, chart, container, context, controls, d3, defaultBrushExtent, draw, drawContext, drawControls, drawFocus, emptyAxis, fetch, focus, getYExtent, height, height2, initialBuild, margin, margin2, padding, svg, timeseriesUrl, toggleControl, translate, tsName, update, visibleTimeseries, width, x2axis, x2scale, xaxis, xgrid, xscale;
 
 d3 = require("d3");
 
@@ -187,25 +187,25 @@ update = function() {
   panels.enter().call(addPanel);
   panels.exit().remove();
   focus.call(drawFocus);
-  contextLines = context.selectAll(".line").data(timeseries, tsName);
-  contextLines.enter().call(addContextLine);
+  contextLines = context.selectAll(".lineset").data(timeseries, tsName);
+  contextLines.enter().call(addContextLineset);
   contextLines.exit().remove();
   return fetch.data(timeseries, draw);
 };
 
 draw = function(error, timeseries) {
   var oldBrushExtent, t;
-  x2scale.domain(d3.extent(d3.merge((function() {
+  x2scale.domain(d3.extent(d3.merge(d3.merge((function() {
     var _i, _len, _results;
     _results = [];
     for (_i = 0, _len = timeseries.length; _i < _len; _i++) {
       t = timeseries[_i];
-      _results.push(d3.extent(t.data, function(u) {
-        return u.date_time;
-      }));
+      _results.push(t.getData());
     }
     return _results;
-  })())));
+  })())), function(d) {
+    return d.date_time;
+  }));
   oldBrushExtent = brush.extent();
   brush.extent([d3.max([oldBrushExtent[0], x2scale.domain()[0]]), d3.min([oldBrushExtent[1], x2scale.domain()[1]])]);
   return context.select(".x.brush").call(brush).call(brush.event);
@@ -232,7 +232,6 @@ addPanel = function(sel) {
   panel.append("rect").attr("class", "fill");
   panel.append("g").attr("class", "x grid");
   panel.append("g").attr("class", "y grid");
-  panel.append("path").attr("class", "line");
   panel.append("g").attr("class", "x axis");
   panel.append("g").attr("class", "y axis");
   panel.append("text").attr("class", "title");
@@ -281,7 +280,7 @@ drawFocus = function(sel, heights) {
     }
   };
   return sel.selectAll(".panel").each(function(d, i) {
-    var data, e, line, maxTime, minTime, yaxis, yscale, _ref;
+    var line, lines, maxTime, minTime, yaxis, yscale, _ref;
     d3.select(this).attr("transform", translate(0, dy(i)));
     d3.select(this).select(".title").attr("transform", translate(width / 2, 10)).attr("text-anchor", "middle").text(function(e) {
       return e.name;
@@ -301,18 +300,6 @@ drawFocus = function(sel, heights) {
     yscale = d3.scale.linear().domain(getYExtent(d)).range([heights[i] - padding.bottom, padding.top]).nice().clamp(true);
     yaxis = d3.svg.axis().scale(yscale).orient("left").ticks(10 / heights.length);
     _ref = xscale.domain(), minTime = _ref[0], maxTime = _ref[1];
-    data = (function() {
-      var _i, _len, _ref1, _ref2, _results;
-      _ref1 = d.data;
-      _results = [];
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        e = _ref1[_i];
-        if ((minTime <= (_ref2 = e.date_time) && _ref2 <= maxTime)) {
-          _results.push(e);
-        }
-      }
-      return _results;
-    })();
     line = d3.svg.line().x(function(e) {
       return xscale(e.date_time);
     }).y(function(e) {
@@ -320,7 +307,14 @@ drawFocus = function(sel, heights) {
     }).defined(function(e) {
       return e.value;
     });
-    d3.select(this).select(".line").datum(data).attr("d", line).style("stroke", d.color);
+    lines = d3.select(this).selectAll(".line").data(d.getSeries(minTime, maxTime));
+    lines.enter().append("path").attr("class", "line");
+    lines.attr("d", function(e) {
+      return line(e.data);
+    }).style("stroke", function(e) {
+      return e.color;
+    });
+    lines.exit().remove();
     d3.select(this).select(".x.axis").attr("transform", translate(0, heights[i] - padding.bottom)).call(xaxis);
     d3.select(this).select(".x.grid").attr("transform", translate(0, heights[i] - padding.bottom)).call(xgrid.tickSize(-heights[i] + padding.bottom + padding.top, 0).tickFormat(""));
     d3.select(this).select(".y.axis").call(yaxis);
@@ -331,13 +325,13 @@ drawFocus = function(sel, heights) {
   });
 };
 
-addContextLine = function(sel) {
-  return sel.append("path").attr("class", "line");
+addContextLineset = function(sel) {
+  return sel.append("g").attr("class", "lineset");
 };
 
 drawContext = function(sel) {
-  sel.selectAll(".line").each(function(d) {
-    var line, yscale;
+  sel.selectAll(".lineset").each(function(d) {
+    var line, lines, yscale;
     yscale = d3.scale.linear().domain(getYExtent(d)).range([height2, 0]).nice().clamp(true);
     line = d3.svg.line().x(function(e) {
       return x2scale(e.date_time);
@@ -346,11 +340,14 @@ drawContext = function(sel) {
     }).defined(function(e) {
       return e.value;
     });
-    return d3.select(this).datum(d).attr("d", function(e) {
+    lines = d3.select(this).selectAll(".line").data(d.getSeries());
+    lines.enter().append("path").attr("class", "line");
+    lines.attr("d", function(e) {
       return line(e.data);
     }).style("stroke", function(e) {
       return e.color;
     });
+    return lines.exit().remove();
   });
   sel.select(".x.axis").attr("transform", translate(0, height2)).call(x2axis);
   return sel.select(".x.brush").call(brush);
@@ -371,7 +368,7 @@ animateBubbles = function(circle, begin) {
 
 getYExtent = function(timeseries) {
   var extent;
-  extent = d3.extent(timeseries.data, function(e) {
+  extent = d3.extent(d3.merge(timeseries.getData()), function(e) {
     return e.value;
   });
   if (timeseries.min != null) {
@@ -387,15 +384,17 @@ fetch.timeseries(timeseriesUrl, initialBuild);
 
 
 },{"./fetch":1,"d3":4}],3:[function(require,module,exports){
-var CwmsTimeseries, Timeseries, d3, parseDate, typeIsArray, uri, xhr,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+var DEFAULT_INTERVAL, Timeseries, d3, parseDate, queue, typeIsArray, uri, xhr;
 
 d3 = require("d3");
+
+queue = require("queue-async");
 
 uri = require("url");
 
 xhr = require("xhr-browserify");
+
+DEFAULT_INTERVAL = "daily";
 
 parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse;
 
@@ -405,58 +404,131 @@ typeIsArray = Array.isArray || function(value) {
 
 module.exports = {
   makeTimeseries: function(options) {
-    var klass;
-    klass = (function() {
-      switch (options.type) {
-        case "cwms":
-          return CwmsTimeseries;
-        default:
-          throw new Error("Unknown timeseries type");
-      }
-    })();
-    return new klass(options);
+    return new Timeseries(options);
   }
 };
 
 Timeseries = (function() {
   function Timeseries(options) {
-    this.name = options.name, this.visible = options.visible, this.color = options.color, this.units = options.units, this.min = options.min, this.max = options.max;
-    this.productionUrl = this.buildProductionUrl();
+    var ts, _fn, _i, _len, _ref;
+    this.name = options.name, this.visible = options.visible, this.units = options.units, this.min = options.min, this.max = options.max, this.floor = options.floor;
+    if (options.ts_codes != null) {
+      if (options.series != null) {
+        throw new Error("Cannot specify ts_codes and series");
+      }
+      this.series = [
+        {
+          ts_codes: options.ts_codes,
+          color: options.color
+        }
+      ];
+    } else if (options.series) {
+      this.series = options.series;
+    } else {
+      throw new Error("Must specify either ts_codes or series");
+    }
+    _ref = this.series;
+    _fn = function(ts) {
+      if (!typeIsArray(ts.ts_codes)) {
+        ts.ts_codes = [ts.ts_codes];
+      }
+      return ts.data = {};
+    };
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      ts = _ref[_i];
+      _fn(ts);
+    }
+    this.interval = DEFAULT_INTERVAL;
+    this._loaded = {};
   }
 
   Timeseries.prototype.fetch = function(callback) {
-    var options,
+    var options, q, ts, _fn, _i, _len, _ref,
       _this = this;
     options = {
       jsonp: true,
       callbackName: "jsonp"
     };
-    return xhr(this.getUrl(), options, function(error, results) {
-      _this.setData(_this.processData(results));
+    q = queue();
+    _ref = this.series;
+    _fn = function(ts) {
+      return q.defer(function(cb) {
+        return xhr(_this.getUrl(ts), options, function(error, results) {
+          ts.data[_this.interval] = _this.processData(results.map(function(d) {
+            d.date_time = parseDate(d.date_time);
+            return d;
+          }));
+          return cb(error);
+        });
+      });
+    };
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      ts = _ref[_i];
+      _fn(ts);
+    }
+    return q.awaitAll(function(error) {
+      _this._loaded[_this.interval] = true;
       return callback(error, _this);
     });
   };
 
-  Timeseries.prototype.getUrl = function() {
-    return uri.parse(this.productionUrl, true);
-  };
-
-  Timeseries.prototype.setData = function(data) {
-    this.data = data;
+  Timeseries.prototype.getUrl = function(ts) {
+    var url;
+    url = "http://nae-rrs2.usace.army.mil:7777/" + ("pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=" + (ts.ts_codes.join(",")));
+    if (this.floor) {
+      url += "&floor=" + this.floor;
+    }
+    url += "&summary_interval=daily";
+    return uri.parse(url, true);
   };
 
   Timeseries.prototype.hasData = function() {
-    return this.data != null;
+    return this._loaded[this.interval];
+  };
+
+  Timeseries.prototype.getData = function(minTime, maxTime) {
+    return this.getSeries(minTime, maxTime).map(function(d) {
+      return d.data;
+    });
+  };
+
+  Timeseries.prototype.getSeries = function(minTime, maxTime) {
+    var _this = this;
+    if (minTime == null) {
+      minTime = new Date(0);
+    }
+    if (maxTime == null) {
+      maxTime = d3.time.year.offset(new Date(), 1);
+    }
+    return this.series.map(function(ts) {
+      var e, series;
+      series = {
+        data: (function() {
+          var _i, _len, _ref, _ref1, _results;
+          _ref = ts.data[this.interval];
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            e = _ref[_i];
+            if ((minTime <= (_ref1 = e.date_time) && _ref1 <= maxTime)) {
+              _results.push(e);
+            }
+          }
+          return _results;
+        }).call(_this),
+        color: ts.color
+      };
+      return series;
+    });
   };
 
   Timeseries.prototype.processData = function(data) {
     var reducer, timeScale;
     timeScale = d3.time.scale().domain(d3.extent(data.map(function(d) {
-      return parseDate(d.date_time);
+      return d.date_time;
     }))).ticks(d3.time.day, 1);
     reducer = function(p, c) {
       var d, value;
-      value = parseDate(data[0].date_time) <= c ? data.shift().value : null;
+      value = data[0].date_time <= c ? data.shift().value : null;
       d = {
         date_time: c,
         value: value
@@ -466,41 +538,12 @@ Timeseries = (function() {
     return timeScale.reduce(reducer, []);
   };
 
-  Timeseries.prototype.buildProductionUrl = function() {
-    throw new Error("Not implemented");
-  };
-
   return Timeseries;
 
 })();
 
-CwmsTimeseries = (function(_super) {
-  __extends(CwmsTimeseries, _super);
 
-  function CwmsTimeseries(options) {
-    this.ts_codes = options.ts_codes, this.floor = options.floor;
-    if (!typeIsArray(this.ts_codes)) {
-      this.ts_codes = [this.ts_codes];
-    }
-    CwmsTimeseries.__super__.constructor.call(this, options);
-  }
-
-  CwmsTimeseries.prototype.buildProductionUrl = function() {
-    var url;
-    url = "http://nae-rrs2.usace.army.mil:7777/" + ("pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=" + (this.ts_codes.join(",")));
-    if (this.floor) {
-      url += "&floor=" + this.floor;
-    }
-    url += "&summary_interval=daily";
-    return url;
-  };
-
-  return CwmsTimeseries;
-
-})(Timeseries);
-
-
-},{"d3":4,"url":28,"xhr-browserify":31}],4:[function(require,module,exports){
+},{"d3":4,"queue-async":5,"url":28,"xhr-browserify":31}],4:[function(require,module,exports){
 !function() {
   var d3 = {
     version: "3.4.9"
