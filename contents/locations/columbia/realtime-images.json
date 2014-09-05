@@ -1,0 +1,6 @@
+{
+  "title": "Columbia Glacier Real-time Images",
+  "template": "realtime-images.jade",
+  "cameraUrl": "http://rsgisias.crrel.usace.army.mil/hubbard/jsonapi.images?camera=COLUMBIA",
+  "imageBaseUrl": "http://rsgisias.crrel.usace.army.mil/hubbard/jsonapi.image?path="
+}

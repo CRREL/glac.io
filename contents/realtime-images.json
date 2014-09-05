@@ -1,0 +1,27 @@
+{
+    "title": "Real-Time Images",
+    "template": "imagery.jade",
+    "blurb": "Select a camera location below to view the latest images.",
+    "tiles": [
+        {
+            "name": "Hubbard Glacier",
+            "imgSrc": "http://rsgisias.crrel.usace.army.mil/hubbard/jsonapi.latestimage?camera=HUBBARD",
+            "url": "locations/hubbard/realtime-images.html"
+        },
+        {
+            "name": "Columbia Glacier",
+            "imgSrc": "http://rsgisias.crrel.usace.army.mil/hubbard/jsonapi.latestimage?camera=COLUMBIA",
+            "url": "locations/columbia/realtime-images.html"
+        },
+        {
+            "name": "Helheim Glacier &mdash; Terminus",
+            "imgSrc": "http://rsgisias.crrel.usace.army.mil/hubbard/jsonapi.latestimage?camera=HEL_TERMINUS",
+            "url": "locations/helheim/realtime-images-terminus.html"
+        },
+        {
+            "name": "Helheim Glacier &mdash; Melange",
+            "imgSrc": "http://rsgisias.crrel.usace.army.mil/hubbard/jsonapi.latestimage?camera=HEL_MELANGE",
+            "url": "locations/helheim/realtime-images-melange.html"
+        }
+    ]
+}
