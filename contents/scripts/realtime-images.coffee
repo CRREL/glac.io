@@ -33,11 +33,17 @@ controls = d3.select(".realtime-images-controls")
   )
 
 
+timeFormat = d3.time.format.multi [
+  ["%-I %p", (d) -> d.getHours()]
+  ["%_d-%b-%Y", (d) -> d.getDay()]
+]
 yscale = d3.time.scale()
   .range([height, 0])
 yaxis = d3.svg.axis()
   .scale(yscale)
   .orient("left")
+  .ticks(d3.time.hour, 6)
+  .tickFormat(timeFormat)
 
 
 build = (error, images) ->
