@@ -55,7 +55,7 @@ build = (error, images) ->
     activeImage = images.filter((d) -> d.active)[0]
     viewer.select(".description")
       .html("This picture was taken " + moment(activeImage.datetime).fromNow() +
-        " on " + moment(activeImage.datetime).format("DD-MMM-YYYY [at] ha") +
+        " on " + moment(activeImage.datetime).format("MMMM Do, YYYY [at] ha") +
         ".")
     viewer.select("img").datum(activeImage)
       .attr("src", (d) -> imageBaseUrl + d.path)
