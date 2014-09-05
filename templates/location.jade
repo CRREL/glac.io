@@ -1,5 +1,8 @@
 extends tiles
 
+block prepend main
+  - page.metadata.breadcrumbs = true
+
 block append content
   // TODO include a map of the location
   .row

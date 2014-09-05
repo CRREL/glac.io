@@ -1,8 +1,5 @@
 extends page-wide
 
-block prepend main
-  - page.metadata.breadcrumbs = true
-
 block content
   - var tiles = page.metadata.tiles;
   - var slug = page.filepath.relative.split("/")[1];
