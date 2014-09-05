@@ -17,11 +17,5 @@ block content
       - for (; i < Math.min(tiles.length, initial + 4); i++)
         .col-md-3.tile
           a.thumbnail(href=tiles[i].url)
-            if tiles[i].image_url
-              img(src=tiles[i].image_url)
-            else
-              img(src=contents.scripts.lib["holder.js"].url + "/200x150")
+            img(src=tiles[i].image_url)
             h4!= tiles[i].name
-
-block append scripts
-  script(src=contents.scripts.lib["holder.js"].url)
