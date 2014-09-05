@@ -4,16 +4,20 @@ block append styles
   link(rel="stylesheet", href=contents.styles["globe.less"].url)
 
 block content
-  .row
+  .row(data-viewer="locations",
+       data-sensors-url=page.metadata.sensorsUrl,
+       data-world-url=page.metadata.worldUrl,
+       data-locations-url=page.metadata.locationsUrl,
+       data-sensor-icons-base-url=page.metadata.sensorIconsBaseUrl)
     .col-md-3
       | Hover over a location to see more information.
       hr
-      #locations.list-group
-    .col-md-5#globe
-    .col-md-4#detail
-      #sensors
+      .locations-list.list-group
+    .col-md-5.locations-globe
+    .col-md-4.locations-detail
+      .locations-sensors
         h3 Sensor Types
-      #location-detail
+      .locations-location-detail
 
 block append scripts
   script(src=contents.scripts["locations.coffee"].url)

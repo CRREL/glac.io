@@ -1,4 +1,8 @@
 {
     "template": "locations.jade",
-    "title": "Locations"
+    "title": "Locations",
+    "sensorsUrl": "../data/sensors.json",
+    "worldUrl": "../data/world-110m.json",
+    "locationsUrl": "../data/locations.json",
+    "sensorIconsBaseUrl": "../img/sensor-icons/"
 }
