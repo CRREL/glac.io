@@ -1,7 +1,6 @@
 {
     "locals": {
         "title": "glacierresearch.org",
-        "development": false,
         "url": "http://glacierresearch.org"
     },
     "require": {

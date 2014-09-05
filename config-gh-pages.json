@@ -1,7 +1,6 @@
 {
     "locals": {
         "title": "glacierresearch.org",
-        "development": false,
         "url": "http://gadomski.github.io/glac.io/"
     },
     "require": {

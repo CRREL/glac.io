@@ -21,14 +21,10 @@ module.exports =
 class Timeseries
 
   constructor: (options) ->
-    {@name, @visible, @color, @units, @development, @developmentUrl,
-      @min, @max} = options
+    {@name, @visible, @color, @units, @min, @max} = options
     @productionUrl = @buildProductionUrl()
 
   fetch: (callback) ->
-    if @development and not @developmentUrl
-      @setData []
-      return callback null, this
     options =
       jsonp: true
       callbackName: "jsonp"
@@ -37,8 +33,7 @@ class Timeseries
       callback error, this
 
   getUrl: () ->
-    s = if @development then @developmentUrl else @productionUrl
-    uri.parse(s, true)
+    uri.parse(@productionUrl, true)
 
   setData: (@data) ->
 

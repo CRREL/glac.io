@@ -1,7 +1,6 @@
 d3 = require("d3")
 queue = require("queue-async")
 topojson = require("topojson")
-config = require("./config")
 
 container = d3.select "[data-viewer='locations']"
 sensorsUrl = container.attr "data-sensors-url"
