@@ -35,7 +35,7 @@ controls = d3.select(".realtime-images-controls")
 
 timeFormat = d3.time.format.multi [
   ["%-I %p", (d) -> d.getHours()]
-  ["%_d-%b-%Y", (d) -> d.getDay()]
+  ["%_d-%b-%Y", (d) -> true]
 ]
 yscale = d3.time.scale()
   .range([height, 0])
@@ -49,6 +49,11 @@ yaxis = d3.svg.axis()
 build = (error, images) ->
   images = images.sort((a, b) -> b.datetime - a.datetime).slice(0, 20)
   yscale.domain(d3.extent(images, (d) -> d.datetime))
+  interval = (yscale.domain()[1] - yscale.domain()[0]) / (1000 * 60 * 60 * 24)
+  if interval > 50
+    yaxis.ticks d3.time.year
+  else if interval > 10
+    yaxis.ticks d3.time.day
   images[0].active = true
 
   update = () ->
