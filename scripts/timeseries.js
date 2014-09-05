@@ -32,17 +32,13 @@ module.exports = {
 
 Timeseries = (function() {
   function Timeseries(options) {
-    this.name = options.name, this.visible = options.visible, this.color = options.color, this.units = options.units, this.development = options.development, this.developmentUrl = options.developmentUrl, this.min = options.min, this.max = options.max;
+    this.name = options.name, this.visible = options.visible, this.color = options.color, this.units = options.units, this.min = options.min, this.max = options.max;
     this.productionUrl = this.buildProductionUrl();
   }
 
   Timeseries.prototype.fetch = function(callback) {
     var options,
       _this = this;
-    if (this.development && !this.developmentUrl) {
-      this.setData([]);
-      return callback(null, this);
-    }
     options = {
       jsonp: true,
       callbackName: "jsonp"
@@ -54,9 +50,7 @@ Timeseries = (function() {
   };
 
   Timeseries.prototype.getUrl = function() {
-    var s;
-    s = this.development ? this.developmentUrl : this.productionUrl;
-    return uri.parse(s, true);
+    return uri.parse(this.productionUrl, true);
   };
 
   Timeseries.prototype.setData = function(data) {

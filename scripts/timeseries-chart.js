@@ -60,7 +60,333 @@ module.exports = {
 };
 
 
-},{"./timeseries":2,"d3":3,"queue-async":4,"url":27,"xhr-browserify":30}],2:[function(require,module,exports){
+},{"./timeseries":3,"d3":4,"queue-async":5,"url":28,"xhr-browserify":31}],2:[function(require,module,exports){
+var addContextLine, addPanel, animateBubbles, brush, chart, container, context, controls, d3, defaultBrushExtent, draw, drawContext, drawControls, drawFocus, emptyAxis, fetch, focus, getYExtent, height, height2, initialBuild, margin, margin2, padding, svg, timeseriesUrl, toggleControl, translate, tsName, update, visibleTimeseries, width, x2axis, x2scale, xaxis, xgrid, xscale;
+
+d3 = require("d3");
+
+fetch = require("./fetch");
+
+container = d3.select("[data-viewer='timeseries-chart']");
+
+timeseriesUrl = container.attr("data-timeseries-url");
+
+chart = container.select(".timeseries-chart-chart");
+
+controls = container.select(".timeseries-chart-controls");
+
+margin = {
+  top: 10,
+  right: 10,
+  bottom: 100,
+  left: 100
+};
+
+padding = {
+  top: 20,
+  right: 0,
+  bottom: 40,
+  left: 0
+};
+
+margin2 = {
+  top: 500,
+  right: 10,
+  bottom: 20,
+  left: 100
+};
+
+width = 945 - margin.left - margin.right;
+
+height = 600 - margin.top - margin.bottom;
+
+height2 = 600 - margin2.top - margin2.bottom;
+
+defaultBrushExtent = [d3.time.month.offset(new Date(), -2), new Date()];
+
+translate = function(x, y) {
+  return "translate(" + x + "," + y + ")";
+};
+
+emptyAxis = function() {
+  return d3.svg.axis().tickValues([]).outerTickSize(0);
+};
+
+tsName = function(t) {
+  return t.name;
+};
+
+visibleTimeseries = function() {
+  var c, _i, _len, _ref, _results;
+  _ref = controls.selectAll(".control").data();
+  _results = [];
+  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+    c = _ref[_i];
+    if (c.visible) {
+      _results.push(c);
+    }
+  }
+  return _results;
+};
+
+xscale = d3.time.scale().range([0, width]);
+
+x2scale = d3.time.scale().range([0, width]);
+
+xaxis = d3.svg.axis().scale(xscale).orient("bottom");
+
+xgrid = d3.svg.axis().scale(xscale).orient("bottom");
+
+x2axis = d3.svg.axis().scale(x2scale).orient("bottom");
+
+svg = chart.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom);
+
+focus = svg.append("g").attr("class", "focus").attr("transform", translate(margin.left, margin.top));
+
+context = svg.append("g").attr("class", "context").attr("transform", translate(margin2.left, margin2.top));
+
+context.append("defs").append("pattern").attr("id", "dimples").attr("x", 1).attr("y", 1).attr("width", 3).attr("height", 3).attr("patternUnits", "userSpaceOnUse").append("circle").attr("cx", 1).attr("cy", 1).attr("r", 1);
+
+brush = d3.svg.brush().x(x2scale).on("brush", function(d) {
+  if (brush.empty()) {
+    brush.extent(x2scale.domain());
+    return context.select(".brush").call(brush).call(brush.event);
+  } else {
+    xscale.domain(brush.extent());
+    focus.call(drawFocus);
+    return context.call(drawContext);
+  }
+});
+
+initialBuild = function(error, timeseries) {
+  var control;
+  control = controls.selectAll(".control").data(timeseries);
+  control.enter().append("a").attr("href", "#").attr("class", "list-group-item control").on("click", toggleControl);
+  control.append("span").attr("class", "glyphicon");
+  control.append("span").text(function(d) {
+    return " " + d.name;
+  });
+  controls.call(drawControls);
+  context.append("g").attr("class", "x axis bottom");
+  context.append("g").attr("class", "x brush").call(brush).selectAll("rect").attr("height", height2).attr("rx", 10).attr("ry", 10);
+  context.select(".x.brush").selectAll(".resize").append("rect").attr("height", height2).attr("width", 20).attr("rx", 10).attr("ry", 10).attr("transform", function(d, i) {
+    if (i === 0) {
+      return "translate(-20,0)";
+    } else {
+      return "";
+    }
+  });
+  brush.extent(defaultBrushExtent);
+  return update();
+};
+
+update = function() {
+  var contextLines, panels, timeseries;
+  timeseries = visibleTimeseries();
+  panels = focus.selectAll(".panel").data(timeseries, tsName);
+  panels.enter().call(addPanel);
+  panels.exit().remove();
+  focus.call(drawFocus);
+  contextLines = context.selectAll(".line").data(timeseries, tsName);
+  contextLines.enter().call(addContextLine);
+  contextLines.exit().remove();
+  return fetch.data(timeseries, draw);
+};
+
+draw = function(error, timeseries) {
+  var oldBrushExtent, t;
+  x2scale.domain(d3.extent(d3.merge((function() {
+    var _i, _len, _results;
+    _results = [];
+    for (_i = 0, _len = timeseries.length; _i < _len; _i++) {
+      t = timeseries[_i];
+      _results.push(d3.extent(t.data, function(u) {
+        return u.date_time;
+      }));
+    }
+    return _results;
+  })())));
+  oldBrushExtent = brush.extent();
+  brush.extent([d3.max([oldBrushExtent[0], x2scale.domain()[0]]), d3.min([oldBrushExtent[1], x2scale.domain()[1]])]);
+  return context.select(".x.brush").call(brush).call(brush.event);
+};
+
+toggleControl = function(d) {
+  d3.event.preventDefault();
+  d.visible = !d.visible;
+  controls.call(drawControls);
+  return update();
+};
+
+drawControls = function(sel) {
+  return sel.selectAll(".control").classed("active", function(d) {
+    return d.visible;
+  }).select(".glyphicon").attr("class", function(d) {
+    return "glyphicon " + (d.visible ? "glyphicon-eye-open" : "glyphicon-eye-close");
+  });
+};
+
+addPanel = function(sel) {
+  var loading, panel;
+  panel = sel.append("g").attr("class", "panel");
+  panel.append("rect").attr("class", "fill");
+  panel.append("g").attr("class", "x grid");
+  panel.append("g").attr("class", "y grid");
+  panel.append("path").attr("class", "line");
+  panel.append("g").attr("class", "x axis");
+  panel.append("g").attr("class", "y axis");
+  panel.append("text").attr("class", "title");
+  panel.append("text").attr("class", "y label");
+  loading = panel.append("g").attr("class", "loading");
+  loading.append("text").attr("text-anchor", "middle").text("loading data");
+  loading.append("circle").attr({
+    transform: translate(-16, 6),
+    cx: 0,
+    cy: 16,
+    r: 0
+  }).call(animateBubbles, 0);
+  loading.append("circle").attr({
+    transform: translate(0, 6),
+    cx: 0,
+    cy: 16,
+    r: 0
+  }).call(animateBubbles, 0.3);
+  return loading.append("circle").attr({
+    transform: translate(16, 6),
+    cx: 0,
+    cy: 16,
+    r: 0
+  }).call(animateBubbles, 0.6);
+};
+
+drawFocus = function(sel, heights) {
+  var dy, t, visible;
+  if (heights == null) {
+    visible = visibleTimeseries();
+    heights = (function() {
+      var _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = visible.length; _i < _len; _i++) {
+        t = visible[_i];
+        _results.push(height / visible.length);
+      }
+      return _results;
+    })();
+  }
+  dy = function(i) {
+    if (i === 0) {
+      return 0;
+    } else {
+      return d3.sum(heights.slice(0, +(i - 1) + 1 || 9e9));
+    }
+  };
+  return sel.selectAll(".panel").each(function(d, i) {
+    var data, e, line, maxTime, minTime, yaxis, yscale, _ref;
+    d3.select(this).attr("transform", translate(0, dy(i)));
+    d3.select(this).select(".title").attr("transform", translate(width / 2, 10)).attr("text-anchor", "middle").text(function(e) {
+      return e.name;
+    });
+    d3.select(this).select(".fill").attr({
+      width: width,
+      height: heights[i] - padding.bottom - padding.top,
+      x: 0,
+      y: padding.top
+    });
+    if (!d.hasData()) {
+      d3.select(this).select(".loading").attr("transform", translate(width / 2, heights[i] / 2));
+      return;
+    } else {
+      d3.select(this).select(".loading").remove();
+    }
+    yscale = d3.scale.linear().domain(getYExtent(d)).range([heights[i] - padding.bottom, padding.top]).nice().clamp(true);
+    yaxis = d3.svg.axis().scale(yscale).orient("left").ticks(10 / heights.length);
+    _ref = xscale.domain(), minTime = _ref[0], maxTime = _ref[1];
+    data = (function() {
+      var _i, _len, _ref1, _ref2, _results;
+      _ref1 = d.data;
+      _results = [];
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        e = _ref1[_i];
+        if ((minTime <= (_ref2 = e.date_time) && _ref2 <= maxTime)) {
+          _results.push(e);
+        }
+      }
+      return _results;
+    })();
+    line = d3.svg.line().x(function(e) {
+      return xscale(e.date_time);
+    }).y(function(e) {
+      return yscale(e.value);
+    }).defined(function(e) {
+      return e.value;
+    });
+    d3.select(this).select(".line").datum(data).attr("d", line).style("stroke", d.color);
+    d3.select(this).select(".x.axis").attr("transform", translate(0, heights[i] - padding.bottom)).call(xaxis);
+    d3.select(this).select(".x.grid").attr("transform", translate(0, heights[i] - padding.bottom)).call(xgrid.tickSize(-heights[i] + padding.bottom + padding.top, 0).tickFormat(""));
+    d3.select(this).select(".y.axis").call(yaxis);
+    d3.select(this).select(".y.grid").call(yaxis.tickSize(-width, 0).tickFormat(""));
+    return d3.select(this).select(".y.label").attr("transform", translate(padding.left + 10, padding.top - 6)).text(function(e) {
+      return e.units;
+    });
+  });
+};
+
+addContextLine = function(sel) {
+  return sel.append("path").attr("class", "line");
+};
+
+drawContext = function(sel) {
+  sel.selectAll(".line").each(function(d) {
+    var line, yscale;
+    yscale = d3.scale.linear().domain(getYExtent(d)).range([height2, 0]).nice().clamp(true);
+    line = d3.svg.line().x(function(e) {
+      return x2scale(e.date_time);
+    }).y(function(e) {
+      return yscale(e.value);
+    }).defined(function(e) {
+      return e.value;
+    });
+    return d3.select(this).datum(d).attr("d", function(e) {
+      return line(e.data);
+    }).style("stroke", function(e) {
+      return e.color;
+    });
+  });
+  sel.select(".x.axis").attr("transform", translate(0, height2)).call(x2axis);
+  return sel.select(".x.brush").call(brush);
+};
+
+animateBubbles = function(circle, begin) {
+  return circle.append("animate").attr({
+    attributeName: "r",
+    values: "0; 4; 0; 0",
+    dur: "1.2s",
+    repeatCount: "indefinite",
+    begin: begin,
+    keytimes: "0;0.2;0.7;1",
+    keySplines: "0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8",
+    calcMode: "spline"
+  });
+};
+
+getYExtent = function(timeseries) {
+  var extent;
+  extent = d3.extent(timeseries.data, function(e) {
+    return e.value;
+  });
+  if (timeseries.min != null) {
+    extent[0] = d3.max([extent[0], timeseries.min]);
+  }
+  if (timeseries.max != null) {
+    extent[1] = d3.min([extent[1], timeseries.max]);
+  }
+  return extent;
+};
+
+fetch.timeseries(timeseriesUrl, initialBuild);
+
+
+},{"./fetch":1,"d3":4}],3:[function(require,module,exports){
 var CwmsTimeseries, Timeseries, d3, parseDate, typeIsArray, uri, xhr,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -174,7 +500,7 @@ CwmsTimeseries = (function(_super) {
 })(Timeseries);
 
 
-},{"d3":3,"url":27,"xhr-browserify":30}],3:[function(require,module,exports){
+},{"d3":4,"url":28,"xhr-browserify":31}],4:[function(require,module,exports){
 !function() {
   var d3 = {
     version: "3.4.9"
@@ -9418,7 +9744,7 @@ CwmsTimeseries = (function(_super) {
     this.d3 = d3;
   }
 }();
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 (function() {
   var slice = [].slice;
 
@@ -9500,7 +9826,7 @@ CwmsTimeseries = (function(_super) {
   else this.queue = queue;
 })();
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9805,7 +10131,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 var http = module.exports;
 var EventEmitter = require('events').EventEmitter;
 var Request = require('./lib/request');
@@ -9886,7 +10212,7 @@ var xhrHttp = (function () {
     }
 })();
 
-},{"./lib/request":7,"events":5,"url":27}],7:[function(require,module,exports){
+},{"./lib/request":8,"events":6,"url":28}],8:[function(require,module,exports){
 var Stream = require('stream');
 var Response = require('./response');
 var Base64 = require('Base64');
@@ -10057,7 +10383,7 @@ var indexOf = function (xs, x) {
     return -1;
 };
 
-},{"./response":8,"Base64":9,"inherits":10,"stream":20}],8:[function(require,module,exports){
+},{"./response":9,"Base64":10,"inherits":11,"stream":21}],9:[function(require,module,exports){
 var Stream = require('stream');
 var util = require('util');
 
@@ -10179,7 +10505,7 @@ var isArray = Array.isArray || function (xs) {
     return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{"stream":20,"util":29}],9:[function(require,module,exports){
+},{"stream":21,"util":30}],10:[function(require,module,exports){
 ;(function () {
 
   var object = typeof exports != 'undefined' ? exports : this; // #8: web workers
@@ -10241,7 +10567,7 @@ var isArray = Array.isArray || function (xs) {
 
 }());
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -10266,7 +10592,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -10321,7 +10647,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 var base64 = require('base64-js')
 var ieee754 = require('ieee754')
 
@@ -11379,7 +11705,7 @@ function assert (test, message) {
   if (!test) throw new Error(message || 'Failed assertion')
 }
 
-},{"base64-js":13,"ieee754":14}],13:[function(require,module,exports){
+},{"base64-js":14,"ieee754":15}],14:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -11501,7 +11827,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 exports.read = function(buffer, offset, isLE, mLen, nBytes) {
   var e, m,
       eLen = nBytes * 8 - mLen - 1,
@@ -11587,7 +11913,7 @@ exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128;
 };
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 (function (global){
 /*! http://mths.be/punycode v1.2.4 by @mathias */
 ;(function(root) {
@@ -12098,7 +12424,7 @@ exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
 }(this));
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -12184,7 +12510,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -12271,13 +12597,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":16,"./encode":17}],19:[function(require,module,exports){
+},{"./decode":17,"./encode":18}],20:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -12351,7 +12677,7 @@ function onend() {
   });
 }
 
-},{"./readable.js":23,"./writable.js":25,"inherits":10,"process/browser.js":21}],20:[function(require,module,exports){
+},{"./readable.js":24,"./writable.js":26,"inherits":11,"process/browser.js":22}],21:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -12480,9 +12806,9 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"./duplex.js":19,"./passthrough.js":22,"./readable.js":23,"./transform.js":24,"./writable.js":25,"events":5,"inherits":10}],21:[function(require,module,exports){
-module.exports=require(11)
-},{}],22:[function(require,module,exports){
+},{"./duplex.js":20,"./passthrough.js":23,"./readable.js":24,"./transform.js":25,"./writable.js":26,"events":6,"inherits":11}],22:[function(require,module,exports){
+module.exports=require(12)
+},{}],23:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -12525,7 +12851,7 @@ PassThrough.prototype._transform = function(chunk, encoding, cb) {
   cb(null, chunk);
 };
 
-},{"./transform.js":24,"inherits":10}],23:[function(require,module,exports){
+},{"./transform.js":25,"inherits":11}],24:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -13462,7 +13788,7 @@ function indexOf (xs, x) {
 }
 
 }).call(this,require("/Users/gadomski/Code/glac.io/node_modules/wintersmith-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"))
-},{"./index.js":20,"/Users/gadomski/Code/glac.io/node_modules/wintersmith-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":11,"buffer":12,"events":5,"inherits":10,"process/browser.js":21,"string_decoder":26}],24:[function(require,module,exports){
+},{"./index.js":21,"/Users/gadomski/Code/glac.io/node_modules/wintersmith-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":12,"buffer":13,"events":6,"inherits":11,"process/browser.js":22,"string_decoder":27}],25:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -13668,7 +13994,7 @@ function done(stream, er) {
   return stream.push(null);
 }
 
-},{"./duplex.js":19,"inherits":10}],25:[function(require,module,exports){
+},{"./duplex.js":20,"inherits":11}],26:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -14056,7 +14382,7 @@ function endWritable(stream, state, cb) {
   state.ended = true;
 }
 
-},{"./index.js":20,"buffer":12,"inherits":10,"process/browser.js":21}],26:[function(require,module,exports){
+},{"./index.js":21,"buffer":13,"inherits":11,"process/browser.js":22}],27:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -14249,7 +14575,7 @@ function base64DetectIncompleteChar(buffer) {
   return incomplete;
 }
 
-},{"buffer":12}],27:[function(require,module,exports){
+},{"buffer":13}],28:[function(require,module,exports){
 /*jshint strict:true node:true es5:true onevar:true laxcomma:true laxbreak:true eqeqeq:true immed:true latedef:true*/
 (function () {
   "use strict";
@@ -14882,14 +15208,14 @@ function parseHost(host) {
 
 }());
 
-},{"punycode":15,"querystring":18}],28:[function(require,module,exports){
+},{"punycode":16,"querystring":19}],29:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -15479,7 +15805,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require("/Users/gadomski/Code/glac.io/node_modules/wintersmith-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":28,"/Users/gadomski/Code/glac.io/node_modules/wintersmith-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":11,"inherits":10}],30:[function(require,module,exports){
+},{"./support/isBuffer":29,"/Users/gadomski/Code/glac.io/node_modules/wintersmith-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":12,"inherits":11}],31:[function(require,module,exports){
 var http = require('http');
 var jsonpCallbacks = {};
 var url = require('url');
@@ -15559,4 +15885,4 @@ module.exports = function(uri, options, callback) {
 
 
 
-},{"http":6,"url":27}]},{},[1])
+},{"http":7,"url":28}]},{},[2])

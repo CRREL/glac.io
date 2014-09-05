@@ -382,23 +382,31 @@ module.exports = {
       return callback(error, timeseries);
     });
   },
-  images: function(cameraUrl, callback) {
-    return queue().defer(function(cb) {
-      var options, url;
-      options = {
-        jsonp: true,
-        callbackName: "jsonp"
-      };
-      url = uri.parse(cameraUrl, true);
-      return xhr(url, options, function(error, data) {
-        var images;
-        images = data.map(function(d) {
-          d.datetime = new Date(d.datetime);
-          return d;
+  images: function(callback) {
+    return queue().defer(d3.json, "data/images.json").await(function(error, camera) {
+      var q;
+      q = queue();
+      q.defer(function(cb) {
+        var options, url;
+        options = {
+          jsonp: true,
+          callbackName: "jsonp"
+        };
+        if (config.development) {
+          url = uri.parse("/data/development/hubbard-images.js?" + "jsonp=cameraImageList", true);
+        } else {
+          url = uri.parse(camera.url, true);
+        }
+        return xhr(url, options, function(error, data) {
+          camera.images = data.map(function(d) {
+            d.datetime = new Date(d.datetime);
+            return d;
+          });
+          return cb(error, camera);
         });
-        return cb(error, images);
       });
-    }).await(callback);
+      return q.await(callback);
+    });
   }
 };
 
