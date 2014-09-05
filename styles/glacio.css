@@ -5973,16 +5973,20 @@ footer a {
   stroke: #000;
   shape-rendering: crispEdges;
 }
-.realtime-images .images image {
+.realtime-images .thumbnails image {
   cursor: pointer;
 }
-.realtime-images .images rect {
+.realtime-images .thumbnails .thumbnail-rect {
   stroke: none;
   fill: none;
 }
-.realtime-images .images rect.active {
+.realtime-images .thumbnails .thumbnail-rect.active {
   stroke: gold;
   stroke-width: 2px;
+}
+.realtime-images .daynight {
+  fill: url(#daynight-gradient);
+  stroke: none;
 }
 .realtime-images .arrow {
   position: absolute;

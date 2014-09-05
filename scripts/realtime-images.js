@@ -61,13 +61,15 @@ module.exports = {
 
 
 },{"./timeseries":3,"d3":4,"queue-async":6,"url":29,"xhr-browserify":32}],2:[function(require,module,exports){
-var build, cameraUrl, container, controlImageHeight, controlImageWidth, controls, d3, fetch, height, imageBaseUrl, margin, moment, translate, viewer, width, yaxis, yscale;
+var LOAD_MORE_COUNT, build, cameraUrl, container, controls, d3, daynight, fetch, height, imageBaseUrl, margin, moment, thumbnailHeight, thumbnailPadding, thumbnailWidth, thumbnails, timeFormat, translate, viewer, width, yaxis, yscale;
 
 d3 = require("d3");
 
 fetch = require("./fetch");
 
 moment = require("moment");
+
+LOAD_MORE_COUNT = 20;
 
 translate = function(x, y) {
   return "translate(" + x + "," + y + ")";
@@ -84,9 +86,16 @@ margin = {
   left: 100
 };
 
-controlImageHeight = 20;
+thumbnailHeight = 20;
 
-controlImageWidth = 40;
+thumbnailWidth = 41;
+
+thumbnailPadding = {
+  left: 6,
+  right: 6,
+  top: 6,
+  bottom: 0
+};
 
 container = d3.select("[data-viewer='realtime-images']");
 
@@ -105,32 +114,98 @@ controls = d3.select(".realtime-images-controls").append("svg").attr({
   width: width + margin.left + margin.right
 });
 
+daynight = controls.append("rect").attr({
+  "class": "daynight",
+  transform: translate(margin.left, margin.top),
+  x: 0,
+  y: 0,
+  height: height,
+  width: thumbnailWidth + thumbnailPadding.left + thumbnailPadding.right
+});
+
+controls.append("g").attr("class", "axis").attr("transform", translate(margin.left, margin.top));
+
+thumbnails = controls.append("g").attr("class", "thumbnails").attr("transform", translate(margin.left, margin.top));
+
+controls.append("linearGradient").attr({
+  id: "daynight-gradient",
+  gradientUnits: "userSpaceOnUse",
+  x1: 0,
+  x2: 0,
+  y1: 0,
+  y2: height,
+  spreadMethod: "reflect"
+}).selectAll("stop").data([
+  {
+    offset: "0%",
+    color: "blue",
+    opacity: 0.2
+  }, {
+    offset: "100%",
+    color: "yellow",
+    opacity: 0.2
+  }
+]).enter().append("stop").attr({
+  offset: function(d) {
+    return d.offset;
+  },
+  "stop-color": function(d) {
+    return d.color;
+  },
+  "stop-opacity": function(d) {
+    return d.opacity;
+  }
+});
+
+timeFormat = d3.time.format.multi([
+  [
+    "%-I %p", function(d) {
+      return d.getHours();
+    }
+  ], [
+    "%_d-%b-%Y", function(d) {
+      return true;
+    }
+  ]
+]);
+
 yscale = d3.time.scale().range([height, 0]);
 
-yaxis = d3.svg.axis().scale(yscale).orient("left");
+yaxis = d3.svg.axis().scale(yscale).orient("left").ticks(d3.time.hour, 6).tickFormat(timeFormat);
 
-build = function(error, images) {
-  var activate, getActiveIndex, imageContainer, nextImage, prevImage, update;
-  images = images.sort(function(a, b) {
+build = function(error, allImages) {
+  var activate, getActiveIndex, imageIdx, images, loadMore, nextImage, prepareImages, prevImage, updateControls, updateViewer;
+  allImages.sort(function(a, b) {
     return b.datetime - a.datetime;
-  }).slice(0, 20);
-  yscale.domain(d3.extent(images, function(d) {
-    return d.datetime;
-  }));
-  images[0].active = true;
-  update = function() {
-    var activeImage;
-    activeImage = images.filter(function(d) {
-      return d.active;
-    })[0];
-    viewer.select(".description").html("This picture was taken " + moment(activeImage.datetime).fromNow() + " on " + moment(activeImage.datetime).format("DD-MMM-YYYY [at] ha") + ".");
-    viewer.select("img").datum(activeImage).attr("src", function(d) {
-      return imageBaseUrl + d.path;
-    });
-    return controls.selectAll("rect").classed("active", function(d) {
-      return d.active;
+  });
+  images = [];
+  imageIdx = LOAD_MORE_COUNT;
+  prepareImages = function() {
+    var interval, yOfLastThumbnail;
+    images = allImages.slice(0, imageIdx);
+    yscale.domain(d3.extent(images, function(d) {
+      return d.datetime;
+    })).nice(d3.time.day);
+    interval = (yscale.domain()[1] - yscale.domain()[0]) / (1000 * 60 * 60 * 24);
+    if (interval > 50) {
+      yaxis.ticks(d3.time.month);
+    } else if (interval > 10) {
+      yaxis.ticks(d3.time.day);
+    }
+    images[0].active = true;
+    yOfLastThumbnail = -1;
+    return images.forEach(function(i) {
+      if (yOfLastThumbnail === -1) {
+        i.showThumbnail = true;
+      } else {
+        i.showThumbnail = (yscale(i.datetime) - yOfLastThumbnail) > thumbnailHeight + thumbnailPadding.top + thumbnailPadding.bottom;
+      }
+      if (i.showThumbnail) {
+        return yOfLastThumbnail = yscale(i.datetime);
+      }
     });
   };
+  prepareImages();
   getActiveIndex = function() {
     var i, image;
     for (i in images) {
@@ -146,47 +221,87 @@ build = function(error, images) {
   prevImage = function() {
     return activate(d3.min([getActiveIndex() + 1, images.length - 1]));
   };
+  loadMore = function() {
+    imageIdx += LOAD_MORE_COUNT;
+    prepareImages();
+    updateControls();
+    return updateViewer();
+  };
   activate = function(idx) {
     images.forEach(function(d, i) {
       return d.active = i === idx;
     });
-    return update();
+    return updateViewer();
   };
-  controls.append("g").attr("class", "axis").attr("transform", translate(margin.left, margin.top)).call(yaxis);
-  imageContainer = controls.append("g").attr("class", "images").attr("transform", translate(margin.left, margin.top));
-  imageContainer.selectAll("image").data(images).enter().append("image").attr({
-    x: 4,
-    height: controlImageHeight,
-    width: controlImageWidth
-  }).attr("y", function(d) {
-    return yscale(d.datetime);
-  }).attr("xlink:href", function(d) {
-    return imageBaseUrl + d.path;
-  }).on("click", function(d) {
-    images.forEach(function(i) {
-      return i.active = i.path === d.path;
+  updateViewer = function() {
+    var activeImage;
+    activeImage = images.filter(function(d) {
+      return d.active;
+    })[0];
+    viewer.select(".description").html("This picture was taken " + moment(activeImage.datetime).fromNow() + " on " + moment(activeImage.datetime).format("MMMM Do, YYYY [at] ha") + ".");
+    viewer.select("img").datum(activeImage).attr("src", function(d) {
+      return imageBaseUrl + d.path;
     });
-    return update();
-  });
-  imageContainer.selectAll("rect").data(images).enter().append("rect").attr({
-    x: 4,
-    height: controlImageHeight,
-    width: controlImageWidth
-  }).attr("y", function(d) {
-    return yscale(d.datetime);
-  });
+    return controls.selectAll(".thumbnail-rect").classed("active", function(d) {
+      return d.active;
+    });
+  };
+  updateControls = function() {
+    var lastMidnight, noonBeforelastMidnight, thumbnailImages, thumbnailRects;
+    lastMidnight = d3.time.day.floor(yscale.domain()[1]);
+    noonBeforelastMidnight = d3.time.hour.offset(lastMidnight, -12);
+    controls.select(".axis").call(yaxis);
+    controls.select("#daynight-gradient").attr({
+      y1: yscale(lastMidnight),
+      y2: yscale(noonBeforelastMidnight)
+    });
+    thumbnailImages = thumbnails.selectAll(".thumbnail").data(images.filter(function(d) {
+      return d.showThumbnail;
+    }), function(d) {
+      return d.datetime;
+    });
+    thumbnailImages.enter().append("image").attr("class", "thumbnail");
+    thumbnailImages.attr({
+      x: thumbnailPadding.left,
+      height: thumbnailHeight,
+      width: thumbnailWidth
+    }).attr("y", function(d) {
+      return yscale(d.datetime);
+    }).attr("xlink:href", function(d) {
+      return imageBaseUrl + d.path;
+    }).on("click", function(d) {
+      images.forEach(function(i) {
+        return i.active = i.path === d.path;
+      });
+      return updateViewer();
+    });
+    thumbnailImages.exit().remove();
+    thumbnailRects = thumbnails.selectAll(".thumbnail-rect").data(images);
+    thumbnailRects.enter().append("rect").attr("class", "thumbnail-rect");
+    thumbnailRects.attr({
+      x: thumbnailPadding.left,
+      height: thumbnailHeight,
+      width: thumbnailWidth
+    }).attr("y", function(d) {
+      return yscale(d.datetime);
+    });
+    return thumbnailRects.exit().remove();
+  };
   d3.select("body").on("keydown", function() {
     var _ref, _ref1;
-    d3.event.preventDefault();
     if ((_ref = d3.event.keyCode) === 40 || _ref === 39 || _ref === 83 || _ref === 68 || _ref === 74 || _ref === 76) {
+      d3.event.preventDefault();
       return prevImage();
     } else if ((_ref1 = d3.event.keyCode) === 38 || _ref1 === 37 || _ref1 === 87 || _ref1 === 65 || _ref1 === 75 || _ref1 === 72) {
+      d3.event.preventDefault();
       return nextImage();
     }
   });
-  d3.select(".arrow.left").on("click", prevImage);
-  d3.select(".arrow.right").on("click", nextImage);
-  return update();
+  container.select(".arrow.left").on("click", prevImage);
+  container.select(".arrow.right").on("click", nextImage);
+  container.select(".realtime-images-load-more").on("click", loadMore);
+  updateControls();
+  return updateViewer();
 };
 
 fetch.images(cameraUrl, build);
