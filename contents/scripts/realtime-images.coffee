@@ -15,17 +15,23 @@ margin =
 controlImageHeight = 20
 controlImageWidth = 40
 
-viewer = d3.select("#viewer")
+container = d3.select "[data-viewer='realtime-images']"
+cameraUrl = container.attr("data-camera-url")
+imageBaseUrl = container.attr("data-image-base-url")
+
+viewer = container.select(".realtime-images-viewer")
 viewer.append("p")
   .attr("class", "description")
 viewer.append("img")
   .attr("class", "img-responsive")
-controls = d3.select("#controls")
+
+controls = d3.select(".realtime-images-controls")
   .append("svg")
   .attr(
     height: height + margin.top + margin.bottom
     width: width + margin.left + margin.right
   )
+
 
 yscale = d3.time.scale()
   .range([height, 0])
@@ -34,8 +40,8 @@ yaxis = d3.svg.axis()
   .orient("left")
 
 
-build = (error, camera) ->
-  images = camera.images.sort((a, b) -> b.datetime - a.datetime).slice(0, 20)
+build = (error, images) ->
+  images = images.sort((a, b) -> b.datetime - a.datetime).slice(0, 20)
   yscale.domain(d3.extent(images, (d) -> d.datetime))
   images[0].active = true
 
@@ -46,7 +52,7 @@ build = (error, camera) ->
         " on " + moment(activeImage.datetime).format("DD-MMM-YYYY [at] ha") +
         ".")
     viewer.select("img").datum(activeImage)
-      .attr("src", (d) -> camera.imageBaseUrl + d.path)
+      .attr("src", (d) -> imageBaseUrl + d.path)
     controls.selectAll("rect")
       .classed("active", (d) -> d.active)
 
@@ -83,7 +89,7 @@ build = (error, camera) ->
       height: controlImageHeight
       width: controlImageWidth)
     .attr("y", (d) -> yscale(d.datetime))
-    .attr("xlink:href", (d) -> camera.imageBaseUrl + d.path)
+    .attr("xlink:href", (d) -> imageBaseUrl + d.path)
     .on("click", (d) ->
       images.forEach((i) -> i.active = i.path == d.path)
       update())
@@ -115,4 +121,4 @@ build = (error, camera) ->
   update()
 
 
-fetch.images build
+fetch.images cameraUrl, build

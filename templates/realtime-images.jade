@@ -1,7 +1,7 @@
 extends page-wide
 
 block append styles
-  link(rel="stylesheet", href=contents.styles["camera-images.less"].url)
+  link(rel="stylesheet", href=contents.styles["realtime-images.less"].url)
 
 block prepend main
   - page.metadata.breadcrumbs = true
@@ -16,15 +16,17 @@ block content
 
   hr
 
-  .row
-    #controls.col-md-2
+  .row.realtime-images(data-viewer="realtime-images",
+                       data-camera-url=page.metadata.cameraUrl,
+                       data-image-base-url=page.metadata.imageBaseUrl)
+    .realtime-images-controls.col-md-2
     .col-md-1
       a.left.arrow
         span.glyphicon.glyphicon-chevron-left
-    #viewer.col-md-8
+    .realtime-images-viewer.col-md-8
     .col-md-1
       a.right.arrow
         span.glyphicon.glyphicon-chevron-right
 
 block append scripts
-  script(src=contents.scripts["camera-images.coffee"].url)
+  script(src=contents.scripts["realtime-images.coffee"].url)
