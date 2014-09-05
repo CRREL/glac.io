@@ -1,7 +1,6 @@
 {
     "locals": {
         "title": "glacierresearch.org",
-        "development": true,
         "url": "http://localhost:8888",
         "facebookAppId": "461190244021239"
     },

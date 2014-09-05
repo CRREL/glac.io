@@ -1,7 +1,12 @@
 d3 = require("d3")
 queue = require("queue-async")
 topojson = require("topojson")
-config = require("./config")
+
+container = d3.select "[data-viewer='locations']"
+sensorsUrl = container.attr "data-sensors-url"
+worldUrl = container.attr "data-world-url"
+locationsUrl = container.attr "data-locations-url"
+sensorIconsBaseUrl = container.attr "data-sensor-icons-base-url"
 
 width = 400
 height = 400
@@ -21,7 +26,7 @@ projection = d3.geo.orthographic()
 path = d3.geo.path()
   .projection(projection)
 
-svg = d3.select("#globe").append("svg")
+svg = container.select(".locations-globe").append("svg")
   .attr("width", width)
   .attr("height", height)
   .attr("class", "center-block")
@@ -48,9 +53,12 @@ ddToDms = (dd, latOrLon) ->
 formatLatLong = (p) -> "#{ ddToDms(p[1], "lat") }, #{ ddToDms(p[0], "lon") }"
 
 updateLocationDetail = () ->
-  sel = d3.select("#location-detail").selectAll(".location-detail")
+  sel = container.select(".locations-location-detail")
+    .selectAll(".location-detail")
   locations = sel.data()
-  d3.select("#sensors").style("display", if locations.some((d) -> d.focused) then "none" else "block")
+  container.select(".locations-sensors")
+    .style("display",
+      if locations.some((d) -> d.focused) then "none" else "block")
   sel.style("display", (d) -> if d.focused then "block" else "none")
 
 
@@ -67,7 +75,8 @@ ready = (error, sensors, world, locations) ->
           .attr("class", "pull-left")
           .append("img")
           .attr("class", "media-object")
-          .attr("src", (f) -> config.url("/img/sensor-icons/") + sensors[e].filename)
+          .attr("src",
+            (f) -> sensorIconsBaseUrl + sensors[e].filename)
         d3.select(this)
           .append("div")
           .attr("class", "media-body")
@@ -83,7 +92,7 @@ ready = (error, sensors, world, locations) ->
       )
 
 
-  d3.select("#locations").selectAll("a")
+  container.select(".locations-list").selectAll("a")
     .data(locations.features).enter()
     .append("a")
     .attr("class", "list-group-item")
@@ -95,14 +104,15 @@ ready = (error, sensors, world, locations) ->
     .on("mouseover", (d) -> focus(d))
     .on("mouseout", (d) -> unfocus(d))
 
-  d3.select("#sensors")
+  container.select(".locations-sensors")
     .append("ul")
     .attr("class", "media-list")
     .selectAll(".media")
     .data(Object.keys(sensors))
     .call(appendSensorList)
 
-  d3.select("#location-detail").selectAll(".location-detail")
+  container.select(".locations-location-detail")
+    .selectAll(".location-detail")
     .data(locations.features).enter()
     .append("div")
     .attr("class", "location-detail")
@@ -176,7 +186,7 @@ unfocus = (location) ->
 
 
 queue()
-  .defer(d3.json, config.url("/data/sensors.json"))
-  .defer(d3.json, config.url("/data/world-110m.json"))
-  .defer(d3.json, config.url("/data/locations.json"))
+  .defer(d3.json, sensorsUrl)
+  .defer(d3.json, worldUrl)
+  .defer(d3.json, locationsUrl)
   .await ready

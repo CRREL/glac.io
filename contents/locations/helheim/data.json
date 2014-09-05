@@ -1,5 +1,6 @@
 {
     "title": "Helheim Data",
-    "template": "location-chart.jade",
-    "breadcrumbs": true
+    "template": "timeseries-chart.jade",
+    "breadcrumbs": true,
+    "timeseriesUrl": "data/timeseries.json"
 }

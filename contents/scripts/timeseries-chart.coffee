@@ -2,8 +2,11 @@ d3 = require("d3")
 fetch = require("./fetch")
 
 
-chart = d3.select("#chart")
-controls = d3.select("#controls")
+container = d3.select "[data-viewer='timeseries-chart']"
+timeseriesUrl = container.attr "data-timeseries-url"
+
+chart = container.select ".timeseries-chart-chart"
+controls = container.select ".timeseries-chart-controls"
 
 margin =
   top: 10
@@ -297,7 +300,7 @@ drawFocus = (sel, heights) ->
       .call(xgrid
         .tickSize(-heights[i] + padding.bottom + padding.top, 0)
         .tickFormat(""))
-      
+
     d3.select(this).select(".y.axis")
       .call(yaxis)
 
@@ -364,4 +367,4 @@ getYExtent = (timeseries) ->
   return extent
 
 
-fetch.timeseries initialBuild
+fetch.timeseries timeseriesUrl, initialBuild
