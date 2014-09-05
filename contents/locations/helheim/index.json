@@ -19,10 +19,14 @@
         "imgSrc": "img/chart.png"
     },
     {
-        "name": "Time-lapse",
-        "url": "timelapse.html",
+        "name": "Real-time Images &mdash; Terminus",
+        "url": "realtime-images-terminus.html",
         "imgSrc": "img/HEL_Terminus_20140720_210000-Thumbnail.jpg"
+    },
+    {
+        "name": "Real-time Images &mdash; Melange",
+        "url": "realtime-images-melange.html",
+        "imgSrc": "img/helheim-melange-thumbnail.jpg"
     }
-
     ]
 }

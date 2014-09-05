@@ -19,8 +19,8 @@
         "imgSrc": "img/chart.png"
     },
     {
-        "name": "Time-lapse",
-        "url": "timelapse.html",
+        "name": "Real-time Images",
+        "url": "realtime-images.html",
         "imgSrc": "img/ColumbiaIridium-Thumbnail.jpg"
     }
     ]
