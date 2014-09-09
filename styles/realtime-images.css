@@ -48,11 +48,3 @@
 .realtime-images .arrow .glyphicon-chevron-left {
   left: 25px;
 }
-.realtime-images .realtime-images-viewer {
-  min-height: 593px;
-}
-.realtime-images .realtime-images-viewer.loading {
-  background-image: url("../img/loading.gif");
-  background-position: center center;
-  background-repeat: no-repeat;
-}

@@ -1,9 +1,11 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var baseUrl, container, d3, imageListUrl, path;
+var baseUrl, container, d3, imageHeight, imageListUrl, path;
 
 d3 = require("d3");
 
 path = require("path");
+
+imageHeight = 1050;
 
 container = d3.select("[data-target='sidebar-images']");
 
@@ -12,9 +14,16 @@ baseUrl = container.attr("data-base-url");
 imageListUrl = path.join(baseUrl, container.attr("data-image-list"));
 
 d3.json(imageListUrl, function(error, images) {
-  var idx;
-  idx = Math.floor(Math.random() * images.length);
-  return container.select("img").attr("src", path.join(baseUrl, images[idx]));
+  var i, idx, nImages, rowHeight, _i, _results;
+  container.selectAll("img").remove();
+  rowHeight = Math.floor(d3.select(container.node().parentNode).style("height").slice(0, -2));
+  nImages = Math.ceil(rowHeight / imageHeight);
+  _results = [];
+  for (i = _i = 1; 1 <= nImages ? _i <= nImages : _i >= nImages; i = 1 <= nImages ? ++_i : --_i) {
+    idx = Math.floor(Math.random() * images.length);
+    _results.push(container.append("img").attr("src", path.join(baseUrl, images[idx])));
+  }
+  return _results;
 });
 
 

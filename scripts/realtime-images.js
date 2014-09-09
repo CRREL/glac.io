@@ -60,14 +60,12 @@ module.exports = {
 };
 
 
-},{"./timeseries":3,"d3":4,"queue-async":9,"url":32,"xhr-browserify":35}],2:[function(require,module,exports){
-var LOAD_MORE_COUNT, arrows, build, cameraUrl, container, d3, fetch, gradientColors, height, imageBaseUrl, imagesloaded, loadMoreButton, loadingText, margin, moment, thumbnailHeight, thumbnailPadding, thumbnailWidth, timeFormat, translate, width, yaxis, yscale;
+},{"./timeseries":3,"d3":4,"queue-async":6,"url":29,"xhr-browserify":32}],2:[function(require,module,exports){
+var LOAD_MORE_COUNT, build, cameraUrl, container, controls, d3, daynight, fetch, gradientColors, height, imageBaseUrl, margin, moment, thumbnailHeight, thumbnailPadding, thumbnailWidth, thumbnails, timeFormat, translate, viewer, width, yaxis, yscale;
 
 d3 = require("d3");
 
 fetch = require("./fetch");
-
-imagesloaded = require("imagesloaded");
 
 moment = require("moment");
 
@@ -110,15 +108,59 @@ cameraUrl = container.attr("data-camera-url");
 
 imageBaseUrl = container.attr("data-image-base-url");
 
-loadingText = d3.select(".realtime-images-loading-text");
+viewer = container.select(".realtime-images-viewer");
 
-loadMoreButton = container.select(".realtime-images-load-more");
+viewer.append("p").attr("class", "description");
 
-arrows = container.selectAll(".arrow");
+viewer.append("img").attr("class", "img-responsive");
 
-loadMoreButton.style("display", "none");
+controls = d3.select(".realtime-images-controls").append("svg").attr({
+  height: height + margin.top + margin.bottom,
+  width: width + margin.left + margin.right
+});
 
-arrows.style("display", "none");
+daynight = controls.append("rect").attr({
+  "class": "daynight",
+  transform: translate(margin.left, margin.top),
+  x: 0,
+  y: 0,
+  height: height,
+  width: thumbnailWidth + thumbnailPadding.left + thumbnailPadding.right
+});
+
+controls.append("g").attr("class", "axis").attr("transform", translate(margin.left, margin.top));
+
+thumbnails = controls.append("g").attr("class", "thumbnails").attr("transform", translate(margin.left, margin.top));
+
+controls.append("defs").append("linearGradient").attr({
+  id: "daynight-gradient",
+  gradientUnits: "userSpaceOnUse",
+  x1: 0,
+  x2: 0,
+  y1: 0,
+  y2: height,
+  spreadMethod: "reflect"
+}).selectAll("stop").data([
+  {
+    offset: "0%",
+    color: gradientColors.night,
+    opacity: 0.2
+  }, {
+    offset: "100%",
+    color: gradientColors.day,
+    opacity: 0.2
+  }
+]).enter().append("stop").attr({
+  offset: function(d) {
+    return d.offset;
+  },
+  "stop-color": function(d) {
+    return d.color;
+  },
+  "stop-opacity": function(d) {
+    return d.opacity;
+  }
+});
 
 timeFormat = d3.time.format.multi([
   [
@@ -137,64 +179,14 @@ yscale = d3.time.scale().range([height, 0]);
 yaxis = d3.svg.axis().scale(yscale).orient("left").ticks(d3.time.hour, 6).tickFormat(timeFormat);
 
 build = function(error, allImages) {
-  var activate, controls, daynight, getActiveIndex, imageIdx, images, loadMore, nextImage, prepareImages, prevImage, thumbnails, updateControls, updateViewer, viewer;
+  var activate, getActiveIndex, imageIdx, images, loadMore, nextImage, prepareImages, prevImage, updateControls, updateViewer;
   allImages.sort(function(a, b) {
     return b.datetime - a.datetime;
   });
-  allImages[0].active = true;
   images = [];
   imageIdx = LOAD_MORE_COUNT;
-  loadMoreButton.style("display", "block");
-  loadingText.style("display", "none");
-  arrows.style("display", "block");
-  viewer = container.select(".realtime-images-viewer");
-  viewer.append("p").attr("class", "description");
-  viewer.append("img").attr("class", "img-responsive");
-  controls = d3.select(".realtime-images-controls").append("svg").attr({
-    height: height + margin.top + margin.bottom,
-    width: width + margin.left + margin.right
-  });
-  daynight = controls.append("rect").attr({
-    "class": "daynight",
-    transform: translate(margin.left, margin.top),
-    x: 0,
-    y: 0,
-    height: height,
-    width: thumbnailWidth + thumbnailPadding.left + thumbnailPadding.right
-  });
-  controls.append("g").attr("class", "axis").attr("transform", translate(margin.left, margin.top));
-  thumbnails = controls.append("g").attr("class", "thumbnails").attr("transform", translate(margin.left, margin.top));
-  controls.append("defs").append("linearGradient").attr({
-    id: "daynight-gradient",
-    gradientUnits: "userSpaceOnUse",
-    x1: 0,
-    x2: 0,
-    y1: 0,
-    y2: height,
-    spreadMethod: "reflect"
-  }).selectAll("stop").data([
-    {
-      offset: "0%",
-      color: gradientColors.night,
-      opacity: 0.2
-    }, {
-      offset: "100%",
-      color: gradientColors.day,
-      opacity: 0.2
-    }
-  ]).enter().append("stop").attr({
-    offset: function(d) {
-      return d.offset;
-    },
-    "stop-color": function(d) {
-      return d.color;
-    },
-    "stop-opacity": function(d) {
-      return d.opacity;
-    }
-  });
   prepareImages = function() {
-    var imgTags, interval, yOfLastThumbnail;
+    var interval, yOfLastThumbnail;
     images = allImages.slice(0, imageIdx);
     yscale.domain(d3.extent(images, function(d) {
       return d.datetime;
@@ -205,8 +197,9 @@ build = function(error, allImages) {
     } else if (interval > 10) {
       yaxis.ticks(d3.time.day);
     }
+    images[0].active = true;
     yOfLastThumbnail = -1;
-    images.forEach(function(i) {
+    return images.forEach(function(i) {
       if (yOfLastThumbnail === -1) {
         i.showThumbnail = true;
       } else {
@@ -214,24 +207,6 @@ build = function(error, allImages) {
       }
       if (i.showThumbnail) {
         return yOfLastThumbnail = yscale(i.datetime);
-      }
-    });
-    imgTags = viewer.selectAll("img").data(images, function(d) {
-      return d && d.path;
-    });
-    imgTags.enter().append("img").style("display", "none").attr({
-      src: function(d) {
-        return imageBaseUrl + d.path;
-      },
-      "class": "img-responsive"
-    });
-    imgTags.exit().remove();
-    return imagesloaded(viewer.node()).on("progress", function(instance, image) {
-      var data;
-      data = image.img.__data__;
-      data.loaded = true;
-      if (data.active) {
-        return updateViewer();
       }
     });
   };
@@ -269,14 +244,9 @@ build = function(error, allImages) {
       return d.active;
     })[0];
     viewer.select(".description").html("This picture was taken " + moment(activeImage.datetime).fromNow() + " on " + moment(activeImage.datetime).format("MMMM Do, YYYY [at] ha") + ".");
-    viewer.selectAll("img").style("display", function(d) {
-      if (d.active && d.loaded) {
-        return "block";
-      } else {
-        return "none";
-      }
+    viewer.select("img").datum(activeImage).attr("src", function(d) {
+      return imageBaseUrl + d.path;
     });
-    viewer.classed("loading", !activeImage.loaded);
     return controls.selectAll(".thumbnail-rect").classed("active", function(d) {
       return d.active;
     });
@@ -324,10 +294,10 @@ build = function(error, allImages) {
   };
   d3.select("body").on("keydown", function() {
     var _ref, _ref1;
-    if ((_ref = d3.event.keyCode) === 40 || _ref === 37 || _ref === 83 || _ref === 65) {
+    if ((_ref = d3.event.keyCode) === 40 || _ref === 39 || _ref === 83 || _ref === 68 || _ref === 74 || _ref === 76) {
       d3.event.preventDefault();
       return prevImage();
-    } else if ((_ref1 = d3.event.keyCode) === 39 || _ref1 === 38 || _ref1 === 87 || _ref1 === 68) {
+    } else if ((_ref1 = d3.event.keyCode) === 38 || _ref1 === 37 || _ref1 === 87 || _ref1 === 65 || _ref1 === 75 || _ref1 === 72) {
       d3.event.preventDefault();
       return nextImage();
     }
@@ -342,7 +312,7 @@ build = function(error, allImages) {
 fetch.images(cameraUrl, build);
 
 
-},{"./fetch":1,"d3":4,"imagesloaded":5,"moment":8}],3:[function(require,module,exports){
+},{"./fetch":1,"d3":4,"moment":5}],3:[function(require,module,exports){
 var DEFAULT_INTERVAL, Timeseries, d3, parseDate, queue, typeIsArray, uri, xhr;
 
 d3 = require("d3");
@@ -504,7 +474,7 @@ Timeseries = (function() {
 })();
 
 
-},{"d3":4,"queue-async":9,"url":32,"xhr-browserify":35}],4:[function(require,module,exports){
+},{"d3":4,"queue-async":6,"url":29,"xhr-browserify":32}],4:[function(require,module,exports){
 !function() {
   var d3 = {
     version: "3.4.9"
@@ -9749,901 +9719,6 @@ Timeseries = (function() {
   }
 }();
 },{}],5:[function(require,module,exports){
-/*!
- * imagesLoaded v3.1.8
- * JavaScript is all like "You images are done yet or what?"
- * MIT License
- */
-
-( function( window, factory ) { 'use strict';
-  // universal module definition
-
-  /*global define: false, module: false, require: false */
-
-  if ( typeof define === 'function' && define.amd ) {
-    // AMD
-    define( [
-      'eventEmitter/EventEmitter',
-      'eventie/eventie'
-    ], function( EventEmitter, eventie ) {
-      return factory( window, EventEmitter, eventie );
-    });
-  } else if ( typeof exports === 'object' ) {
-    // CommonJS
-    module.exports = factory(
-      window,
-      require('wolfy87-eventemitter'),
-      require('eventie')
-    );
-  } else {
-    // browser global
-    window.imagesLoaded = factory(
-      window,
-      window.EventEmitter,
-      window.eventie
-    );
-  }
-
-})( window,
-
-// --------------------------  factory -------------------------- //
-
-function factory( window, EventEmitter, eventie ) {
-
-'use strict';
-
-var $ = window.jQuery;
-var console = window.console;
-var hasConsole = typeof console !== 'undefined';
-
-// -------------------------- helpers -------------------------- //
-
-// extend objects
-function extend( a, b ) {
-  for ( var prop in b ) {
-    a[ prop ] = b[ prop ];
-  }
-  return a;
-}
-
-var objToString = Object.prototype.toString;
-function isArray( obj ) {
-  return objToString.call( obj ) === '[object Array]';
-}
-
-// turn element or nodeList into an array
-function makeArray( obj ) {
-  var ary = [];
-  if ( isArray( obj ) ) {
-    // use object if already an array
-    ary = obj;
-  } else if ( typeof obj.length === 'number' ) {
-    // convert nodeList to array
-    for ( var i=0, len = obj.length; i < len; i++ ) {
-      ary.push( obj[i] );
-    }
-  } else {
-    // array of single index
-    ary.push( obj );
-  }
-  return ary;
-}
-
-  // -------------------------- imagesLoaded -------------------------- //
-
-  /**
-   * @param {Array, Element, NodeList, String} elem
-   * @param {Object or Function} options - if function, use as callback
-   * @param {Function} onAlways - callback function
-   */
-  function ImagesLoaded( elem, options, onAlways ) {
-    // coerce ImagesLoaded() without new, to be new ImagesLoaded()
-    if ( !( this instanceof ImagesLoaded ) ) {
-      return new ImagesLoaded( elem, options );
-    }
-    // use elem as selector string
-    if ( typeof elem === 'string' ) {
-      elem = document.querySelectorAll( elem );
-    }
-
-    this.elements = makeArray( elem );
-    this.options = extend( {}, this.options );
-
-    if ( typeof options === 'function' ) {
-      onAlways = options;
-    } else {
-      extend( this.options, options );
-    }
-
-    if ( onAlways ) {
-      this.on( 'always', onAlways );
-    }
-
-    this.getImages();
-
-    if ( $ ) {
-      // add jQuery Deferred object
-      this.jqDeferred = new $.Deferred();
-    }
-
-    // HACK check async to allow time to bind listeners
-    var _this = this;
-    setTimeout( function() {
-      _this.check();
-    });
-  }
-
-  ImagesLoaded.prototype = new EventEmitter();
-
-  ImagesLoaded.prototype.options = {};
-
-  ImagesLoaded.prototype.getImages = function() {
-    this.images = [];
-
-    // filter & find items if we have an item selector
-    for ( var i=0, len = this.elements.length; i < len; i++ ) {
-      var elem = this.elements[i];
-      // filter siblings
-      if ( elem.nodeName === 'IMG' ) {
-        this.addImage( elem );
-      }
-      // find children
-      // no non-element nodes, #143
-      var nodeType = elem.nodeType;
-      if ( !nodeType || !( nodeType === 1 || nodeType === 9 || nodeType === 11 ) ) {
-        continue;
-      }
-      var childElems = elem.querySelectorAll('img');
-      // concat childElems to filterFound array
-      for ( var j=0, jLen = childElems.length; j < jLen; j++ ) {
-        var img = childElems[j];
-        this.addImage( img );
-      }
-    }
-  };
-
-  /**
-   * @param {Image} img
-   */
-  ImagesLoaded.prototype.addImage = function( img ) {
-    var loadingImage = new LoadingImage( img );
-    this.images.push( loadingImage );
-  };
-
-  ImagesLoaded.prototype.check = function() {
-    var _this = this;
-    var checkedCount = 0;
-    var length = this.images.length;
-    this.hasAnyBroken = false;
-    // complete if no images
-    if ( !length ) {
-      this.complete();
-      return;
-    }
-
-    function onConfirm( image, message ) {
-      if ( _this.options.debug && hasConsole ) {
-        console.log( 'confirm', image, message );
-      }
-
-      _this.progress( image );
-      checkedCount++;
-      if ( checkedCount === length ) {
-        _this.complete();
-      }
-      return true; // bind once
-    }
-
-    for ( var i=0; i < length; i++ ) {
-      var loadingImage = this.images[i];
-      loadingImage.on( 'confirm', onConfirm );
-      loadingImage.check();
-    }
-  };
-
-  ImagesLoaded.prototype.progress = function( image ) {
-    this.hasAnyBroken = this.hasAnyBroken || !image.isLoaded;
-    // HACK - Chrome triggers event before object properties have changed. #83
-    var _this = this;
-    setTimeout( function() {
-      _this.emit( 'progress', _this, image );
-      if ( _this.jqDeferred && _this.jqDeferred.notify ) {
-        _this.jqDeferred.notify( _this, image );
-      }
-    });
-  };
-
-  ImagesLoaded.prototype.complete = function() {
-    var eventName = this.hasAnyBroken ? 'fail' : 'done';
-    this.isComplete = true;
-    var _this = this;
-    // HACK - another setTimeout so that confirm happens after progress
-    setTimeout( function() {
-      _this.emit( eventName, _this );
-      _this.emit( 'always', _this );
-      if ( _this.jqDeferred ) {
-        var jqMethod = _this.hasAnyBroken ? 'reject' : 'resolve';
-        _this.jqDeferred[ jqMethod ]( _this );
-      }
-    });
-  };
-
-  // -------------------------- jquery -------------------------- //
-
-  if ( $ ) {
-    $.fn.imagesLoaded = function( options, callback ) {
-      var instance = new ImagesLoaded( this, options, callback );
-      return instance.jqDeferred.promise( $(this) );
-    };
-  }
-
-
-  // --------------------------  -------------------------- //
-
-  function LoadingImage( img ) {
-    this.img = img;
-  }
-
-  LoadingImage.prototype = new EventEmitter();
-
-  LoadingImage.prototype.check = function() {
-    // first check cached any previous images that have same src
-    var resource = cache[ this.img.src ] || new Resource( this.img.src );
-    if ( resource.isConfirmed ) {
-      this.confirm( resource.isLoaded, 'cached was confirmed' );
-      return;
-    }
-
-    // If complete is true and browser supports natural sizes,
-    // try to check for image status manually.
-    if ( this.img.complete && this.img.naturalWidth !== undefined ) {
-      // report based on naturalWidth
-      this.confirm( this.img.naturalWidth !== 0, 'naturalWidth' );
-      return;
-    }
-
-    // If none of the checks above matched, simulate loading on detached element.
-    var _this = this;
-    resource.on( 'confirm', function( resrc, message ) {
-      _this.confirm( resrc.isLoaded, message );
-      return true;
-    });
-
-    resource.check();
-  };
-
-  LoadingImage.prototype.confirm = function( isLoaded, message ) {
-    this.isLoaded = isLoaded;
-    this.emit( 'confirm', this, message );
-  };
-
-  // -------------------------- Resource -------------------------- //
-
-  // Resource checks each src, only once
-  // separate class from LoadingImage to prevent memory leaks. See #115
-
-  var cache = {};
-
-  function Resource( src ) {
-    this.src = src;
-    // add to cache
-    cache[ src ] = this;
-  }
-
-  Resource.prototype = new EventEmitter();
-
-  Resource.prototype.check = function() {
-    // only trigger checking once
-    if ( this.isChecked ) {
-      return;
-    }
-    // simulate loading on detached element
-    var proxyImage = new Image();
-    eventie.bind( proxyImage, 'load', this );
-    eventie.bind( proxyImage, 'error', this );
-    proxyImage.src = this.src;
-    // set flag
-    this.isChecked = true;
-  };
-
-  // ----- events ----- //
-
-  // trigger specified handler for event type
-  Resource.prototype.handleEvent = function( event ) {
-    var method = 'on' + event.type;
-    if ( this[ method ] ) {
-      this[ method ]( event );
-    }
-  };
-
-  Resource.prototype.onload = function( event ) {
-    this.confirm( true, 'onload' );
-    this.unbindProxyEvents( event );
-  };
-
-  Resource.prototype.onerror = function( event ) {
-    this.confirm( false, 'onerror' );
-    this.unbindProxyEvents( event );
-  };
-
-  // ----- confirm ----- //
-
-  Resource.prototype.confirm = function( isLoaded, message ) {
-    this.isConfirmed = true;
-    this.isLoaded = isLoaded;
-    this.emit( 'confirm', this, message );
-  };
-
-  Resource.prototype.unbindProxyEvents = function( event ) {
-    eventie.unbind( event.target, 'load', this );
-    eventie.unbind( event.target, 'error', this );
-  };
-
-  // -----  ----- //
-
-  return ImagesLoaded;
-
-});
-
-},{"eventie":6,"wolfy87-eventemitter":7}],6:[function(require,module,exports){
-/*!
- * eventie v1.0.5
- * event binding helper
- *   eventie.bind( elem, 'click', myFn )
- *   eventie.unbind( elem, 'click', myFn )
- * MIT license
- */
-
-/*jshint browser: true, undef: true, unused: true */
-/*global define: false, module: false */
-
-( function( window ) {
-
-'use strict';
-
-var docElem = document.documentElement;
-
-var bind = function() {};
-
-function getIEEvent( obj ) {
-  var event = window.event;
-  // add event.target
-  event.target = event.target || event.srcElement || obj;
-  return event;
-}
-
-if ( docElem.addEventListener ) {
-  bind = function( obj, type, fn ) {
-    obj.addEventListener( type, fn, false );
-  };
-} else if ( docElem.attachEvent ) {
-  bind = function( obj, type, fn ) {
-    obj[ type + fn ] = fn.handleEvent ?
-      function() {
-        var event = getIEEvent( obj );
-        fn.handleEvent.call( fn, event );
-      } :
-      function() {
-        var event = getIEEvent( obj );
-        fn.call( obj, event );
-      };
-    obj.attachEvent( "on" + type, obj[ type + fn ] );
-  };
-}
-
-var unbind = function() {};
-
-if ( docElem.removeEventListener ) {
-  unbind = function( obj, type, fn ) {
-    obj.removeEventListener( type, fn, false );
-  };
-} else if ( docElem.detachEvent ) {
-  unbind = function( obj, type, fn ) {
-    obj.detachEvent( "on" + type, obj[ type + fn ] );
-    try {
-      delete obj[ type + fn ];
-    } catch ( err ) {
-      // can't delete window object properties
-      obj[ type + fn ] = undefined;
-    }
-  };
-}
-
-var eventie = {
-  bind: bind,
-  unbind: unbind
-};
-
-// ----- module definition ----- //
-
-if ( typeof define === 'function' && define.amd ) {
-  // AMD
-  define( eventie );
-} else if ( typeof exports === 'object' ) {
-  // CommonJS
-  module.exports = eventie;
-} else {
-  // browser global
-  window.eventie = eventie;
-}
-
-})( this );
-
-},{}],7:[function(require,module,exports){
-/*!
- * EventEmitter v4.2.6 - git.io/ee
- * Oliver Caldwell
- * MIT license
- * @preserve
- */
-
-(function () {
-	'use strict';
-
-	/**
-	 * Class for managing events.
-	 * Can be extended to provide event functionality in other classes.
-	 *
-	 * @class EventEmitter Manages event registering and emitting.
-	 */
-	function EventEmitter() {}
-
-	// Shortcuts to improve speed and size
-	var proto = EventEmitter.prototype;
-	var exports = this;
-	var originalGlobalValue = exports.EventEmitter;
-
-	/**
-	 * Finds the index of the listener for the event in it's storage array.
-	 *
-	 * @param {Function[]} listeners Array of listeners to search through.
-	 * @param {Function} listener Method to look for.
-	 * @return {Number} Index of the specified listener, -1 if not found
-	 * @api private
-	 */
-	function indexOfListener(listeners, listener) {
-		var i = listeners.length;
-		while (i--) {
-			if (listeners[i].listener === listener) {
-				return i;
-			}
-		}
-
-		return -1;
-	}
-
-	/**
-	 * Alias a method while keeping the context correct, to allow for overwriting of target method.
-	 *
-	 * @param {String} name The name of the target method.
-	 * @return {Function} The aliased method
-	 * @api private
-	 */
-	function alias(name) {
-		return function aliasClosure() {
-			return this[name].apply(this, arguments);
-		};
-	}
-
-	/**
-	 * Returns the listener array for the specified event.
-	 * Will initialise the event object and listener arrays if required.
-	 * Will return an object if you use a regex search. The object contains keys for each matched event. So /ba[rz]/ might return an object containing bar and baz. But only if you have either defined them with defineEvent or added some listeners to them.
-	 * Each property in the object response is an array of listener functions.
-	 *
-	 * @param {String|RegExp} evt Name of the event to return the listeners from.
-	 * @return {Function[]|Object} All listener functions for the event.
-	 */
-	proto.getListeners = function getListeners(evt) {
-		var events = this._getEvents();
-		var response;
-		var key;
-
-		// Return a concatenated array of all matching events if
-		// the selector is a regular expression.
-		if (typeof evt === 'object') {
-			response = {};
-			for (key in events) {
-				if (events.hasOwnProperty(key) && evt.test(key)) {
-					response[key] = events[key];
-				}
-			}
-		}
-		else {
-			response = events[evt] || (events[evt] = []);
-		}
-
-		return response;
-	};
-
-	/**
-	 * Takes a list of listener objects and flattens it into a list of listener functions.
-	 *
-	 * @param {Object[]} listeners Raw listener objects.
-	 * @return {Function[]} Just the listener functions.
-	 */
-	proto.flattenListeners = function flattenListeners(listeners) {
-		var flatListeners = [];
-		var i;
-
-		for (i = 0; i < listeners.length; i += 1) {
-			flatListeners.push(listeners[i].listener);
-		}
-
-		return flatListeners;
-	};
-
-	/**
-	 * Fetches the requested listeners via getListeners but will always return the results inside an object. This is mainly for internal use but others may find it useful.
-	 *
-	 * @param {String|RegExp} evt Name of the event to return the listeners from.
-	 * @return {Object} All listener functions for an event in an object.
-	 */
-	proto.getListenersAsObject = function getListenersAsObject(evt) {
-		var listeners = this.getListeners(evt);
-		var response;
-
-		if (listeners instanceof Array) {
-			response = {};
-			response[evt] = listeners;
-		}
-
-		return response || listeners;
-	};
-
-	/**
-	 * Adds a listener function to the specified event.
-	 * The listener will not be added if it is a duplicate.
-	 * If the listener returns true then it will be removed after it is called.
-	 * If you pass a regular expression as the event name then the listener will be added to all events that match it.
-	 *
-	 * @param {String|RegExp} evt Name of the event to attach the listener to.
-	 * @param {Function} listener Method to be called when the event is emitted. If the function returns true then it will be removed after calling.
-	 * @return {Object} Current instance of EventEmitter for chaining.
-	 */
-	proto.addListener = function addListener(evt, listener) {
-		var listeners = this.getListenersAsObject(evt);
-		var listenerIsWrapped = typeof listener === 'object';
-		var key;
-
-		for (key in listeners) {
-			if (listeners.hasOwnProperty(key) && indexOfListener(listeners[key], listener) === -1) {
-				listeners[key].push(listenerIsWrapped ? listener : {
-					listener: listener,
-					once: false
-				});
-			}
-		}
-
-		return this;
-	};
-
-	/**
-	 * Alias of addListener
-	 */
-	proto.on = alias('addListener');
-
-	/**
-	 * Semi-alias of addListener. It will add a listener that will be
-	 * automatically removed after it's first execution.
-	 *
-	 * @param {String|RegExp} evt Name of the event to attach the listener to.
-	 * @param {Function} listener Method to be called when the event is emitted. If the function returns true then it will be removed after calling.
-	 * @return {Object} Current instance of EventEmitter for chaining.
-	 */
-	proto.addOnceListener = function addOnceListener(evt, listener) {
-		return this.addListener(evt, {
-			listener: listener,
-			once: true
-		});
-	};
-
-	/**
-	 * Alias of addOnceListener.
-	 */
-	proto.once = alias('addOnceListener');
-
-	/**
-	 * Defines an event name. This is required if you want to use a regex to add a listener to multiple events at once. If you don't do this then how do you expect it to know what event to add to? Should it just add to every possible match for a regex? No. That is scary and bad.
-	 * You need to tell it what event names should be matched by a regex.
-	 *
-	 * @param {String} evt Name of the event to create.
-	 * @return {Object} Current instance of EventEmitter for chaining.
-	 */
-	proto.defineEvent = function defineEvent(evt) {
-		this.getListeners(evt);
-		return this;
-	};
-
-	/**
-	 * Uses defineEvent to define multiple events.
-	 *
-	 * @param {String[]} evts An array of event names to define.
-	 * @return {Object} Current instance of EventEmitter for chaining.
-	 */
-	proto.defineEvents = function defineEvents(evts) {
-		for (var i = 0; i < evts.length; i += 1) {
-			this.defineEvent(evts[i]);
-		}
-		return this;
-	};
-
-	/**
-	 * Removes a listener function from the specified event.
-	 * When passed a regular expression as the event name, it will remove the listener from all events that match it.
-	 *
-	 * @param {String|RegExp} evt Name of the event to remove the listener from.
-	 * @param {Function} listener Method to remove from the event.
-	 * @return {Object} Current instance of EventEmitter for chaining.
-	 */
-	proto.removeListener = function removeListener(evt, listener) {
-		var listeners = this.getListenersAsObject(evt);
-		var index;
-		var key;
-
-		for (key in listeners) {
-			if (listeners.hasOwnProperty(key)) {
-				index = indexOfListener(listeners[key], listener);
-
-				if (index !== -1) {
-					listeners[key].splice(index, 1);
-				}
-			}
-		}
-
-		return this;
-	};
-
-	/**
-	 * Alias of removeListener
-	 */
-	proto.off = alias('removeListener');
-
-	/**
-	 * Adds listeners in bulk using the manipulateListeners method.
-	 * If you pass an object as the second argument you can add to multiple events at once. The object should contain key value pairs of events and listeners or listener arrays. You can also pass it an event name and an array of listeners to be added.
-	 * You can also pass it a regular expression to add the array of listeners to all events that match it.
-	 * Yeah, this function does quite a bit. That's probably a bad thing.
-	 *
-	 * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to add to multiple events at once.
-	 * @param {Function[]} [listeners] An optional array of listener functions to add.
-	 * @return {Object} Current instance of EventEmitter for chaining.
-	 */
-	proto.addListeners = function addListeners(evt, listeners) {
-		// Pass through to manipulateListeners
-		return this.manipulateListeners(false, evt, listeners);
-	};
-
-	/**
-	 * Removes listeners in bulk using the manipulateListeners method.
-	 * If you pass an object as the second argument you can remove from multiple events at once. The object should contain key value pairs of events and listeners or listener arrays.
-	 * You can also pass it an event name and an array of listeners to be removed.
-	 * You can also pass it a regular expression to remove the listeners from all events that match it.
-	 *
-	 * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to remove from multiple events at once.
-	 * @param {Function[]} [listeners] An optional array of listener functions to remove.
-	 * @return {Object} Current instance of EventEmitter for chaining.
-	 */
-	proto.removeListeners = function removeListeners(evt, listeners) {
-		// Pass through to manipulateListeners
-		return this.manipulateListeners(true, evt, listeners);
-	};
-
-	/**
-	 * Edits listeners in bulk. The addListeners and removeListeners methods both use this to do their job. You should really use those instead, this is a little lower level.
-	 * The first argument will determine if the listeners are removed (true) or added (false).
-	 * If you pass an object as the second argument you can add/remove from multiple events at once. The object should contain key value pairs of events and listeners or listener arrays.
-	 * You can also pass it an event name and an array of listeners to be added/removed.
-	 * You can also pass it a regular expression to manipulate the listeners of all events that match it.
-	 *
-	 * @param {Boolean} remove True if you want to remove listeners, false if you want to add.
-	 * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to add/remove from multiple events at once.
-	 * @param {Function[]} [listeners] An optional array of listener functions to add/remove.
-	 * @return {Object} Current instance of EventEmitter for chaining.
-	 */
-	proto.manipulateListeners = function manipulateListeners(remove, evt, listeners) {
-		var i;
-		var value;
-		var single = remove ? this.removeListener : this.addListener;
-		var multiple = remove ? this.removeListeners : this.addListeners;
-
-		// If evt is an object then pass each of it's properties to this method
-		if (typeof evt === 'object' && !(evt instanceof RegExp)) {
-			for (i in evt) {
-				if (evt.hasOwnProperty(i) && (value = evt[i])) {
-					// Pass the single listener straight through to the singular method
-					if (typeof value === 'function') {
-						single.call(this, i, value);
-					}
-					else {
-						// Otherwise pass back to the multiple function
-						multiple.call(this, i, value);
-					}
-				}
-			}
-		}
-		else {
-			// So evt must be a string
-			// And listeners must be an array of listeners
-			// Loop over it and pass each one to the multiple method
-			i = listeners.length;
-			while (i--) {
-				single.call(this, evt, listeners[i]);
-			}
-		}
-
-		return this;
-	};
-
-	/**
-	 * Removes all listeners from a specified event.
-	 * If you do not specify an event then all listeners will be removed.
-	 * That means every event will be emptied.
-	 * You can also pass a regex to remove all events that match it.
-	 *
-	 * @param {String|RegExp} [evt] Optional name of the event to remove all listeners for. Will remove from every event if not passed.
-	 * @return {Object} Current instance of EventEmitter for chaining.
-	 */
-	proto.removeEvent = function removeEvent(evt) {
-		var type = typeof evt;
-		var events = this._getEvents();
-		var key;
-
-		// Remove different things depending on the state of evt
-		if (type === 'string') {
-			// Remove all listeners for the specified event
-			delete events[evt];
-		}
-		else if (type === 'object') {
-			// Remove all events matching the regex.
-			for (key in events) {
-				if (events.hasOwnProperty(key) && evt.test(key)) {
-					delete events[key];
-				}
-			}
-		}
-		else {
-			// Remove all listeners in all events
-			delete this._events;
-		}
-
-		return this;
-	};
-
-	/**
-	 * Alias of removeEvent.
-	 *
-	 * Added to mirror the node API.
-	 */
-	proto.removeAllListeners = alias('removeEvent');
-
-	/**
-	 * Emits an event of your choice.
-	 * When emitted, every listener attached to that event will be executed.
-	 * If you pass the optional argument array then those arguments will be passed to every listener upon execution.
-	 * Because it uses `apply`, your array of arguments will be passed as if you wrote them out separately.
-	 * So they will not arrive within the array on the other side, they will be separate.
-	 * You can also pass a regular expression to emit to all events that match it.
-	 *
-	 * @param {String|RegExp} evt Name of the event to emit and execute listeners for.
-	 * @param {Array} [args] Optional array of arguments to be passed to each listener.
-	 * @return {Object} Current instance of EventEmitter for chaining.
-	 */
-	proto.emitEvent = function emitEvent(evt, args) {
-		var listeners = this.getListenersAsObject(evt);
-		var listener;
-		var i;
-		var key;
-		var response;
-
-		for (key in listeners) {
-			if (listeners.hasOwnProperty(key)) {
-				i = listeners[key].length;
-
-				while (i--) {
-					// If the listener returns true then it shall be removed from the event
-					// The function is executed either with a basic call or an apply if there is an args array
-					listener = listeners[key][i];
-
-					if (listener.once === true) {
-						this.removeListener(evt, listener.listener);
-					}
-
-					response = listener.listener.apply(this, args || []);
-
-					if (response === this._getOnceReturnValue()) {
-						this.removeListener(evt, listener.listener);
-					}
-				}
-			}
-		}
-
-		return this;
-	};
-
-	/**
-	 * Alias of emitEvent
-	 */
-	proto.trigger = alias('emitEvent');
-
-	/**
-	 * Subtly different from emitEvent in that it will pass its arguments on to the listeners, as opposed to taking a single array of arguments to pass on.
-	 * As with emitEvent, you can pass a regex in place of the event name to emit to all events that match it.
-	 *
-	 * @param {String|RegExp} evt Name of the event to emit and execute listeners for.
-	 * @param {...*} Optional additional arguments to be passed to each listener.
-	 * @return {Object} Current instance of EventEmitter for chaining.
-	 */
-	proto.emit = function emit(evt) {
-		var args = Array.prototype.slice.call(arguments, 1);
-		return this.emitEvent(evt, args);
-	};
-
-	/**
-	 * Sets the current value to check against when executing listeners. If a
-	 * listeners return value matches the one set here then it will be removed
-	 * after execution. This value defaults to true.
-	 *
-	 * @param {*} value The new value to check for when executing listeners.
-	 * @return {Object} Current instance of EventEmitter for chaining.
-	 */
-	proto.setOnceReturnValue = function setOnceReturnValue(value) {
-		this._onceReturnValue = value;
-		return this;
-	};
-
-	/**
-	 * Fetches the current value to check against when executing listeners. If
-	 * the listeners return value matches this one then it should be removed
-	 * automatically. It will return true by default.
-	 *
-	 * @return {*|Boolean} The current value to check for or the default, true.
-	 * @api private
-	 */
-	proto._getOnceReturnValue = function _getOnceReturnValue() {
-		if (this.hasOwnProperty('_onceReturnValue')) {
-			return this._onceReturnValue;
-		}
-		else {
-			return true;
-		}
-	};
-
-	/**
-	 * Fetches the events object and creates one if required.
-	 *
-	 * @return {Object} The events storage object.
-	 * @api private
-	 */
-	proto._getEvents = function _getEvents() {
-		return this._events || (this._events = {});
-	};
-
-	/**
-	 * Reverts the global {@link EventEmitter} to its previous value and returns a reference to this version.
-	 *
-	 * @return {Function} Non conflicting EventEmitter class.
-	 */
-	EventEmitter.noConflict = function noConflict() {
-		exports.EventEmitter = originalGlobalValue;
-		return EventEmitter;
-	};
-
-	// Expose the class either via AMD, CommonJS or the global object
-	if (typeof define === 'function' && define.amd) {
-		define(function () {
-			return EventEmitter;
-		});
-	}
-	else if (typeof module === 'object' && module.exports){
-		module.exports = EventEmitter;
-	}
-	else {
-		this.EventEmitter = EventEmitter;
-	}
-}.call(this));
-
-},{}],8:[function(require,module,exports){
 (function (global){
 //! moment.js
 //! version : 2.7.0
@@ -13257,7 +12332,7 @@ if ( typeof define === 'function' && define.amd ) {
 }).call(this);
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],9:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 (function() {
   var slice = [].slice;
 
@@ -13339,7 +12414,7 @@ if ( typeof define === 'function' && define.amd ) {
   else this.queue = queue;
 })();
 
-},{}],10:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -13644,7 +12719,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],11:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var http = module.exports;
 var EventEmitter = require('events').EventEmitter;
 var Request = require('./lib/request');
@@ -13725,7 +12800,7 @@ var xhrHttp = (function () {
     }
 })();
 
-},{"./lib/request":12,"events":10,"url":32}],12:[function(require,module,exports){
+},{"./lib/request":9,"events":7,"url":29}],9:[function(require,module,exports){
 var Stream = require('stream');
 var Response = require('./response');
 var Base64 = require('Base64');
@@ -13896,7 +12971,7 @@ var indexOf = function (xs, x) {
     return -1;
 };
 
-},{"./response":13,"Base64":14,"inherits":15,"stream":25}],13:[function(require,module,exports){
+},{"./response":10,"Base64":11,"inherits":12,"stream":22}],10:[function(require,module,exports){
 var Stream = require('stream');
 var util = require('util');
 
@@ -14018,7 +13093,7 @@ var isArray = Array.isArray || function (xs) {
     return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{"stream":25,"util":34}],14:[function(require,module,exports){
+},{"stream":22,"util":31}],11:[function(require,module,exports){
 ;(function () {
 
   var object = typeof exports != 'undefined' ? exports : this; // #8: web workers
@@ -14080,7 +13155,7 @@ var isArray = Array.isArray || function (xs) {
 
 }());
 
-},{}],15:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -14105,7 +13180,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],16:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -14160,7 +13235,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],17:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 var base64 = require('base64-js')
 var ieee754 = require('ieee754')
 
@@ -15218,7 +14293,7 @@ function assert (test, message) {
   if (!test) throw new Error(message || 'Failed assertion')
 }
 
-},{"base64-js":18,"ieee754":19}],18:[function(require,module,exports){
+},{"base64-js":15,"ieee754":16}],15:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -15340,7 +14415,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}],19:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 exports.read = function(buffer, offset, isLE, mLen, nBytes) {
   var e, m,
       eLen = nBytes * 8 - mLen - 1,
@@ -15426,7 +14501,7 @@ exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128;
 };
 
-},{}],20:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 (function (global){
 /*! http://mths.be/punycode v1.2.4 by @mathias */
 ;(function(root) {
@@ -15937,7 +15012,7 @@ exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
 }(this));
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],21:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -16023,7 +15098,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],22:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -16110,13 +15185,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],23:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":21,"./encode":22}],24:[function(require,module,exports){
+},{"./decode":18,"./encode":19}],21:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -16190,7 +15265,7 @@ function onend() {
   });
 }
 
-},{"./readable.js":28,"./writable.js":30,"inherits":15,"process/browser.js":26}],25:[function(require,module,exports){
+},{"./readable.js":25,"./writable.js":27,"inherits":12,"process/browser.js":23}],22:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -16319,9 +15394,9 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"./duplex.js":24,"./passthrough.js":27,"./readable.js":28,"./transform.js":29,"./writable.js":30,"events":10,"inherits":15}],26:[function(require,module,exports){
-module.exports=require(16)
-},{}],27:[function(require,module,exports){
+},{"./duplex.js":21,"./passthrough.js":24,"./readable.js":25,"./transform.js":26,"./writable.js":27,"events":7,"inherits":12}],23:[function(require,module,exports){
+module.exports=require(13)
+},{}],24:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -16364,7 +15439,7 @@ PassThrough.prototype._transform = function(chunk, encoding, cb) {
   cb(null, chunk);
 };
 
-},{"./transform.js":29,"inherits":15}],28:[function(require,module,exports){
+},{"./transform.js":26,"inherits":12}],25:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -17301,7 +16376,7 @@ function indexOf (xs, x) {
 }
 
 }).call(this,require("/Users/gadomski/Code/glac.io/node_modules/wintersmith-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"))
-},{"./index.js":25,"/Users/gadomski/Code/glac.io/node_modules/wintersmith-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":16,"buffer":17,"events":10,"inherits":15,"process/browser.js":26,"string_decoder":31}],29:[function(require,module,exports){
+},{"./index.js":22,"/Users/gadomski/Code/glac.io/node_modules/wintersmith-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":13,"buffer":14,"events":7,"inherits":12,"process/browser.js":23,"string_decoder":28}],26:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -17507,7 +16582,7 @@ function done(stream, er) {
   return stream.push(null);
 }
 
-},{"./duplex.js":24,"inherits":15}],30:[function(require,module,exports){
+},{"./duplex.js":21,"inherits":12}],27:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -17895,7 +16970,7 @@ function endWritable(stream, state, cb) {
   state.ended = true;
 }
 
-},{"./index.js":25,"buffer":17,"inherits":15,"process/browser.js":26}],31:[function(require,module,exports){
+},{"./index.js":22,"buffer":14,"inherits":12,"process/browser.js":23}],28:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -18088,7 +17163,7 @@ function base64DetectIncompleteChar(buffer) {
   return incomplete;
 }
 
-},{"buffer":17}],32:[function(require,module,exports){
+},{"buffer":14}],29:[function(require,module,exports){
 /*jshint strict:true node:true es5:true onevar:true laxcomma:true laxbreak:true eqeqeq:true immed:true latedef:true*/
 (function () {
   "use strict";
@@ -18721,14 +17796,14 @@ function parseHost(host) {
 
 }());
 
-},{"punycode":20,"querystring":23}],33:[function(require,module,exports){
+},{"punycode":17,"querystring":20}],30:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],34:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -19318,7 +18393,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require("/Users/gadomski/Code/glac.io/node_modules/wintersmith-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":33,"/Users/gadomski/Code/glac.io/node_modules/wintersmith-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":16,"inherits":15}],35:[function(require,module,exports){
+},{"./support/isBuffer":30,"/Users/gadomski/Code/glac.io/node_modules/wintersmith-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":13,"inherits":12}],32:[function(require,module,exports){
 var http = require('http');
 var jsonpCallbacks = {};
 var url = require('url');
@@ -19398,4 +18473,4 @@ module.exports = function(uri, options, callback) {
 
 
 
-},{"http":11,"url":32}]},{},[2])
+},{"http":8,"url":29}]},{},[2])
