@@ -1,5 +1,6 @@
 d3 = require("d3")
 fetch = require("./fetch")
+imagesloaded = require("imagesloaded")
 moment = require("moment")
 
 
@@ -28,56 +29,12 @@ gradientColors =
 container = d3.select "[data-viewer='realtime-images']"
 cameraUrl = container.attr("data-camera-url")
 imageBaseUrl = container.attr("data-image-base-url")
+loadingText = d3.select(".realtime-images-loading-text")
+loadMoreButton = container.select(".realtime-images-load-more")
+arrows = container.selectAll(".arrow")
 
-viewer = container.select(".realtime-images-viewer")
-viewer.append("p")
-  .attr("class", "description")
-viewer.append("img")
-  .attr("class", "img-responsive")
-
-controls = d3.select(".realtime-images-controls")
-  .append("svg")
-  .attr(
-    height: height + margin.top + margin.bottom
-    width: width + margin.left + margin.right
-  )
-daynight = controls.append("rect")
-  .attr(
-    class: "daynight"
-    transform: translate(margin.left, margin.top)
-    x: 0
-    y: 0
-    height: height
-    width: thumbnailWidth + thumbnailPadding.left + thumbnailPadding.right
-  )
-
-controls.append("g")
-  .attr("class", "axis")
-  .attr("transform", translate(margin.left, margin.top))
-thumbnails = controls.append("g")
-  .attr("class", "thumbnails")
-  .attr("transform", translate(margin.left, margin.top))
-controls.append("defs").append("linearGradient")
-  .attr(
-    id: "daynight-gradient"
-    gradientUnits: "userSpaceOnUse"
-    x1: 0
-    x2: 0
-    y1: 0
-    y2: height
-    spreadMethod: "reflect")
-  .selectAll("stop")
-    .data([
-      {offset: "0%", color: gradientColors.night, opacity: 0.2}
-      {offset: "100%", color: gradientColors.day, opacity: 0.2}
-    ])
-  .enter().append("stop")
-    .attr(
-      offset: (d) -> d.offset
-      "stop-color": (d) -> d.color
-      "stop-opacity": (d) -> d.opacity
-    )
-
+loadMoreButton.style("display", "none")
+arrows.style("display", "none")
 
 timeFormat = d3.time.format.multi [
   ["%-I %p", (d) -> d.getHours()]
@@ -94,8 +51,62 @@ yaxis = d3.svg.axis()
 
 build = (error, allImages) ->
   allImages.sort((a, b) -> b.datetime - a.datetime)
+  allImages[0].active = true
   images = []
   imageIdx = LOAD_MORE_COUNT
+
+  loadMoreButton.style("display", "block")
+  loadingText.style("display", "none")
+  arrows.style("display", "block")
+
+  viewer = container.select(".realtime-images-viewer")
+  viewer.append("p")
+    .attr("class", "description")
+  viewer.append("img")
+    .attr("class", "img-responsive")
+
+  controls = d3.select(".realtime-images-controls")
+    .append("svg")
+    .attr(
+      height: height + margin.top + margin.bottom
+      width: width + margin.left + margin.right
+    )
+  daynight = controls.append("rect")
+    .attr(
+      class: "daynight"
+      transform: translate(margin.left, margin.top)
+      x: 0
+      y: 0
+      height: height
+      width: thumbnailWidth + thumbnailPadding.left + thumbnailPadding.right
+    )
+
+  controls.append("g")
+    .attr("class", "axis")
+    .attr("transform", translate(margin.left, margin.top))
+  thumbnails = controls.append("g")
+    .attr("class", "thumbnails")
+    .attr("transform", translate(margin.left, margin.top))
+  controls.append("defs").append("linearGradient")
+    .attr(
+      id: "daynight-gradient"
+      gradientUnits: "userSpaceOnUse"
+      x1: 0
+      x2: 0
+      y1: 0
+      y2: height
+      spreadMethod: "reflect")
+    .selectAll("stop")
+      .data([
+        {offset: "0%", color: gradientColors.night, opacity: 0.2}
+        {offset: "100%", color: gradientColors.day, opacity: 0.2}
+      ])
+    .enter().append("stop")
+      .attr(
+        offset: (d) -> d.offset
+        "stop-color": (d) -> d.color
+        "stop-opacity": (d) -> d.opacity
+      )
 
   prepareImages = () ->
     images = allImages.slice(0, imageIdx)
@@ -107,7 +118,6 @@ build = (error, allImages) ->
       yaxis.ticks d3.time.month
     else if interval > 10
       yaxis.ticks d3.time.day
-    images[0].active = true
 
     yOfLastThumbnail = -1
     images.forEach (i) ->
@@ -118,6 +128,22 @@ build = (error, allImages) ->
           thumbnailHeight + thumbnailPadding.top + thumbnailPadding.bottom
       if i.showThumbnail
         yOfLastThumbnail = yscale i.datetime
+
+    imgTags = viewer.selectAll("img").data(images, (d) -> d and d.path)
+    imgTags.enter()
+      .append("img")
+      .style("display", "none")
+      .attr(
+        src: (d) -> imageBaseUrl + d.path
+        class: "img-responsive")
+    imgTags.exit().remove()
+
+    imagesloaded(viewer.node())
+      .on("progress", (instance, image) ->
+        data = image.img.__data__
+        data.loaded = true
+        if data.active then updateViewer())
+    
   prepareImages()
 
   getActiveIndex = () ->
@@ -147,8 +173,10 @@ build = (error, allImages) ->
       .html("This picture was taken " + moment(activeImage.datetime).fromNow() +
         " on " + moment(activeImage.datetime).format("MMMM Do, YYYY [at] ha") +
         ".")
-    viewer.select("img").datum(activeImage)
-      .attr("src", (d) -> imageBaseUrl + d.path)
+    viewer.selectAll("img")
+      .style("display", (d) ->
+        if d.active and d.loaded then "block" else "none")
+    viewer.classed("loading", not activeImage.loaded)
     controls.selectAll(".thumbnail-rect")
       .classed("active", (d) -> d.active)
 
@@ -199,10 +227,10 @@ build = (error, allImages) ->
 
   d3.select("body")
     .on("keydown", () ->
-      if d3.event.keyCode in [40, 39, 83, 68, 74, 76]
+      if d3.event.keyCode in [40, 37, 83, 65]
         d3.event.preventDefault()
         prevImage()
-      else if d3.event.keyCode in [38, 37, 87, 65, 75, 72]
+      else if d3.event.keyCode in [39, 38, 87, 68]
         d3.event.preventDefault()
         nextImage()
       )
