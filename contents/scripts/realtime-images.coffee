@@ -21,6 +21,9 @@ thumbnailPadding =
   right: 6
   top: 6
   bottom: 0
+gradientColors =
+  day: "yellow"
+  night: "#90C0FF"
 
 container = d3.select "[data-viewer='realtime-images']"
 cameraUrl = container.attr("data-camera-url")
@@ -47,13 +50,14 @@ daynight = controls.append("rect")
     height: height
     width: thumbnailWidth + thumbnailPadding.left + thumbnailPadding.right
   )
+
 controls.append("g")
   .attr("class", "axis")
   .attr("transform", translate(margin.left, margin.top))
 thumbnails = controls.append("g")
   .attr("class", "thumbnails")
   .attr("transform", translate(margin.left, margin.top))
-controls.append("linearGradient")
+controls.append("defs").append("linearGradient")
   .attr(
     id: "daynight-gradient"
     gradientUnits: "userSpaceOnUse"
@@ -64,8 +68,8 @@ controls.append("linearGradient")
     spreadMethod: "reflect")
   .selectAll("stop")
     .data([
-      {offset: "0%", color: "blue", opacity: 0.2}
-      {offset: "100%", color: "yellow", opacity: 0.2}
+      {offset: "0%", color: gradientColors.night, opacity: 0.2}
+      {offset: "100%", color: gradientColors.day, opacity: 0.2}
     ])
   .enter().append("stop")
     .attr(
