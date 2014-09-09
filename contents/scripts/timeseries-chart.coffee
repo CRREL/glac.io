@@ -111,12 +111,12 @@ initialBuild = (error, timeseries) ->
     .call(drawControls)
 
   chart
-    .append("g")
-    .attr("class", "min-date")
-
-  chart
-    .append("g")
-    .attr("class", "max-date")
+    .append("div")
+    .attr("class", "col-md-10")
+    .attr("align", "center")
+    .append("text")
+    .attr("class", "daterange")
+    .attr("style", "background-color:#f5f5f5;border-style:solid;border-width:1px;")
 
   context
     .append("g")
@@ -390,16 +390,12 @@ drawContext = (sel) ->
     .select(".x.brush")
     .call(brush)
 
-  minDate = parseDate(xscale.domain()[0].toString())
+  minDate = parseDate(xscale.domain()[0].toString(), )
   maxDate = parseDate(xscale.domain()[1].toString())
 
   chart
-    .select(".min-date")
-    .text(minDate)
-
-  chart
-    .select('.max-date')
-    .text(maxDate)
+    .select(".daterange")
+    .text("Date Range: " + minDate + " - " + maxDate)
 
 animateBubbles = (circle, begin) ->
   circle.append("animate")
