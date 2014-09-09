@@ -110,6 +110,14 @@ initialBuild = (error, timeseries) ->
   controls
     .call(drawControls)
 
+  chart
+    .append("g")
+    .attr("class", "min-date")
+
+  chart
+    .append("g")
+    .attr("class", "max-date")
+
   context
     .append("g")
     .attr("class", "x axis bottom")
