@@ -3,11 +3,17 @@ extends page
 block page
   block content 
     .row
-      .col-md-6.col-md-offset-1
+      .col-lg-6.col-xs-10.col-xs-offset-1
         block contentLeft
           h1= page.title
           != typogr(page.html).typogrify()
 
-      .col-md-4.col-md-offset-1
+      .col-lg-4.col-lg-offset-1.visible-lg.page-narrow-sidebar(
+        data-target="sidebar-images",
+        data-base-url=env.config.baseUrl
+        data-image-list="/data/narrow-sidebar-images.json")
         block contentRight
           img(src=contents.img["scanner.jpg"].url)
+
+block append scripts
+  script(src=contents.scripts["narrow-sidebar.coffee"].url)
