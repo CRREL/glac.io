@@ -1,0 +1,8 @@
+.realtime-images-index img {
+  height: 189px;
+}
+.realtime-images-index .thumbnail.loading {
+  background-image: url("../img/loading.gif");
+  background-position: center center;
+  background-repeat: no-repeat;
+}
