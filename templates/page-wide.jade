@@ -2,3 +2,6 @@ extends page
 
 block page
   block content
+    h1= page.title
+
+    != typogr(page.html).typogrify()

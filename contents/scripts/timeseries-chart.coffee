@@ -94,6 +94,13 @@ brush = d3.svg.brush()
 
 
 initialBuild = (error, timeseries) ->
+  diagramLink = controls.append("a")
+    .attr("class", "climate-station-diagram-link")
+    .attr("href", "climate-station-diagram.html")
+  diagramLink.append("span")
+    .attr("class", "glyphicon glyphicon-info-sign")
+  diagramLink.append("span")
+    .text(" Climate Station Diagram")
   control = controls.selectAll(".control").data(timeseries)
   control
     .enter()

@@ -27,6 +27,11 @@
         "name": "Real-time Images &mdash; Melange",
         "url": "realtime-images-melange.html",
         "imgSrc": "img/helheim-melange-thumbnail.jpg"
+    },
+    {
+        "name": "Climate Station Diagram",
+        "url": "climate-station-diagram.html",
+        "imgSrc": "img/sensors.jpg"
     }
     ]
 }
