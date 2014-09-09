@@ -352,6 +352,10 @@ addContextLineset = (sel) ->
     .attr("class", "lineset")
 
 
+parseDate = (predate) ->
+  [dow, date..., time, timezone, timezone2] = predate.split(" ")
+  return (date[0] + " " + date[1] + " " + date[2])
+
 drawContext = (sel) ->
   sel.selectAll(".lineset").each (d) ->
     yscale = d3.scale.linear()
@@ -386,6 +390,16 @@ drawContext = (sel) ->
     .select(".x.brush")
     .call(brush)
 
+  minDate = parseDate(xscale.domain()[0].toString())
+  maxDate = parseDate(xscale.domain()[1].toString())
+
+  chart
+    .select(".min-date")
+    .text(minDate)
+
+  chart
+    .select('.max-date')
+    .text(maxDate)
 
 animateBubbles = (circle, begin) ->
   circle.append("animate")
