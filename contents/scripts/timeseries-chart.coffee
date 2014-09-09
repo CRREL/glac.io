@@ -117,6 +117,14 @@ initialBuild = (error, timeseries) ->
   controls
     .call(drawControls)
 
+  chart
+    .append("div")
+    .attr("class", "col-md-10")
+    .attr("align", "center")
+    .append("text")
+    .attr("class", "daterange")
+    .attr("style", "background-color:#f5f5f5;border-style:solid;border-width:1px;")
+
   context
     .append("g")
     .attr("class", "x axis bottom")
@@ -351,6 +359,10 @@ addContextLineset = (sel) ->
     .attr("class", "lineset")
 
 
+parseDate = (predate) ->
+  [dow, date..., time, timezone, timezone2] = predate.split(" ")
+  return (date[0] + " " + date[1] + " " + date[2])
+
 drawContext = (sel) ->
   sel.selectAll(".lineset").each (d) ->
     yscale = d3.scale.linear()
@@ -385,6 +397,12 @@ drawContext = (sel) ->
     .select(".x.brush")
     .call(brush)
 
+  minDate = parseDate(xscale.domain()[0].toString(), )
+  maxDate = parseDate(xscale.domain()[1].toString())
+
+  chart
+    .select(".daterange")
+    .text("Date Range: " + minDate + " - " + maxDate)
 
 animateBubbles = (circle, begin) ->
   circle.append("animate")
