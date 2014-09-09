@@ -8,11 +8,12 @@ block content
     h1= page.title
     p= page.metadata.blurb
 
-  - for (var i = 0; i < tiles.length;)
-    - var initial = i;
-    .row
-      - for (; i < Math.min(tiles.length, initial + 4); i++)
-        .col-md-3.tile
-          a.thumbnail(href=tiles[i].url)
-            img(src=tiles[i].imgSrc)
-            h4!= tiles[i].name
+  div(class=tileContainerClass)
+    - for (var i = 0; i < tiles.length;)
+      - var initial = i;
+      .row
+        - for (; i < Math.min(tiles.length, initial + 4); i++)
+          .col-md-3.tile
+            a.thumbnail(href=tiles[i].url)
+              img(src=tiles[i].imgSrc)
+              h4!= tiles[i].name

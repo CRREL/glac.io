@@ -1,0 +1,7 @@
+extends tiles
+
+block prepend content
+  - var tileContainerClass = "realtime-images-index";
+
+block append scripts
+  script(src=contents.scripts["realtime-images-index.coffee"].url)

@@ -1,6 +1,6 @@
 {
     "title": "Real-Time Images",
-    "template": "tiles.jade",
+    "template": "realtime-images-index.jade",
     "blurb": "Select a camera location below to view the latest images.",
     "tiles": [
         {
