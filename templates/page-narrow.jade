@@ -16,4 +16,5 @@ block page
           img(src=contents.img["scanner.jpg"].url)
 
 block append scripts
-  script(src=contents.scripts["narrow-sidebar.coffee"].url)
+  if !disableNarrowSidebarImages
+    script(src=contents.scripts["narrow-sidebar.coffee"].url)

@@ -20,6 +20,7 @@ block prepend body
 
 block contentRight
   - var archives = env.helpers.getArticles(contents)
+  - var disableNarrowSidebarImages = true
   for archive in archives
     .row.blog-sidebar-post
       .col-md-4.date= moment.utc(archive.date).format("DD. MM YYYY")
