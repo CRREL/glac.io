@@ -5,9 +5,7 @@ breadcrumbs: true
 ---
 
 <div class="row">
-  <div class="col-md-30">
-  <div class="thumbnail tight">
-    ![Hubbard Glacier Climate Station Diagram, photo 1](img/HubbardHaenke_CS_Diagram.png)
-    </div>
+  <div class="col-md-10 col-xs-12 col-md-offset-1">
+  <img src="img/HubbardHaenke_CS_Diagram.png" class="img-responsive">
   </div>
 </div>
