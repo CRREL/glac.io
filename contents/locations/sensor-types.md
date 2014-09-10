@@ -5,6 +5,14 @@ breadcrumbs: true
 ---
 Each research location requires different observations and measurements to provide near real-time monitoring, necessitating multiple field-installed platforms. 
 
+Jump to:
+
+- [Climate Station](sensor-types.html#climate-station)
+- [Satellite Linked Time-lapse Camera](sensor-types.html#satellite-linked-time-lapse-camera)
+- [LiDAR Data](sensor-types.html#lidar-data)
+- [Thermal Camera](sensor-types.html#thermal-camera)
+- [Time-lapse Camera](sensor-types.html#time-lapse-camera)
+
 ### Climate Station
 
 Our climate stations combine traditional local climate and atmospheric measurements with Iridium-linked satellite communication, providing near real-time updates of conditions at the study site. All stations have the following sensors: Air Temperature, Relative Humidity, Barometric Pressure, and Wind Speed/Direction. In addition, the climate station may have the following sensors: Snow Depth, Solar Radiation, and Precipitation Gauges. 
