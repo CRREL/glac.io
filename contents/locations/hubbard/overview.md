@@ -35,14 +35,14 @@ Located in south-central Alaska north of Yakutat, with its origins in Yukon Terr
   </div>
   </div>
 </div>
-<br>We have monitoring sites located on Haenke Island and Gilbert Point. Gilbert Point has a climate station, a laser ranging system for measuring the terminus distance from Gilbert Point, a satellite-linked time-lapse camera, and a high-resolution DSLR time-lapse camera. Haenke Island has a fully equipped climate station. These data are updated regularly and can be viewed in near real-time on the [Real-time data](data.html) and [Time-lapse](timelapse.html) pages.
+<br>We have monitoring sites located on Haenke Island and Gilbert Point. Gilbert Point has a climate station, a laser ranging system for measuring the terminus distance from Gilbert Point, a satellite-linked time-lapse camera, and a high-resolution DSLR time-lapse camera. Haenke Island has a fully equipped climate station. These data are updated regularly and can be viewed in near real-time on the [Real-time Data](data.html) and [Real-time Images](realtime-images.html) pages.
 <br>
 <br><div class="row">
   <div class="col-md-8 col-md-offset-2">
   <div class="thumbnail tight">
     ![Satellite Image, photo 1](img/HUBBARD_20130822_SatImage.jpg)
     <div class="caption">
-      Image from the Hubbard Glacier terminus camera, transmitting daily images to the [Time-lapse](timelapse.html) page.
+      Image from the Hubbard Glacier terminus camera, transmitting daily images to the [Real-time Images](realtime-images.html) page.
     </div>
   </div>
   </div>
