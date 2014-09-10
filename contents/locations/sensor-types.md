@@ -21,7 +21,9 @@ Photovoltaic solar panels, and at some stations wind generators, provide chargin
 
 Custom designed towers and guy wire assemblies ensure the stations can withstand gale force winds, high snowfall, and wildlife in the remote study locations. 
   
-<br><div class="row">
+<br>
+
+<div class="row">
   <div class="col-md-8 col-md-offset-2">
   <div class="thumbnail tight">
     ![Climate Station CAD Model](img/climate-station-CAD.jpg)
@@ -47,7 +49,9 @@ For monitoring of glacial movement, terminus location, and ice/ocean interaction
 
 To account for changing daylight at high latitudes, summer has 24-hours of daylight while winter has long periods of darkness, we use a light-sensor to assess the amount of ambient light. If there is sufficient light, the system captures and transmits a photograph. If sufficient light is not available, the system remains in a low-power mode. Since the system's battery is recharged via a solar panel, times of low-light correspond with low-charging periods, working to conserve power through the winter months.
 
-<br><div class="row">
+<br>
+
+<div class="row">
   <div class="col-md-10 col-md-offset-1">
   <div class="thumbnail tight">
     ![Satellite Linked Time-lapse Camera](img/satellite-time-lapse-camera.jpg)
@@ -69,7 +73,9 @@ To account for changing daylight at high latitudes, summer has 24-hours of dayli
 
 To monitor the position of a glaciers calving face, we have developed a Terminus Monitoring System. Using laser ranging, the system collects multiple distance measurements of the calving face relative to the laser, which enables tracking of the calving face over time. Measurements are logged and sent to our servers via Iridium satellite. In particular, the seasonal advance of Hubbard Glacier, Alaska threatens to close off Russell Fjord, creating a dammed glacial lake. This system allows for near-constant monitoring of the Hubbard Glacier terminus, providing an early warning system for a potential closure event. See the [Hubbard Glacier Overview Page](hubbard/overview.html) for more information.
 
-<br><div class="row">
+<br>
+
+<div class="row">
   <div class="col-md-10 col-md-offset-1">
   <div class="thumbnail tight">
     ![Terminus Monitoring System](img/terminus-monitoring-system.jpg)
@@ -84,7 +90,9 @@ To monitor the position of a glaciers calving face, we have developed a Terminus
 
 Similar to the Satellite Linked Time-lapse Camera, we have developed a remote time-lapse system using a thermal infrared camera, capturing surface temperatures of the focus area. The system captures and transmits images on a set schedule, and can be reconfigured remotely through two-way Iridium satellite communication. In addition, images can be captured an stored on the data logger at higher temporal intervals, able to be downloaded by our team during maintenance visits. A single enclosure is used for study sites with both the satellite linked visible light and thermal infrared time-lapse cameras.
 
-<br><div class="row">
+<br>
+
+<div class="row">
   <div class="col-md-10 col-md-offset-1">
   <div class="thumbnail tight">
     ![Thermal Camera](img/thermal-camera.jpg)
@@ -99,7 +107,9 @@ Similar to the Satellite Linked Time-lapse Camera, we have developed a remote ti
 
 In addition to the satellite linked time-lapse cameras, we have installed high-resolution DSLR time-lapse camera systems to capture images with improved detail. These systems must be revisited by our team to download the images, which may then be compiled into time-lapse animations.
 
-<br><div class="row">
+<br>
+
+<div class="row">
   <div class="col-md-10 col-md-offset-1">
   <div class="thumbnail tight">
     ![Time-lapse Camera](img/time-lapse-camera.jpg)
@@ -109,6 +119,3 @@ In addition to the satellite linked time-lapse cameras, we have installed high-r
   </div>
   </div>
 </div>
-
-
-
