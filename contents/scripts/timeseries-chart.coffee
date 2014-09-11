@@ -359,7 +359,7 @@ addContextLineset = (sel) ->
 
 parseDate = (predate) ->
   [dow, date..., time, timezone, timezone2] = predate.split(" ")
-  return (date[0] + " " + date[1] + " " + date[2])
+  return (date[1] + " " + date[0] + " " + date[2])
 
 drawContext = (sel) ->
   sel.selectAll(".lineset").each (d) ->
