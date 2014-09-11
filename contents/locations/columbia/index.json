@@ -22,6 +22,11 @@
         "name": "Real-time Images",
         "url": "realtime-images.html",
         "imgSrc": "img/ColumbiaIridium-Thumbnail.jpg"
+    },
+    {
+        "name": "Climate Station Diagram",
+        "url": "climate-station-diagram.html",
+        "imgSrc": "img/sensors.jpg"
     }
     ]
 }

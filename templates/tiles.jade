@@ -13,7 +13,7 @@ block content
       - var initial = i;
       .row
         - for (; i < Math.min(tiles.length, initial + 4); i++)
-          .col-md-3.tile
+          .col-md-3.col-xs-8.col-xs-offset-2.col-md-offset-0.tile
             a.thumbnail(href=tiles[i].url)
               img(src=tiles[i].imgSrc)
               h4!= tiles[i].name

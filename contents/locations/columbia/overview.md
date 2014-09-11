@@ -17,7 +17,7 @@ Columbia Glacier, located in Prince William Sound and the Chugach Mountains of A
   </div>
 </div>
 <br>
-We have a satellite-linked camera located on Great Nunatak, southwest of the current terminus position of the main branch of Columbia. The camera relies on a light sensor to measure the ambient light. If there is sufficient light, the system powers on the camera, captures an image, and transmits the image to our servers via the Iridium satellite array. In addition, there is a climate station located up-glacier approximately 15km from the camera installation. Both stations transmit data multiple times/day, which can be viewed in near real-time on the [Real-time data](data.html) and [Time-lapse](timelapse.html) pages.
+We have a satellite-linked camera located on Great Nunatak, southwest of the current terminus position of the main branch of Columbia. The camera relies on a light sensor to measure the ambient light. If there is sufficient light, the system powers on the camera, captures an image, and transmits the image to our servers via the Iridium satellite array. In addition, there is a climate station located up-glacier approximately 15km from the camera installation. Both stations transmit data multiple times/day, which can be viewed in near real-time on the [Real-time Data](data.html) and [Real-time Images](realtime-images.html) pages.
 <br>
 <br><div class="row">
   <div class="col-md-12">
@@ -35,7 +35,7 @@ We have a satellite-linked camera located on Great Nunatak, southwest of the cur
   <div class="thumbnail tight">
     ![Columbia camera, photo 1](img/ColumbiaIridium.jpg)
     <div class="caption">
-	Sample image from the Columbia Glacier satellite-linked camera. Images are uploaded daily from this camera, and can be viewed on the [Time-lapse](timelapse.html) page.
+	Sample image from the Columbia Glacier satellite-linked camera. Images are uploaded daily from this camera, and can be viewed on the [Real-time Images](realtime-images.html) page.
     </div>
   </div>
   </div>

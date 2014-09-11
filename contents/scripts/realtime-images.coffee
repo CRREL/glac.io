@@ -22,9 +22,6 @@ thumbnailPadding =
   right: 6
   top: 6
   bottom: 0
-gradientColors =
-  day: "yellow"
-  night: "#90C0FF"
 
 container = d3.select "[data-viewer='realtime-images']"
 cameraUrl = container.attr("data-camera-url")
@@ -71,15 +68,6 @@ build = (error, allImages) ->
       height: height + margin.top + margin.bottom
       width: width + margin.left + margin.right
     )
-  daynight = controls.append("rect")
-    .attr(
-      class: "daynight"
-      transform: translate(margin.left, margin.top)
-      x: 0
-      y: 0
-      height: height
-      width: thumbnailWidth + thumbnailPadding.left + thumbnailPadding.right
-    )
 
   controls.append("g")
     .attr("class", "axis")
@@ -87,26 +75,6 @@ build = (error, allImages) ->
   thumbnails = controls.append("g")
     .attr("class", "thumbnails")
     .attr("transform", translate(margin.left, margin.top))
-  controls.append("defs").append("linearGradient")
-    .attr(
-      id: "daynight-gradient"
-      gradientUnits: "userSpaceOnUse"
-      x1: 0
-      x2: 0
-      y1: 0
-      y2: height
-      spreadMethod: "reflect")
-    .selectAll("stop")
-      .data([
-        {offset: "0%", color: gradientColors.night, opacity: 0.2}
-        {offset: "100%", color: gradientColors.day, opacity: 0.2}
-      ])
-    .enter().append("stop")
-      .attr(
-        offset: (d) -> d.offset
-        "stop-color": (d) -> d.color
-        "stop-opacity": (d) -> d.opacity
-      )
 
   prepareImages = () ->
     images = allImages.slice(0, imageIdx)
@@ -186,12 +154,6 @@ build = (error, allImages) ->
 
     controls.select(".axis")
       .call(yaxis)
-
-    controls.select("#daynight-gradient")
-      .attr(
-        y1: yscale(lastMidnight)
-        y2: yscale(noonBeforelastMidnight)
-      )
 
     thumbnailImages = thumbnails.selectAll(".thumbnail")
       .data(images.filter((d) -> d.showThumbnail), (d) -> d.datetime)

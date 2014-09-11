@@ -1,6 +1,10 @@
 extends page-wide
 
-block append content
+block content
+  .alert.alert-warning.hidden-md.hidden-lg
+    | This visualization does not work great on small screens quite yet.
+    | We recommend viewing on a larger screen.
+
   .row.timeseries-chart(data-viewer="timeseries-chart",
                         data-timeseries-url=page.metadata.timeseriesUrl)
     .timeseries-chart-sidebar.col-md-2

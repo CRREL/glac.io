@@ -13,19 +13,19 @@ block main
 
     footer
       .row
-        .col-md-2.col-md-offset-5.text-center
+        .col-md-2.col-xs-12.col-md-offset-5.text-center
           a(href=contents["about.md"].url) about 
           | | 
           a(href=contents["contact.md"].url) contact
 
       .row(style="margin-top: 50px")
-        .col-md-3.col-md-offset-1
+        .col-md-3.col-xs-12.col-md-offset-1
           != contents["attribution.md"].html
-        .col-md-2.col-md-offset-1.text-center
+        .col-md-3.col-xs-12
           | Subscribe to our blog's 
           a(href=contents.blog["feed.json"].url) rss feed
           | , or find us on 
           a(href="https://github.com/CRREL") Github
           | .
-        .col-md-3.col-md-offset-1
+        .col-md-3.col-xs-12.col-md-offset-1
           | &copy; 2014 Pete Gadomski

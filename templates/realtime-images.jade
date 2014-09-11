@@ -7,9 +7,16 @@ block content
   .text-center
     h1= page.title
 
-    p
+    p.hidden-xs.hidden-sm
       | Select image using the thumbnails on the left, or scroll in the image viewer.
       | You can also use the arrow keys to scroll forward and backward.
+
+    p.hidden-md.hidden-lg.alert.alert-warning
+      | We're sorry, but for now you can only view the latest image when on a small screen.
+      | Please load this page on a large screen to browse more images.
+      | This is an issue 
+      a(href="https://github.com/gadomski/glac.io/issues/124") we are working on
+      | .
 
   hr
 
@@ -17,15 +24,15 @@ block content
   .row.realtime-images(data-viewer="realtime-images",
                        data-camera-url=page.metadata.cameraUrl,
                        data-image-base-url=page.metadata.imageBaseUrl)
-    .col-md-2
+    .col-md-2.hidden-sm.hidden-xs
       .realtime-images-controls
       button.realtime-images-load-more.btn.btn-primary.btn-sm.btn-block(type="button")
         | Load more images
-    .col-md-1
+    .col-md-1.hidden-xs.hidden-sm
       a.left.arrow
         span.glyphicon.glyphicon-chevron-left
-    .realtime-images-viewer.col-md-8
-    .col-md-1
+    .realtime-images-viewer.col-md-8.col-xs-12
+    .col-md-1.hidden-xs.hidden-sm
       a.right.arrow
         span.glyphicon.glyphicon-chevron-right
 
