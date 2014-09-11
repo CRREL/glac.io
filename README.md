@@ -4,7 +4,7 @@ glac.io
 Static file website for visualizing glacier data.
 Uses [wintersmith](http://wintersmith.io/) to generate content, and [d3.js](http://d3js.org/) for visualization.
 
-This website can be viewed at at [http://glac.io/](http://glac.io/), [http://glacierresearch.org/](http://glacierresearch.org/), or [http://glacierresearch.com/](http://glacierresearch.com/).
+This website can be viewed at at [http://glacierresearch.org/](http://glacierresearch.org/).
 
 
 Downloading and Viewing a Local Copy
@@ -24,9 +24,9 @@ Installation instructions for **homebrew** are [here](http://brew.sh/#install).
 Once you have **homebrew**, install **git** and **node**:
 
 ```bash
-$ brew update
-$ brew install git
-$ brew install node
+brew update
+brew install git
+brew install node
 ```
 
 If you do not want to use **homebrew** or are not on a Macintosh, you're on your own.
@@ -38,10 +38,10 @@ Once you've got **git** and **node**, clone the source code and install the webs
 
 ```bash
 # note: if you plan on making changes and pushing them back to Github, use git@github.com:gadomski/glac.io.git instead
-$ git clone https://github.com/gadomski/glac.io.git  
-$ cd glac.io
-$ npm install
-$ npm install -g wintersmith
+git clone https://github.com/gadomski/glac.io.git  
+cd glac.io
+npm install
+npm install -g wintersmith
 ```
 
 [Node Package Manager](https://www.npmjs.org/) will install all external dependencies for the website.
@@ -53,20 +53,20 @@ Packages are installed locally for this repository, with the exception of **wint
 Once dependencies have been installed, you can preview the website with:
 
 ```bash
-$ wintersmith preview
+wintersmith preview
 ```
 
 This will start a server on your localhost port 8888, by default.
 To customize the port, use the -p option, e.g.:
 
 ```bash
-$ wintersmith preview -p 5678
+wintersmith preview -p 5678
 ```
 
 To build the site onto your local filesystem, run:
 
 ```bash
-$ wintersmith build
+wintersmith build
 ```
 
 This will process all of the source files and build the website directory tree inside the `build/` directory in your main **glac.io** repository.
@@ -74,9 +74,9 @@ To view the site in your local browser, you'll need a simple http server &mdash;
 To install the http-server and view your website:
 
 ```bash
-$ npm install -g http-server
-$ cd build/
-$ http-server
+npm install -g http-server
+cd build/
+http-server
 ```
 
 The **http-server** will give you a url, which you can then use to view your website in a browser.
