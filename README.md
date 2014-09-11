@@ -91,4 +91,5 @@ This project is developed and maintained by:
 
 - [@adamlewinter](https://github.com/adamlewinter)
 - [@dcfinnegan](https://github.com/dcfinnegan)
+- [@trevorskaggs](https://github.com/trevorskaggs)
 - [@gadomski](https://github.com/gadomski)
