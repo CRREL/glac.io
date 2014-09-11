@@ -118,12 +118,10 @@ initialBuild = (error, timeseries) ->
     .call(drawControls)
 
   chart
-    .append("div")
-    .attr("class", "col-md-10")
-    .attr("align", "center")
-    .append("text")
+    .append("p")
+    .attr("class", "text-center")
+    .append("span")
     .attr("class", "daterange")
-    .attr("style", "background-color:#f5f5f5;border-style:solid;border-width:1px;")
 
   context
     .append("g")
