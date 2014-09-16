@@ -1,4 +1,4 @@
-extends page-narrow
+extends page-wide
 
 block content
   - var collaborators = page.metadata.collaborators
@@ -11,10 +11,10 @@ block content
         | We would like to offer our thanks to all of these institutions and individuals, and many others who have helped along the way.
 
   .row(style="margin-top: 40px")
-    .col-md-8.col-md-offset-2.text-center
+    .col-md-8.col-md-offset-2
       // CRREL
       a(href=collaborators[0].url)
-        img.img-responsive(src=contents.img.collaborators[collaborators[0].filename].url)
+        img.img-responsive(src=contents.img.collaborators[collaborators[0].filename].url).center-block
 
   hr
 
