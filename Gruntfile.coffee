@@ -20,12 +20,28 @@ module.exports = (grunt) ->
         options:
           base: "build"
         src: ["**"]
+    
+    slack:
+      options:
+        token: "2DcBPYcz3AhAPtNbRDbabX9I"
+        domain: "hobu"
+        channel: "#glacio"
+        username: "glacio-deploy"
+        icon_url: "http://glac.io/img/rsgis110px.png"
+      deploy:
+        text: "<%= gitinfo.local.branch.current.currentUser %> updated the glac.io site " +
+          "to <%= gitinfo.local.branch.current.shortSHA %>"
+
+    gitinfo: {}
+
 
   grunt.loadNpmTasks "grunt-wintersmith"
   grunt.loadNpmTasks "grunt-gh-pages"
+  grunt.loadNpmTasks "grunt-gitinfo"
+  grunt.loadNpmTasks "grunt-slack-hook"
 
   grunt.registerTask "deploy-dev", ["location-kml", "wintersmith:gh-pages", "gh-pages:gh-pages"]
-  grunt.registerTask "deploy", ["location-kml", "wintersmith:lidar-io", "gh-pages:lidar-io"]
+  grunt.registerTask "deploy", ["location-kml", "wintersmith:lidar-io", "gh-pages:lidar-io", "gitinfo", "slack"]
 
   grunt.registerTask "location-kml", "Write a kml file for each location", () ->
     locations = grunt.file.readJSON "contents/data/locations.json"

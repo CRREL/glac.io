@@ -18,6 +18,8 @@
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
     "grunt-gh-pages": "^0.9.1",
+    "grunt-gitinfo": "^0.1.6",
+    "grunt-slack-hook": "0.0.3",
     "grunt-wintersmith": "0.0.2"
   }
 }
