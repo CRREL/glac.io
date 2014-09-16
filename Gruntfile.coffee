@@ -30,7 +30,7 @@ module.exports = (grunt) ->
         icon_url: "http://glac.io/img/rsgis110px.png"
       deploy:
         text: "<%= gitinfo.local.branch.current.currentUser %> updated the glac.io site " +
-          "to <%= gitinfo.local.branch.current.shortSHA %>"
+          "to <https://github.com/gadomski/glac.io/commit/<%= gitinfo.local.branch.current.SHA %>|<%= gitinfo.local.branch.current.shortSHA %>>"
 
     gitinfo: {}
 
