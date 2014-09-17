@@ -1,0 +1,22 @@
+{
+    "title": "Wolverine Glacier",
+    "template": "location.jade",
+    "blurb": "The Wolverine Glacier is located on the Kenai Peninsula, northeast of Seward, Alaska.",
+    "tiles": [
+    {
+        "name": "Overview",
+        "url": "overview.html",
+        "imgSrc": "(POPULATE).jpg"
+    },
+    {
+        "name": "Images",
+        "url": "images.html",
+        "imgSrc": "img/(POPULATE).jpg"
+    },
+    {
+        "name": "Real-time Data",
+        "url": "data.html",
+        "imgSrc": "(POPULATE).png"
+    }
+    ]
+}

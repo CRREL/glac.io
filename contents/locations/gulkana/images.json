@@ -1,0 +1,15 @@
+{
+    "template": "location-images.jade",
+    "title": "Images of the Gulkana Glacier",
+    "images":
+        [
+        {
+            "filename": "img/(POPULATE).jpg",
+            "caption": "(POPULATE)"
+        },
+        {
+            "filename": "(POPULATE).jpg",
+            "caption": "(POPULATE)"
+        }
+    ]
+}

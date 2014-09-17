@@ -1,0 +1,6 @@
+{
+    "template": "timeseries-chart.jade",
+    "title": "Gulkana Data",
+    "breadcrumbs": true,
+    "timeseriesUrl": "data/timeseries.json"
+}
