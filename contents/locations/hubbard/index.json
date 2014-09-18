@@ -24,6 +24,11 @@
         "imgSrc": "img/timelapse.jpg"
     },
     {
+        "name": "Real-time Wind Rose",
+        "url": "windrose.html",
+        "imgSrc": "img/sensors.jpg"
+    },
+    {
         "name": "Climate Station Diagram",
         "url": "climate-station-diagram.html",
         "imgSrc": "img/sensors.jpg"
