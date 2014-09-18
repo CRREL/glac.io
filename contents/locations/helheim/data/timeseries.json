@@ -65,12 +65,14 @@
       {
         "name": "Sensor 1",
         "ts_codes": 12689021,
-        "color": "#FA40FF"
+        "color": "#FA40FF",
+        "circular": true
       },
       {
         "name": "Sensor 2",
         "ts_codes": 12691021,
-        "color": "#942191"
+        "color": "#942191",
+        "circular": true
       }
     ],
     "units": "deg",

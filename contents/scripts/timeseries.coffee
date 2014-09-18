@@ -30,6 +30,7 @@ class Timeseries
         name: @name
         ts_codes: options.ts_codes
         color: options.color
+        circular: options.circular
       ]
     else if options.series
       @series = options.series
@@ -66,7 +67,8 @@ class Timeseries
       "pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=#{ ts.ts_codes.join(",") }"
     if @floor
       url += "&floor=#{ @floor }"
-    # TODO handle summary interval changes
+    if @circular
+      url += "&circular=true"
     url += "&summary_interval=" + @interval
     uri.parse(url, true)
 
