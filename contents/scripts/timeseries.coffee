@@ -67,7 +67,7 @@ class Timeseries
       "pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=#{ ts.ts_codes.join(",") }"
     if @floor
       url += "&floor=#{ @floor }"
-    if @circular
+    if ts.circular
       url += "&circular=true"
     url += "&summary_interval=" + @interval
     uri.parse(url, true)
