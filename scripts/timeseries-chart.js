@@ -61,7 +61,8 @@ module.exports = {
 
 
 },{"./timeseries":3,"d3":4,"queue-async":5,"url":28,"xhr-browserify":31}],2:[function(require,module,exports){
-var addContextLineset, addPanel, animateBubbles, brush, chart, container, context, controls, d3, defaultBrushExtent, draw, drawContext, drawControls, drawFocus, emptyAxis, fetch, focus, getYExtent, height, height2, initialBuild, margin, margin2, padding, svg, timeseriesUrl, toggleControl, translate, tsName, update, visibleTimeseries, width, x2axis, x2scale, xaxis, xgrid, xscale;
+var addContextLineset, addPanel, animateBubbles, brush, chart, container, context, controls, d3, defaultBrushExtent, draw, drawContext, drawControls, drawFocus, emptyAxis, fetch, focus, getYExtent, height, height2, initialBuild, margin, margin2, padding, parseDate, svg, timeseriesUrl, toggleControl, translate, tsName, update, visibleTimeseries, width, x2axis, x2scale, xaxis, xgrid, xscale,
+  __slice = [].slice;
 
 d3 = require("d3");
 
@@ -159,7 +160,10 @@ brush = d3.svg.brush().x(x2scale).on("brush", function(d) {
 });
 
 initialBuild = function(error, timeseries) {
-  var control;
+  var control, diagramLink;
+  diagramLink = controls.append("a").attr("class", "climate-station-diagram-link").attr("href", "climate-station-diagram.html");
+  diagramLink.append("span").attr("class", "glyphicon glyphicon-info-sign");
+  diagramLink.append("span").text(" Climate Station Diagram");
   control = controls.selectAll(".control").data(timeseries);
   control.enter().append("a").attr("href", "#").attr("class", "list-group-item control").on("click", toggleControl);
   control.append("span").attr("class", "glyphicon");
@@ -167,6 +171,7 @@ initialBuild = function(error, timeseries) {
     return " " + d.name;
   });
   controls.call(drawControls);
+  chart.append("p").attr("class", "text-center").append("span").attr("class", "daterange");
   context.append("g").attr("class", "x axis bottom");
   context.append("g").attr("class", "x brush").call(brush).selectAll("rect").attr("height", height2).attr("rx", 10).attr("ry", 10);
   context.select(".x.brush").selectAll(".resize").append("rect").attr("height", height2).attr("width", 20).attr("rx", 10).attr("ry", 10).attr("transform", function(d, i) {
@@ -346,7 +351,14 @@ addContextLineset = function(sel) {
   return sel.append("g").attr("class", "lineset");
 };
 
+parseDate = function(predate) {
+  var date, dow, time, timezone, timezone2, _i, _ref;
+  _ref = predate.split(" "), dow = _ref[0], date = 5 <= _ref.length ? __slice.call(_ref, 1, _i = _ref.length - 3) : (_i = 1, []), time = _ref[_i++], timezone = _ref[_i++], timezone2 = _ref[_i++];
+  return date[1] + " " + date[0] + " " + date[2];
+};
+
 drawContext = function(sel) {
+  var maxDate, minDate;
   sel.selectAll(".lineset").each(function(d) {
     var line, lines, yscale;
     yscale = d3.scale.linear().domain(getYExtent(d)).range([height2, 0]).nice().clamp(true);
@@ -367,7 +379,10 @@ drawContext = function(sel) {
     return lines.exit().remove();
   });
   sel.select(".x.axis").attr("transform", translate(0, height2)).call(x2axis);
-  return sel.select(".x.brush").call(brush);
+  sel.select(".x.brush").call(brush);
+  minDate = parseDate(xscale.domain()[0].toString());
+  maxDate = parseDate(xscale.domain()[1].toString());
+  return chart.select(".daterange").text("Date Range: " + minDate + " - " + maxDate);
 };
 
 animateBubbles = function(circle, begin) {
@@ -427,8 +442,9 @@ module.exports = {
 
 Timeseries = (function() {
   function Timeseries(options) {
-    var ts, _fn, _i, _len, _ref;
+    var ts, _fn, _i, _len, _ref, _ref1;
     this.name = options.name, this.visible = options.visible, this.units = options.units, this.min = options.min, this.max = options.max, this.floor = options.floor;
+    this.interval = (_ref = options.interval) != null ? _ref : DEFAULT_INTERVAL;
     if (options.ts_codes != null) {
       if (options.series != null) {
         throw new Error("Cannot specify ts_codes and series");
@@ -437,7 +453,8 @@ Timeseries = (function() {
         {
           name: this.name,
           ts_codes: options.ts_codes,
-          color: options.color
+          color: options.color,
+          circular: options.circular
         }
       ];
     } else if (options.series) {
@@ -445,18 +462,17 @@ Timeseries = (function() {
     } else {
       throw new Error("Must specify either ts_codes or series");
     }
-    _ref = this.series;
+    _ref1 = this.series;
     _fn = function(ts) {
       if (!typeIsArray(ts.ts_codes)) {
         ts.ts_codes = [ts.ts_codes];
       }
       return ts.data = {};
     };
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      ts = _ref[_i];
+    for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+      ts = _ref1[_i];
       _fn(ts);
     }
-    this.interval = DEFAULT_INTERVAL;
     this._loaded = {};
   }
 
@@ -496,7 +512,10 @@ Timeseries = (function() {
     if (this.floor) {
       url += "&floor=" + this.floor;
     }
-    url += "&summary_interval=daily";
+    if (ts.circular) {
+      url += "&circular=true";
+    }
+    url += "&summary_interval=" + this.interval;
     return uri.parse(url, true);
   };
 
@@ -541,10 +560,20 @@ Timeseries = (function() {
   };
 
   Timeseries.prototype.processData = function(data) {
-    var reducer, timeScale;
+    var d3interval, reducer, timeScale;
+    d3interval = (function() {
+      switch (this.interval) {
+        case "daily":
+          return d3.time.day;
+        case "hourly":
+          return d3.time.hour;
+        default:
+          throw Error("Invalid interval: " + this.interval);
+      }
+    }).call(this);
     timeScale = d3.time.scale().domain(d3.extent(data.map(function(d) {
       return d.date_time;
-    }))).ticks(d3.time.day, 1);
+    }))).ticks(d3interval, 1);
     reducer = function(p, c) {
       var d, value;
       value = data[0].date_time <= c ? data.shift().value : null;

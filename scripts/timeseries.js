@@ -25,8 +25,9 @@ module.exports = {
 
 Timeseries = (function() {
   function Timeseries(options) {
-    var ts, _fn, _i, _len, _ref;
+    var ts, _fn, _i, _len, _ref, _ref1;
     this.name = options.name, this.visible = options.visible, this.units = options.units, this.min = options.min, this.max = options.max, this.floor = options.floor;
+    this.interval = (_ref = options.interval) != null ? _ref : DEFAULT_INTERVAL;
     if (options.ts_codes != null) {
       if (options.series != null) {
         throw new Error("Cannot specify ts_codes and series");
@@ -35,7 +36,8 @@ Timeseries = (function() {
         {
           name: this.name,
           ts_codes: options.ts_codes,
-          color: options.color
+          color: options.color,
+          circular: options.circular
         }
       ];
     } else if (options.series) {
@@ -43,18 +45,17 @@ Timeseries = (function() {
     } else {
       throw new Error("Must specify either ts_codes or series");
     }
-    _ref = this.series;
+    _ref1 = this.series;
     _fn = function(ts) {
       if (!typeIsArray(ts.ts_codes)) {
         ts.ts_codes = [ts.ts_codes];
       }
       return ts.data = {};
     };
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      ts = _ref[_i];
+    for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+      ts = _ref1[_i];
       _fn(ts);
     }
-    this.interval = DEFAULT_INTERVAL;
     this._loaded = {};
   }
 
@@ -94,7 +95,10 @@ Timeseries = (function() {
     if (this.floor) {
       url += "&floor=" + this.floor;
     }
-    url += "&summary_interval=daily";
+    if (ts.circular) {
+      url += "&circular=true";
+    }
+    url += "&summary_interval=" + this.interval;
     return uri.parse(url, true);
   };
 
@@ -139,10 +143,20 @@ Timeseries = (function() {
   };
 
   Timeseries.prototype.processData = function(data) {
-    var reducer, timeScale;
+    var d3interval, reducer, timeScale;
+    d3interval = (function() {
+      switch (this.interval) {
+        case "daily":
+          return d3.time.day;
+        case "hourly":
+          return d3.time.hour;
+        default:
+          throw Error("Invalid interval: " + this.interval);
+      }
+    }).call(this);
     timeScale = d3.time.scale().domain(d3.extent(data.map(function(d) {
       return d.date_time;
-    }))).ticks(d3.time.day, 1);
+    }))).ticks(d3interval, 1);
     reducer = function(p, c) {
       var d, value;
       value = data[0].date_time <= c ? data.shift().value : null;

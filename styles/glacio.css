@@ -5960,6 +5960,23 @@ footer a {
   stroke-width: 0;
   fill: none;
 }
+.timeseries-chart .climate-station-diagram-link {
+  display: block;
+  margin-bottom: 20px;
+  margin-left: 4px;
+  color: #999999;
+  font-size: 12px;
+  font-style: italic;
+}
+.timeseries-chart .daterange {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 16px;
+  padding: 4px 8px;
+  border: 1px solid black;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
 .locations #sphere {
   stroke: #333;
   fill: #fff;
@@ -5991,10 +6008,6 @@ footer a {
   stroke: gold;
   stroke-width: 2px;
 }
-.realtime-images .daynight {
-  fill: url(#daynight-gradient);
-  stroke: none;
-}
 .realtime-images .arrow {
   position: absolute;
   top: 0;
@@ -6020,4 +6033,37 @@ footer a {
 }
 .realtime-images .arrow .glyphicon-chevron-left {
   left: 25px;
+}
+.realtime-images .realtime-images-viewer {
+  min-height: 593px;
+}
+.realtime-images .realtime-images-viewer.loading {
+  background-image: url("../img/loading.gif");
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.realtime-images-index img {
+  height: 189px;
+}
+.realtime-images-index .thumbnail.loading {
+  background-image: url("../img/loading.gif");
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.windrose .axes {
+  fill: none;
+  stroke: #999999;
+  stroke-width: 0.5px;
+}
+.windrose .axes-labels {
+  text-anchor: middle;
+  font-size: 10px;
+  fill: #999999;
+}
+.windrose .degree-labels {
+  text-anchor: middle;
+}
+.windrose .arcs {
+  stroke: #222222;
+  stroke-width: 0.5px;
 }
