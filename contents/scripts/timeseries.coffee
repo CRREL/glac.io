@@ -21,6 +21,7 @@ class Timeseries
 
   constructor: (options) ->
     {@name, @visible, @units, @min, @max, @floor} = options
+    @interval = options.interval ? DEFAULT_INTERVAL
     if options.ts_codes?
       if options.series?
         throw new Error("Cannot specify ts_codes and series")
@@ -41,7 +42,6 @@ class Timeseries
           ts.ts_codes = [ts.ts_codes]
         ts.data = {}
 
-    @interval = DEFAULT_INTERVAL
     @_loaded = {}
 
   fetch: (callback) ->
@@ -67,7 +67,7 @@ class Timeseries
     if @floor
       url += "&floor=#{ @floor }"
     # TODO handle summary interval changes
-    url += "&summary_interval=daily"
+    url += "&summary_interval=" + @interval
     uri.parse(url, true)
 
   hasData: () -> @_loaded[@interval]
@@ -89,10 +89,14 @@ class Timeseries
       return series
 
   processData: (data) ->
+    d3interval = switch @interval
+      when "daily" then d3.time.day
+      when "hourly" then d3.time.hour
+      else throw Error("Invalid interval: " + @interval)
+
     timeScale = d3.time.scale()
       .domain(d3.extent data.map (d) -> d.date_time)
-        # TODO not all data will be coming in on the day
-        .ticks(d3.time.day, 1)
+        .ticks(d3interval, 1)
 
     reducer = (p, c) ->
       value = if data[0].date_time <= c
