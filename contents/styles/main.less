@@ -124,6 +124,24 @@ body {
 
 .archive {
   margin: 2em 0;
+
+  .year-label {
+    font-size: @font-size-h4;
+  }
+
+  .year {
+    padding: 1em 0;
+    &:nth-child(odd) {
+      background-color: #ccc;
+    }
+  }
+
+  a, a:visited, a:hover {
+    display: block;
+    font-size: @font-size-large;
+    margin-bottom: 0.25em;
+    &:before { content: "\2022  "; }
+  }
 }
 
 .blog-footer {
