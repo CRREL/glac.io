@@ -63,7 +63,7 @@ class Timeseries
       callback error, @
 
   getUrl: (ts) ->
-    url = "http://nae-rrs2.usace.army.mil:7777/" +
+    url = "http://cwms.lidar.io/" +
       "pls/cwmsweb/jsonapi.timeseriesdata?ts_codes=#{ ts.ts_codes.join(",") }"
     if @floor
       url += "&floor=#{ @floor }"
