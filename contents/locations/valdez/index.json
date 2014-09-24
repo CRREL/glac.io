@@ -16,7 +16,12 @@
     {
         "name": "Real-time Data",
         "url": "data.html",
-        "imgSrc": "(POPULATE).png"
+        "imgSrc": "img/chart.png"
+    },
+    {
+        "name": "Climate Station Diagram",
+        "url": "climate-station-diagram.html",
+        "imgSrc": "img/sensors.jpg"
     }
     ]
 }
