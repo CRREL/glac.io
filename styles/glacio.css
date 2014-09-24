@@ -5880,6 +5880,11 @@ body {
   font-size: 18px;
   margin-bottom: 0.25em;
 }
+.archive a:before,
+.archive a:visited:before,
+.archive a:hover:before {
+  content: "∙ ";
+}
 .blog-footer {
   text-align: center;
   margin-top: 4em;
