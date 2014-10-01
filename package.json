@@ -10,7 +10,7 @@
     "url": "^0.10.1",
     "wintersmith": "~2.0.10",
     "wintersmith-browserify": "gadomski/wintersmith-browserify",
-    "wintersmith-data-json": "gadomski/wintersmith-data-json.git",
+    "wintersmith-data-json": "gadomski/wintersmith-data-json.git#ba9fb35353ec29f78646b012acbf8dabcbb0b432",
     "wintersmith-less": "^0.2.2",
     "xhr-browserify": "gadomski/xhr-browserify"
   },
