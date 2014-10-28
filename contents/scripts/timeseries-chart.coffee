@@ -312,6 +312,18 @@ drawFocus = (sel, heights) ->
       .style("stroke", (e) -> e.color)
     lines.exit().remove()
 
+    circles = d3.select(this).selectAll("circle")
+      .data(series[0].data)
+    console.log(series[0])
+    circles.enter()
+      .append("circle")
+      .attr("cx", (e) -> xscale(e.date_time))
+      .attr("cy", (e) -> yscale(e.value))
+      .attr("r", 2.5)
+      .attr("title", (e) -> e.date_time)
+
+    circles.exit().remove()
+
     d3.select(this).select(".x.axis")
       .attr("transform", translate(0, heights[i] - padding.bottom))
       .call(xaxis)
@@ -369,13 +381,15 @@ drawContext = (sel) ->
       .nice()
       .clamp(true)
 
+    data = d.getSeries()
+
     line = d3.svg.line()
       .x((e) -> x2scale(e.date_time))
       .y((e) -> yscale(e.value))
       .defined((e) -> e.value)
 
     lines = d3.select(this).selectAll(".line")
-      .data(d.getSeries())
+      .data(data)
 
     lines.enter()
       .append("path")
@@ -395,7 +409,7 @@ drawContext = (sel) ->
     .select(".x.brush")
     .call(brush)
 
-  minDate = parseDate(xscale.domain()[0].toString(), )
+  minDate = parseDate(xscale.domain()[0].toString())
   maxDate = parseDate(xscale.domain()[1].toString())
 
   chart
