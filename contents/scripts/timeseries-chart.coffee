@@ -312,8 +312,11 @@ drawFocus = (sel, heights) ->
       .style("stroke", (e) -> e.color)
     lines.exit().remove()
 
+    d3.select(this).selectAll("circle").remove()
+
     circles = d3.select(this).selectAll("circle")
       .data(series[0].data)
+
     console.log(series[0])
     circles.enter()
       .append("circle")
@@ -321,6 +324,9 @@ drawFocus = (sel, heights) ->
       .attr("cy", (e) -> yscale(e.value))
       .attr("r", 2.5)
       .attr("title", (e) -> e.date_time)
+      .attr("z-index", 1000000)
+      .transition()
+      .attr("r", 2.5)
 
     circles.exit().remove()
 
