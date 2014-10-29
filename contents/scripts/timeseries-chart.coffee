@@ -327,7 +327,7 @@ drawFocus = (sel, heights) ->
       .attr("cx", (e) -> xscale(e.date_time))
       .attr("cy", (e) -> yscale(e.value))
       .attr("r", 2.5)
-      .on("mouseover", (e) -> tooltip.text(e.date_time).style("visibility", "visible"))
+      .on("mouseover", (e) -> tooltip.text(d3.round(e.value, 2) + ' @ ' + e.date_time.toDateString()).style("visibility", "visible"))
       .on("mousemove", () -> tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px"))
       .on("mouseout", () -> tooltip.style("visibility", "hidden"))
 
