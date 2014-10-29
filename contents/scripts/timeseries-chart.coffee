@@ -314,11 +314,7 @@ drawFocus = (sel, heights) ->
 
     tooltip = d3.select("body")
       .append("rect")
-      .style("position", "absolute")
-      .style("z-index", "10")
-      .style("background","rgb(34, 34, 34)")
-      .style("border-radius", "2px")
-      .style("color","rgba(255, 255, 255, 0.75)")
+      .attr('class','tooltip')
 
     d3.select(this).selectAll("circle").remove()
 
