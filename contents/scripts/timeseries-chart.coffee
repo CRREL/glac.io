@@ -316,7 +316,9 @@ drawFocus = (sel, heights) ->
       .append("rect")
       .style("position", "absolute")
       .style("z-index", "10")
-      .style("bgcolor","green")
+      .style("background","rgb(34, 34, 34)")
+      .style("border-radius", "2px")
+      .style("color","rgba(255, 255, 255, 0.75)")
 
     d3.select(this).selectAll("circle").remove()
 
@@ -329,8 +331,6 @@ drawFocus = (sel, heights) ->
       .attr("cx", (e) -> xscale(e.date_time))
       .attr("cy", (e) -> yscale(e.value))
       .attr("r", 2.5)
-      .style('padding', '10px')
-      .style("opacity","100%")
       .on("mouseover", (e) -> tooltip.text(e.date_time).style("visibility", "visible"))
       .on("mousemove", () -> tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px"))
       .on("mouseout", () -> tooltip.style("visibility", "hidden"))
