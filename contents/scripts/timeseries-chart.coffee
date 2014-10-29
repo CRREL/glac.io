@@ -312,6 +312,12 @@ drawFocus = (sel, heights) ->
       .style("stroke", (e) -> e.color)
     lines.exit().remove()
 
+    tooltip = d3.select("body")
+      .append("rect")
+      .style("position", "absolute")
+      .style("z-index", "10")
+      .style("bgcolor","green")
+
     d3.select(this).selectAll("circle").remove()
 
     circles = d3.select(this).selectAll("circle")
@@ -323,10 +329,11 @@ drawFocus = (sel, heights) ->
       .attr("cx", (e) -> xscale(e.date_time))
       .attr("cy", (e) -> yscale(e.value))
       .attr("r", 2.5)
-      .attr("title", (e) -> e.date_time)
-      .attr("z-index", 1000000)
-      .transition()
-      .attr("r", 2.5)
+      .style('padding', '10px')
+      .style("opacity","100%")
+      .on("mouseover", (e) -> tooltip.text(e.date_time).style("visibility", "visible"))
+      .on("mousemove", () -> tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px"))
+      .on("mouseout", () -> tooltip.style("visibility", "hidden"))
 
     circles.exit().remove()
 
