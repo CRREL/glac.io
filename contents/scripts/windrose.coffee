@@ -117,7 +117,7 @@ build = (error, _) ->
       .attr("d", freqArc)
       .style("fill", (d) -> speedColor(d.values.speed))
       .attr("transform", "translate(#{r},#{r})")
-      .on("mouseover", (d) -> tooltip.text(d3.round(d.values.freq*100,2) + '% - Avg Speed: ' + d3.round(d.values.speed,2)).style("visibility", "visible"))
+      .on("mouseover", (d) -> tooltip.text(d3.round(d.values.freq*100,2) + '% - Avg Speed: ' + d3.round(d.values.speed,2) + ' MPH').style("visibility", "visible"))
       .on("mousemove", () -> tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px"))
       .on("mouseout", () -> tooltip.style("visibility", "hidden"))
 
