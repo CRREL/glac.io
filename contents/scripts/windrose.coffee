@@ -104,6 +104,10 @@ build = (error, _) ->
       .attr("transform", (d) -> "translate(#{r},#{padding.outer})" +
         "rotate(#{d},0,#{r - padding.outer})")
 
+  tooltip = d3.select("body")
+    .append("rect")
+    .attr('class','tooltip')
+
   freqRose.append("g")
     .attr("class", "arcs")
     .selectAll("path")
@@ -113,6 +117,9 @@ build = (error, _) ->
       .attr("d", freqArc)
       .style("fill", (d) -> speedColor(d.values.speed))
       .attr("transform", "translate(#{r},#{r})")
+      .on("mouseover", (d) -> tooltip.text(d3.round(d.values.freq*100,2) + '% - Avg Speed: ' + d3.round(d.values.speed,2)).style("visibility", "visible"))
+      .on("mousemove", () -> tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px"))
+      .on("mouseout", () -> tooltip.style("visibility", "hidden"))
 
 process = (dir, speed) ->
   data = []
