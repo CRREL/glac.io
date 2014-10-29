@@ -13,12 +13,12 @@ block content
     - var yearsK = _.chain(archives).keys().reverse().value()
     - for(var year in yearsK)
       - months = archives[yearsK[year]]
-      .row
-        .col-md-2.col-md-offset-2.year-label= yearsK[year]
-        .col-md-8
+      .row.year
+        .col-md-2.col-md-offset-1.year-label= yearsK[year]
+        .col-md-8.year-content
           - var monthsK = _.chain(months).keys().reverse().value()
           - for(month in monthsK) {
-            .row
+            .row.month
               .col-md-2.month-label= month_names[monthsK[month]]
               .col-md-10
                 each item in months[monthsK[month]]
