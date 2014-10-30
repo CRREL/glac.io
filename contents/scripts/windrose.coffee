@@ -117,7 +117,7 @@ build = (error, _) ->
       .attr("d", freqArc)
       .style("fill", (d) -> speedColor(d.values.speed))
       .attr("transform", "translate(#{r},#{r})")
-      .on("mouseover", (d) -> tooltip.text(d3.round(d.values.freq*100,2) + '% - Avg Speed: ' + d3.round(d.values.speed,2) + ' MPH').style("visibility", "visible"))
+      .on("mouseover", (d) -> tooltip.text(d3.round(d.values.freq*100,2) + '% - Avg Speed: ' + d3.round(d.values.speed,2) + ' kph').style("visibility", "visible"))
       .on("mousemove", () -> tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px"))
       .on("mouseout", () -> tooltip.style("visibility", "hidden"))
 
@@ -156,13 +156,13 @@ build = (error, _) ->
 
 
   freqRose.append('text')
-    .text('0 MPH')
+    .text('0 kph')
     .attr('font-size', '10px')
     .attr("transform", "translate(1, #{legendY+1})")
     .attr('alignment-baseline', 'hanging')
 
   freqRose.append('text')
-    .text(speedMax + ' MPH')
+    .text(speedMax + ' kph')
     .attr('font-size', '10px')
     .attr("transform", "translate(#{legendWidth-1}, #{legendY+1})")
     .attr('alignment-baseline', 'hanging')
