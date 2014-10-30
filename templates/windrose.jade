@@ -1,0 +1,23 @@
+extends page-wide
+
+block prepend main
+  - page.metadata.breadcrumbs = true
+
+block content
+  h1= page.title
+
+  .row
+    .windrose.col-md-7.col-xs-12(data-viewer="windrose",
+                       data-wind-dir-ts-code=page.metadata.windDirTsCode,
+                       data-wind-speed-ts-code=page.metadata.windSpeedTsCode)
+    .col-md-5.hidden-xs.hidden-sm
+      img.img-responsive(src=contents.img["windrose-sat-images"][page.metadata.img].url)
+
+  hr
+
+  p.text-center Credit where credit is due. These visualizations are inspired by and modeled after those at 
+    a(href="http://windhistory.com/map.html#4.00/36.00/-95.00") windhistory.com
+    | .
+
+block append scripts
+  script(src=contents.scripts["windrose.coffee"].url)

@@ -1,0 +1,7 @@
+{
+    "title": "Hubbard Glacier Wind Rose",
+    "template": "windrose.jade",
+    "img": "wind-rose-sat-images-hubbard-star.jpg",
+    "windDirTsCode": 18680021,
+    "windSpeedTsCode": 18679021
+}

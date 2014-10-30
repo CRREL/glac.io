@@ -312,6 +312,27 @@ drawFocus = (sel, heights) ->
       .style("stroke", (e) -> e.color)
     lines.exit().remove()
 
+    tooltip = d3.select("body")
+      .append("rect")
+      .attr('class','tooltip')
+
+    d3.select(this).selectAll("circle").remove()
+
+    circles = d3.select(this).selectAll("circle")
+      .data(series[0].data)
+
+    console.log(series[0])
+    circles.enter()
+      .append("circle")
+      .attr("cx", (e) -> xscale(e.date_time))
+      .attr("cy", (e) -> yscale(e.value))
+      .attr("r", 2.5)
+      .on("mouseover", (e) -> tooltip.text(d3.round(e.value, 2) + ' @ ' + e.date_time.toDateString()).style("visibility", "visible"))
+      .on("mousemove", () -> tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px"))
+      .on("mouseout", () -> tooltip.style("visibility", "hidden"))
+
+    circles.exit().remove()
+
     d3.select(this).select(".x.axis")
       .attr("transform", translate(0, heights[i] - padding.bottom))
       .call(xaxis)
@@ -369,13 +390,15 @@ drawContext = (sel) ->
       .nice()
       .clamp(true)
 
+    data = d.getSeries()
+
     line = d3.svg.line()
       .x((e) -> x2scale(e.date_time))
       .y((e) -> yscale(e.value))
       .defined((e) -> e.value)
 
     lines = d3.select(this).selectAll(".line")
-      .data(d.getSeries())
+      .data(data)
 
     lines.enter()
       .append("path")
@@ -395,7 +418,7 @@ drawContext = (sel) ->
     .select(".x.brush")
     .call(brush)
 
-  minDate = parseDate(xscale.domain()[0].toString(), )
+  minDate = parseDate(xscale.domain()[0].toString())
   maxDate = parseDate(xscale.domain()[1].toString())
 
   chart
