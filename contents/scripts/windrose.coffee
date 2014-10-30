@@ -121,6 +121,53 @@ build = (error, _) ->
       .on("mousemove", () -> tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px"))
       .on("mouseout", () -> tooltip.style("visibility", "hidden"))
 
+  gradient = svg.append("svg:defs")
+    .append("svg:linearGradient")
+    .attr("id", "gradient")
+    .attr("x1", "0%")
+    .attr("y1", "100%")
+    .attr("x2", "100%")
+    .attr("y2", "100%")
+    .attr("spreadMethod", "pad")
+
+  speedMax = d3.round(speedColor.domain()[1],2)
+  legendHeight = 12
+  legendWidth = 100
+  legendY = height - legendHeight
+  legendX = 0
+
+  gradient.append("svg:stop")
+    .attr("offset", "0%")
+    .attr("stop-color", () -> speedColor(0))
+    .attr("stop-opacity", 1)
+
+  gradient.append("svg:stop")
+    .attr("offset", "100%")
+    .attr("stop-color", () -> speedColor(speedMax))
+    .attr("stop-opacity", 1)
+
+  speedLegend = freqRose.append('rect')
+    .attr('width', legendWidth)
+    .attr('height', legendHeight)
+    .attr('fill', 'url(#gradient)')
+    .attr("stroke", "black")
+    .attr('stroke-width', '2px')
+    .attr("transform", "translate(0, #{legendY})")
+
+
+  freqRose.append('text')
+    .text('0 MPH')
+    .attr('font-size', '10px')
+    .attr("transform", "translate(1, #{legendY+1})")
+    .attr('alignment-baseline', 'hanging')
+
+  freqRose.append('text')
+    .text(speedMax + ' MPH')
+    .attr('font-size', '10px')
+    .attr("transform", "translate(#{legendWidth-1}, #{legendY+1})")
+    .attr('alignment-baseline', 'hanging')
+    .attr('text-anchor', 'end')
+
 process = (dir, speed) ->
   data = []
   dirIdx = 0
