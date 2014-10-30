@@ -205,6 +205,7 @@ addPanel = (sel) ->
   panel
     .append("rect")
     .attr("class", "fill")
+    .style("fill", "rgb(236, 236, 236)")
   panel
     .append("g")
     .attr("class", "x grid")
