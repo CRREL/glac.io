@@ -321,17 +321,32 @@ drawFocus = (sel, heights) ->
     circles = d3.select(this).selectAll("circle")
       .data(series[0].data)
 
-    console.log(series[0])
     circles.enter()
       .append("circle")
       .attr("cx", (e) -> xscale(e.date_time))
       .attr("cy", (e) -> yscale(e.value))
       .attr("r", 2.5)
-      .on("mouseover", (e) -> tooltip.text(d3.round(e.value, 2) + ' ' + units + ' @ ' + e.date_time.toDateString()).style("visibility", "visible"))
-      .on("mousemove", () -> tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px"))
-      .on("mouseout", () -> tooltip.style("visibility", "hidden"))
 
     circles.exit().remove()
+
+    d3.select(this).selectAll("line").remove()
+
+    lines = d3.select(this).selectAll("line")
+      .data(series[0].data)
+
+    lines.enter()
+      .append("svg:line")
+      .attr("x1", (e) -> xscale(e.date_time))
+      .attr("x2", (e) -> xscale(e.date_time))
+      .attr("y1", 20)
+      .attr("y2", height-45)
+      .style("stroke-width",3)
+      .style("stroke", "black")
+      .style("opacity", 0)
+      .attr("z-index",10)
+      .on("mouseover", (e) -> tooltip.text(d3.round(e.value, 2) + ' ' + units + ' @ ' + e.date_time.toDateString()).style("visibility", "visible"); d3.select(this).style("opacity",1))
+      .on("mousemove", () -> tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px"))
+      .on("mouseout", () -> tooltip.style("visibility", "hidden"); d3.select(this).style("opacity","0"))
 
     d3.select(this).select(".x.axis")
       .attr("transform", translate(0, heights[i] - padding.bottom))
