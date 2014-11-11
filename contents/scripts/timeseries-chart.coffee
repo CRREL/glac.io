@@ -287,7 +287,6 @@ drawFocus = (sel, heights) ->
     yscale = d3.scale.linear()
       .domain(getYExtent(d))
       .range([heights[i] - padding.bottom, padding.top])
-      .nice()
       .clamp(true)
 
     yaxis = d3.svg.axis()
