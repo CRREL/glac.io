@@ -102,10 +102,18 @@
     "max": 100
 },
 {
-    "name": "Voltage",
+    "name": "Voltage (Haenke)",
     "ts_codes": 18683021,
     "visible": false,
     "color": "#FA2908",
+    "units": "Volts",
+    "min": 0
+},
+{
+    "name": "Voltage (Gilbert)",
+    "ts_codes": 19072021,
+    "visible": false,
+    "color": "orange",
     "units": "Volts",
     "min": 0
 }
