@@ -4,24 +4,9 @@
     "blurb": "The Scott Glacier is located in the Chugach Mountains near Cordova, Alaska.",
     "tiles": [
     {
-        "name": "Overview",
-        "url": "overview.html",
-        "imgSrc": "(POPULATE).jpg"
-    },
-    {
-        "name": "Images",
-        "url": "images.html",
-        "imgSrc": "img/(POPULATE).jpg"
-    },
-    {
         "name": "Real-time Data",
         "url": "data.html",
         "imgSrc": "img/chart.png"
-    },
-    {
-        "name": "Climate Station Diagram",
-        "url": "climate-station-diagram.html",
-        "imgSrc": "img/sensors.jpg"
     }
     ]
 }

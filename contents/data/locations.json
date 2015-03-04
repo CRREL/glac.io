@@ -72,8 +72,7 @@
             "slug": "scott",
             "name": "Scott Glacier",
             "sensors": ["climate"],
-	    "scale": 800,
-            "disabled": true
+	    "scale": 800
         }
     },
     {
