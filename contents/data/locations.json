@@ -47,6 +47,22 @@
         "geometry": {
             "type": "Point",
             "coordinates": [
+                -146.1716972222222,
+                61.17735277777778
+                ]
+        },
+        "type": "Feature",
+        "properties": {
+            "slug": "valdez",
+            "name": "Valdez Glacier",
+            "sensors": ["climate"],
+            "scale": 800
+        }
+    },
+    {
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
                 -145.2713638888889,
                 60.66708055555555
                 ]
@@ -57,23 +73,6 @@
             "name": "Scott Glacier",
             "sensors": ["climate"],
 	    "scale": 800,
-            "disabled": true
-        }
-    },
-    {
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                -146.1716972222222,
-                61.17735277777778
-                ]
-        },
-        "type": "Feature",
-        "properties": {
-            "slug": "valdez",
-            "name": "Valdez Glacier",
-            "sensors": ["climate"],
-            "scale": 800,
             "disabled": true
         }
     },
