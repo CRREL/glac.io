@@ -104,8 +104,7 @@
             "slug": "wolverine",
             "name": "Wolverine Glacier",
             "sensors": ["climate"],
-            "scale": 800,
-            "disabled": true
+            "scale": 800
         }
     }
     ]
