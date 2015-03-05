@@ -88,8 +88,7 @@
             "slug": "gulkana",
             "name": "Gulkana Glacier",
             "sensors": ["climate"],
-            "scale": 800,
-            "disabled": true
+            "scale": 800
         }
     },
     {

@@ -4,19 +4,9 @@
     "blurb": "The Gulkana Glacier is located on the south flank of the eastern Alaska Range.",
     "tiles": [
     {
-        "name": "Overview",
-        "url": "overview.html",
-        "imgSrc": "(POPULATE).jpg"
-    },
-    {
-        "name": "Images",
-        "url": "images.html",
-        "imgSrc": "img/(POPULATE).jpg"
-    },
-    {
         "name": "Real-time Data",
         "url": "data.html",
-        "imgSrc": "(POPULATE).png"
+        "imgSrc": "img/chart.png"
     }
     ]
 }
