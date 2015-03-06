@@ -18,14 +18,14 @@
         "color": "#A432FC"
       }
     ],
-    "visible": true,
+    "visible": false,
     "units": "°C",
     "max": 30
 },
 {
     "name": "Precipitation",
     "ts_codes": 8798021,
-    "visible": false,
+    "visible": true,
     "color": "#AA7A41",
     "units": "mm",
     "min": 0
