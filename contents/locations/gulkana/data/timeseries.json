@@ -3,19 +3,24 @@
     "name": "Air temperature",
     "series": [
       {
-        "name": "Sensor 1",
+        "name": "GOES 1",
         "ts_codes": 8804021,
         "color": "#51A7F9"
       },
       {
-        "name": "Sensor 2",
+        "name": "GOES 2",
         "ts_codes": 8805021,
         "color": "#0432FC"
       },
       {
-        "name": "Sensor 3",
+        "name": "GOES 3",
         "ts_codes": 8806021,
         "color": "#A432FC"
+      },
+      {
+        "name": "Iridium",
+        "ts_codes": 14610021,
+        "color": "#F432FC"
       }
     ],
     "visible": false,
@@ -43,17 +48,17 @@
     "visible": false,
     "series": [
       {
-        "name": "Sensor 1",
+        "name": "GOES 1",
         "ts_codes": 8808021,
         "color": "#FA40FF"
       },
       {
-        "name": "Sensor 2",
+        "name": "GOES 2",
         "ts_codes": 8813021,
         "color": "#9D369B"
       },
       {
-        "name": "Sensor 3",
+        "name": "Iridium",
         "ts_codes": 14616021,
         "color": "#9D36FB"
       }
@@ -66,19 +71,19 @@
     "visible": false,
     "series": [
       {
-        "name": "Sensor 1",
+        "name": "GOES 1",
         "ts_codes": 8809021,
         "color": "#FA40FF",
         "circular": true
       },
       {
-        "name": "Sensor 2",
+        "name": "GOES 2",
         "ts_codes": 8810021,
         "color": "#942191",
         "circular": true
       },
       {
-        "name": "Sensor 3",
+        "name": "Iridium",
         "ts_codes": 14618021,
         "color": "#C42191",
         "circular": true
@@ -98,18 +103,8 @@
 },
 {
     "name": "Precipitation",
-    "series": [
-        {
-            "name": "Sensor 1",
-            "ts_codes": 8807021,
-            "color": "#0432FC"
-        },
-        {
-            "name": "Sensor 2",
-            "ts_codes": 25947021,
-            "color": "#B432FC"
-        }
-    ],
+    "ts_codes": 8807021,
+    "color": "#0432FC",
     "visible": true,
     "units": "mm",
     "min": 0
@@ -118,14 +113,14 @@
     "name": "Voltage",
     "series": [
         {
-            "name": "Sensor 1",
-            "ts_codes": 14622021,
-            "color": "#FA2908"
-        },
-        {
-            "name": "Sensor 1",
+            "name": "GOES",
             "ts_codes": 8811021,
             "color": "#FA9908"
+        },
+        {
+            "name": "Iridium",
+            "ts_codes": 14622021,
+            "color": "#FA2908"
         }
     ],
     "visible": false,
