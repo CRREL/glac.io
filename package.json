@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "coffee-script": "^1.10.0",
     "d3": "^3.4.9",
     "imagesloaded": "^3.1.8",
     "moment": "^2.7.0",
@@ -12,7 +13,7 @@
     "wintersmith-browserify": "gadomski/wintersmith-browserify",
     "wintersmith-data-json": "gadomski/wintersmith-data-json.git#ba9fb35353ec29f78646b012acbf8dabcbb0b432",
     "wintersmith-less": "^0.2.2",
-    "xhr-browserify": "gadomski/xhr-browserify"
+    "xhr-browserify": "gadomski/xhr-browserify#a275949"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
