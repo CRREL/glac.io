@@ -41,7 +41,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-slack-hook"
 
   grunt.registerTask "deploy-dev", ["location-kml", "wintersmith:gh-pages", "gh-pages:gh-pages"]
-  grunt.registerTask "deploy", ["location-kml", "wintersmith:lidar-io", "gh-pages:lidar-io", "gitinfo", "slack"]
+  grunt.registerTask "deploy", ["location-kml", "wintersmith:lidar-io", "gh-pages:lidar-io", "gitinfo"]
 
   grunt.registerTask "location-kml", "Write a kml file for each location", () ->
     locations = grunt.file.readJSON "contents/data/locations.json"
