@@ -4,11 +4,6 @@
     "blurb": "Select a camera location below to view the latest images.",
     "tiles": [
         {
-            "name": "Hubbard Glacier",
-            "imgSrc": "http://rsgisias.crrel.usace.army.mil/hubbard/jsonapi.latestimage?camera=HUBBARD",
-            "url": "locations/hubbard/realtime-images.html"
-        },
-        {
             "name": "Columbia Glacier",
             "imgSrc": "http://rsgisias.crrel.usace.army.mil/hubbard/jsonapi.latestimage?camera=COLUMBIA",
             "url": "locations/columbia/realtime-images.html"
