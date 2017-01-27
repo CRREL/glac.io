@@ -3,5 +3,12 @@ extends tiles
 block prepend content
   - var tileContainerClass = "realtime-images-index";
 
+block append page
+  .row
+    .col-xs-12
+      .alert.alert-warning
+        | Until 2017-01-27, we hosted real-time imagery from the Columbia Glacier on this site.
+        |  This imagery has been taken down due to permitting issues.
+
 block append scripts
   script(src=contents.scripts["realtime-images-index.coffee"].url)
