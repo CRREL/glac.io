@@ -1,6 +1,0 @@
-{
-    "template": "timeseries-chart.jade",
-    "title": "Columbia Data",
-    "breadcrumbs": true,
-    "timeseriesUrl": "data/timeseries.json"
-}
