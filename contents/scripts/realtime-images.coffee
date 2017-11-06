@@ -140,7 +140,7 @@ build = (error, allImages) ->
     viewer.select(".description")
       .html("This picture was taken " + moment(activeImage.datetime).fromNow() +
         " on " + moment(activeImage.datetime).format("MMMM Do, YYYY [at] ha") +
-        ".")
+        " UTC.")
     viewer.selectAll("img")
       .style("display", (d) ->
         if d.active and d.loaded then "block" else "none")
