@@ -12,6 +12,11 @@
             "name": "Helheim Glacier &mdash; Melange",
             "imgSrc": "http://rsgisias.crrel.usace.army.mil/hubbard/jsonapi.latestimage?camera=HEL_MELANGE",
             "url": "locations/helheim/realtime-images-melange.html"
+        },
+        {
+            "name": "Hubbard Glacier",
+            "imgSrc": "http://rsgisias.crrel.usace.army.mil/hubbard/jsonapi.latestimage?camera=HUBBARD",
+            "url": "locations/hubbard/realtime-images.html"
         }
     ]
 }
