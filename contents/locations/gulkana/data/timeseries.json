@@ -103,9 +103,19 @@
 },
 {
     "name": "Precipitation",
-    "ts_codes": 8807021,
-    "color": "#0432FC",
     "visible": true,
+    "series": [
+        {
+            "name": "Precip",
+            "ts_codes": 8807021,
+            "color": "#0432FC"
+        },
+        {
+            "name": "Precip-4",
+            "ts_codes": 25947021,
+            "color": "#A432FC"
+        }
+    ],
     "units": "mm",
     "min": 0
 },
